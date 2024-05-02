@@ -5,8 +5,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 //Cargar rutas
-const helloRoutes = require("./routes/hello")
-const taskRoutes = require("./routes/task")
+const helloRoutes = require("../routes/hello")
+const taskRoutes = require("../routes/task")
 
 //Rutas base
 app.use("/api", helloRoutes)
