@@ -11,4 +11,4 @@ const collectionSchemma = Schema({
     }
 });
 
-module.exports = mongoose.model("Collection", taskSchemma)
+module.exports = mongoose.model("Collection", collectionSchemma)
