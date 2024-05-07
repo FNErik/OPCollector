@@ -19,7 +19,7 @@ const userSchema = Schema({
         type: String,
         require: true,
     },
-    isDeletes: {
+    isDeleted: {
         type: Boolean,
         require: true,
         default: false,
@@ -31,4 +31,4 @@ const userSchema = Schema({
     },
 });
 
-module.exports = mongoose.model("User", taskSchemma)
+module.exports = mongoose.model("User", userSchema)

@@ -91,4 +91,5 @@ module.exports = {
     logInUser,
     deleteUser,
     updateUser,
+    getUser,
 }
