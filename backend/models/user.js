@@ -13,10 +13,16 @@ const userSchema = Schema({
     email: {
         type: String,
         require: true,
+        unique: true,
     },
     password: {
         type: String,
         require: true,
+    },
+    isDeletes: {
+        type: Boolean,
+        require: true,
+        default: false,
     },
     collectionTotalNumbers: {
         type: Number,

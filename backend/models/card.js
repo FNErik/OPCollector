@@ -18,6 +18,10 @@ const cardSchema = Schema = ({
         type: String,
         require: true,
     },
+    rarity: {
+        type: String,
+        require: true,
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' // Referencia al modelo de usuario
