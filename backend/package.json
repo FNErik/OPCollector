@@ -1,0 +1,19 @@
+{
+  "name": "OPCollector",
+  "packageManager": "yarn@4.1.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.3.3",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
