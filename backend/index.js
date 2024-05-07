@@ -14,6 +14,6 @@ mongoose.connection.once('open', () => {
     console.log("MongoDB connection successful");
     //Levantar servidor
     app.listen(port, () => {
-        console.log(`Example app listening on port ${port}!`);
+        console.log(`App listening on port ${port}!`);
     });
 });
