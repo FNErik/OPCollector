@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const UserHasCard = require("../models/userHasCard");
+const DeckBuilder = require("../models/deckBuilder")
 
 const { createHash } = require('node:crypto');
 const hash = createHash('sha256');
@@ -25,14 +26,20 @@ async function saveUser(req, res){
                 cards: [] 
             });
             const userHasCardCheck = await newUserCardEntry.save();
-            if (!userHasCardCheck) {
-                res.status(400).send({msg: "ERROR: No se ha podido crear la entrada en la colección UserHasCard"})
+            const newDeckBuilder = new DeckBuilder({
+                //Esto recibe el id del usuario recien creado para generar una entrada nueva
+                user: userStore._id,
+                decks: [] 
+            });
+            const deckBuilderCheck = await newDeckBuilder.save();
+            if (!userHasCardCheck || !newDeckBuilder) {
+                res.status(400).send({msg: "ERROR: No se ha podido crear la entrada en la colección DeckBuilder o en userHasCard"})
             } else {
-                res.status(200).send({user: userStore, userHasCard: userHasCardCheck});
+                res.status(200).send({user: userStore, userHasCard: userHasCardCheck, deckBuilder: deckBuilderCheck});
             }
         }
     } catch (error) {
-        restart.status(500).send(error);
+        res.status(500).send(error);
     }
 }
 
