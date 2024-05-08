@@ -1,7 +1,8 @@
 const app = require("./app");
+require('dotenv').config();
 const mongoose = require("mongoose");
-const port = 4022;
-const urlMongoAtlas = "mongodb+srv://admin:OPdbPassword@opcollectordb.cndqjop.mongodb.net/OPCollector";
+const port = process.env.PORT || 4022;
+const urlMongoAtlas = process.env.MONGO_URI
 
 mongoose.connect(urlMongoAtlas);
 
