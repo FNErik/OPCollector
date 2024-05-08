@@ -10,10 +10,6 @@ const userHasCardSchemma = Schema({
         cardObjId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Card'
-        },
-        cardNum: {
-            type: String,
-            require: true
         }
     }]
 });

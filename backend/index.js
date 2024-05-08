@@ -1,6 +1,5 @@
 const app = require("./app");
 const mongoose = require("mongoose");
-const session = require("express-session");
 const port = 4022;
 const urlMongoAtlas = "mongodb+srv://admin:OPdbPassword@opcollectordb.cndqjop.mongodb.net/OPCollector";
 
