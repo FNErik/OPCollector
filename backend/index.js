@@ -2,6 +2,9 @@ const app = require("./app");
 require('dotenv').config();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 4022;
+
+console.log(port + " HJW"); // Small easter egg
+
 const urlMongoAtlas = process.env.MONGO_URI
 
 mongoose.connect(urlMongoAtlas);
