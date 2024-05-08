@@ -5,3 +5,7 @@ const api = express.Router();
 
 api.get("/userHasCards", userHasCardController.getCardsFromUser);
 api.post("/userHasCards", userHasCardController.addCardToUser);
+api.delete("/userHasCards", userHasCardController.removeCardFromUser);
+
+
+module.exports = api;
