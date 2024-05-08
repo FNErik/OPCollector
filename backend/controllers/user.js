@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const UserHasCard = require("../models/userHasCard");
+
 const { createHash } = require('node:crypto');
 const hash = createHash('sha256');
 
@@ -8,7 +10,7 @@ async function saveUser(req, res){
     const params = req.body;
 
     newUser.name = params.name;
-    newUser.surname = params.suranme;
+    newUser.surname = params.surname;
     newUser.email = params.email;
     newUser.password = hash.update(params.password);
 
@@ -17,7 +19,17 @@ async function saveUser(req, res){
         if(!userStore){
             res.status(400).send({msg: "ERROR: No se ha podido guardar la informacion del usuario"})
         } else {
-            restart.status(200).send({user: userStore});
+            const newUserCardEntry = new UserHasCard({
+                //Esto recibe el id del usuario recien creado para generar una entrada nueva
+                user: userStore._id,
+                cards: [] 
+            });
+            const userHasCardCheck = await newUserCardEntry.save();
+            if (!userHasCardCheck) {
+                res.status(400).send({msg: "ERROR: No se ha podido crear la entrada en la colección UserHasCard"})
+            } else {
+                res.status(200).send({user: userStore, userHasCard: userHasCardCheck});
+            }
         }
     } catch (error) {
         restart.status(500).send(error);
@@ -49,7 +61,7 @@ async function logInUser(req,res){
             res.status(200).send(user);
         }
     } catch (error) {
-        
+        res.status(500).send(error);
     }
 }
 

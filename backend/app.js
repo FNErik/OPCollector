@@ -10,7 +10,7 @@ const helloRoutes = require("./routes/hello")
 const taskRoutes = require("./routes/task")
 const cardRoutes = require("./routes/card")
 const userRoutes = require("./routes/user")
-const collectionRoutes = require("./routes/collection")
+const userHasCardRoutes = require("./routes/userHasCard")
 
 //Rutas base
 app.use("/api", helloRoutes)
