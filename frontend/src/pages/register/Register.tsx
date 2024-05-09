@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import validateFormData from '../../scripts/validateFormData.ts';
 
 function Copyright(props: any) {
   return (
@@ -32,13 +33,14 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      name: data.get("firstName"),
-      surname: data.get("lastName"),
-    });
+    const inputs = document.querySelectorAll('input');
+
+    const formValidation = validateFormData(inputs);
+    if(typeof formValidation === "boolean" && formValidation){
+        console.log("todo ok");
+    } else {
+        console.log(formValidation);
+    }
   };
 
   return (
