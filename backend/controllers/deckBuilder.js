@@ -26,12 +26,16 @@ async function addNewDeck(req,res){
             if (!saveDeck) {
                 res.status(400).send({msg: "Error, no se ha podido guardar el mazo"})
             } else {
-                
+                res.status(200).send({DeckBuilder: saveDeck})
             }
         }
         
 
     } catch (error) {
-        
+        res.status(500).send(error);
     }
+}
+
+module.exports = {
+    addNewDeck,
 }

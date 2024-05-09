@@ -20,11 +20,13 @@ const taskRoutes = require("./routes/task")
 const cardRoutes = require("./routes/card")
 const userRoutes = require("./routes/user")
 const userHasCardRoutes = require("./routes/userHasCard")
+const deckBuilderRoutes = require("./routes/deckBuilder")
 
 //Rutas base
 app.use("/api", taskRoutes)
 app.use("/api", cardRoutes)
 app.use("/api", userRoutes)
 app.use("/api", userHasCardRoutes)
+app.use("/api", deckBuilderRoutes)
 
 module.exports = app; 
