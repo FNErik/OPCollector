@@ -1,26 +1,26 @@
 const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-const cardSchema = Schema = ({
+const cardSchema = Schema({
     name: {
         type: String,
-        require: true,
+        required: true,
     },
     cardCollection: {
         type: String,
-        require: true,
+        required: true,
     },
     collectionNumber: {
         type: String,
-        require: true,
+        required: true,
     },
     color: {
         type: String,
-        require: true,
+        required: true,
     },
     rarity: {
         type: String,
-        require: true,
+        required: true,
     },
 });
 

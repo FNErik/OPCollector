@@ -3,7 +3,7 @@ const userController = require("../controllers/user")
 
 const api = express.Router();
 
-api.post("/user", userController.saveUser);
+api.post("/user/register", userController.saveUser);
 api.get("/user", userController.getUser);
 api.post("/user/logIn", userController.logInUser);
 api.delete("/user", userController.deleteUser);

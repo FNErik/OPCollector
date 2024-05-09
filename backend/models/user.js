@@ -4,29 +4,29 @@ const Schema = mongoose.Schema;
 const userSchema = Schema({
     name:{
         type: String,
-        require: true,
+        required: true,
     },
     surname: {
         type: String, 
-        require: true,
+        required: true,
     },
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true,
     },
     password: {
         type: String,
-        require: true,
+        required: true,
     },
     isDeleted: {
         type: Boolean,
-        require: true,
+        required: true,
         default: false,
     },
     collectionTotalNumbers: {
         type: Number,
-        require: true,
+        required: true,
         default: 0,
     },
 });
