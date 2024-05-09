@@ -39,5 +39,5 @@ export default function validateFormData(inputs) {
         }
     }
 
-    return errors.length > 0 ? errors : true;
+    return errors.length > 0 ? errors : formInputs;
 }
