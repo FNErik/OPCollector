@@ -13,7 +13,11 @@ async function saveUser(req, res){
     newUser.name = params.name;
     newUser.surname = params.surname;
     newUser.email = params.email;
-    newUser.password = hash.update(params.password);
+
+    // Calcula el hash de la contraseña
+    const hash = createHash('sha256');
+    hash.update(params.password);
+    newUser.password = hash.digest('hex');
 
     try {
         const userStore = await newUser.save();
@@ -21,7 +25,6 @@ async function saveUser(req, res){
             res.status(400).send({msg: "ERROR: No se ha podido guardar la informacion del usuario"})
         } else {
             const newUserCardEntry = new UserHasCard({
-                //Esto recibe el id del usuario recien creado para generar una entrada nueva
                 user: userStore._id,
                 cards: [] 
             });
@@ -58,9 +61,17 @@ async function getUser(req,res){
 
 async function logInUser(req,res){
     const email = req.body.email;
-    const password = hash.update(req.body.pass);
+    const password = req.body.pass;
+
+    console.log(password);
+    console.log(typeof password);
+    // Calcula el hash de la contraseña
+    const hash = createHash('sha256');
+    hash.update(password);
+    const hashedPassword = hash.digest('hex');
+
     try {
-        const user = await User.findOne({email: email, password: password})
+        const user = await User.findOne({email: email, password: hashedPassword})
         if (!user) {
             res.status(400).send({msg: "Error, las credenciales no coinciden"})
         } else {

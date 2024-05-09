@@ -1,0 +1,15 @@
+.logoWrapper{
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: navy;
+    border: 2.5px solid gold;
+}
+
+.logoWrapper img{
+    height: 75%;
+    filter: hue-rotate(180deg);
+}

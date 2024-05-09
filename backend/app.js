@@ -1,8 +1,10 @@
 const express = require("express")
 const session = require("express-session");
+const cors = require('cors');
 const app = express();
 
 // Configuración de express-session
+app.use(cors());
 app.use(session({
     secret: 'miSecretoDePuenteViejo',
     resave: false,
