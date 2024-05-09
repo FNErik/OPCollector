@@ -27,6 +27,6 @@ app.use("/api", taskRoutes)
 app.use("/api", cardRoutes)
 app.use("/api", userRoutes)
 app.use("/api", userHasCardRoutes)
-app.use("/api", deckBuilderRoutes)
+//app.use("/api", deckBuilderRoutes)
 
 module.exports = app; 
