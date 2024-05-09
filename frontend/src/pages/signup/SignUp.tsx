@@ -1,16 +1,15 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validateFormData from '../../scripts/validateFormData.ts';
+import OPCollectorLogo from '../../components/OPCollectorLogo.tsx';
 
 function Copyright(props: any) {
   return (
@@ -29,17 +28,34 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const inputs = document.querySelectorAll('input');
-
-    const formValidation = validateFormData(inputs);
-    if(typeof formValidation === "boolean" && formValidation){
-        console.log("todo ok");
-    } else {
-        console.log(formValidation);
-    }
-  };
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        const inputs = document.querySelectorAll('input');
+    
+        const formValidation = validateFormData(inputs);
+        if(!Array.isArray(formValidation)){
+            try {
+                const email: string = formValidation['email'].value
+                const password: string = formValidation['password'].value
+                const firstName: string = formValidation['firstName'].value
+                const lastName: string = formValidation['lastName'].value
+                
+                const response = await fetch('http://localhost:4022/api/user', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email, password: password, name: firstName, surname: lastName }),
+                });
+                const data = await response.json();
+                console.log(data);
+            } catch (err) {
+                console.error(err.message);
+            }
+        } else {
+            console.error(formValidation);
+        }
+    };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -53,12 +69,7 @@ export default function SignUp() {
                 alignItems: 'center',
             }}
             >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-                Sign up
-            </Typography>
+            <OPCollectorLogo />
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
