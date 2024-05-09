@@ -48,7 +48,32 @@ async function getDecks(req,res){
         res.status(500).send(error)
     }
 }
+
+async function deleteDecks(req,res){
+    const userId = req.session.userId;
+    const deckName = req.body.deckName;
+    try {
+        let userDeckList = await DeckBuilder.findOne({ user: userId });
+        if (!userDeckList) {
+            return res.status(400).send({ msg: "Error, no existe ninguna entrada en deckBuilder para este usuario" });
+        }
+        const deckIndex = userDeckList.decks.findIndex(deck => deck.name === deckName);
+        if (deckIndex === -1) {
+            return res.status(400).send({ msg: "Error, no existe el mazo especificado para este usuario" });
+        }
+        userDeckList.decks.splice(deckIndex, 1);
+        const updatedUserDeckList = await userDeckList.save();
+        if (!updatedUserDeckList) {
+            return res.status(400).send({ msg: "Error, no se ha podido eliminar el mazo" });
+        }
+        res.status(200).send(updatedUserDeckList);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
 module.exports = {
     addNewDeck,
     getDecks,
+    deleteDecks,
 }

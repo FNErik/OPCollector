@@ -87,10 +87,36 @@ async function deleteCard(req,res){
     console.log("Obteniendo tarea")
 }
 
+async function filterCard(req, res){
+    try {
+        const { 
+            name, 
+            cardCollection, 
+            collectionNumber, 
+            color, 
+            rarity } = req.body;
+
+        const filter = {};
+        if (name) filter.name = { $regex: new RegExp(name, 'i') };
+        if (cardCollection) filter.cardCollection = { $regex: new RegExp(cardCollection, 'i') };
+        if (collectionNumber) filter.collectionNumber = collectionNumber;
+        if (color) filter.color = { $regex: new RegExp(color, 'i') };
+        if (rarity) filter.rarity = { $regex: new RegExp(rarity, 'i') };
+    
+        const cards = await Card.find(filter);
+    
+        res.json(cards);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json(error);
+      }
+}
+
 module.exports = {
     createCard,
     getCard,
     getCards,
     updateCard,
     deleteCard,
+    filterCard,
 }
