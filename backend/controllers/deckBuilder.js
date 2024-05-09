@@ -36,6 +36,19 @@ async function addNewDeck(req,res){
     }
 }
 
+async function getDecks(req,res){
+    try {
+        const decks = await DeckBuilder.find().sort({created_at: -1});
+        if(!tasks){
+            res.status(400).send({msg:"Error al obtener los mazos"})
+        }else{
+            res.status(200).send(decks);
+        }
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
 module.exports = {
     addNewDeck,
+    getDecks,
 }

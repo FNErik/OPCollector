@@ -4,20 +4,20 @@ const Schema = mongoose.Schema;
 const taskSchemma = Schema({
     title: {
         type: String,
-        require: true,
+        required: true,
     },
     description: {
         type: String,
-        require: true,
+        required: true,
     },
     completed: {
         type: Boolean,
-        require: true,
+        required: true,
         default: false,
     },
     created_at: {
         type: Date,
-        require: true,
+        required: true,
         default: Date.now,
     },
 });
