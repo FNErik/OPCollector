@@ -3,20 +3,21 @@ require('dotenv').config();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 4022;
 
-console.log(port + " HJW"); // Small easter egg
+console.log("[OPCollector] starting server");
 
 const urlMongoAtlas = process.env.MONGO_URI
+console.log("[OPCollector] connecting to remote database");
 
 mongoose.connect(urlMongoAtlas);
 
 mongoose.connection.on('error', (err) => {
-    console.error('MongoDB connection error:', err);
+    console.error('[OPCollector] MongoDB connection error:', err);
 });
 
 mongoose.connection.once('open', () => {
-    console.log("MongoDB connection successful");
-    //Levantar servidor
+    console.log("[OPCollector] MongoDB connection successful");
+
     app.listen(port, () => {
-        console.log(`App listening on port ${port}!`);
+        console.log("[OPCollector] listening on port:", port);
     });
 });
