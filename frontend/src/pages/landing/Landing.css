@@ -5,3 +5,14 @@
     background-position-x: right;
     background-position-y: -4rem;
 }
+
+.banner-text{
+    width: 60%;
+}
+
+@media screen and (width < 768px) {
+    .banner-text {
+      width: auto !important;
+    }
+  }
+  

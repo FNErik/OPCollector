@@ -16,16 +16,16 @@ export default function LandingPage() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-  <CssBaseline />
-  <Header mode={mode} toggleColorMode={toggleColorMode} />
+        <CssBaseline />
+        <Header mode={mode} toggleColorMode={toggleColorMode} />
         <div className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
             <div className='diagonalParent w-full h-80 flex shadow-lg rounded-lg relative'>
-                <div className='absolute'>
-                    <h1 className='text-black mt-5 ml-5 text-6xl md:text-7xl lg:text-8xl font-bold text-center'>
-                        JOIN OUR <span className='text-red-500'>CREW</span>!
+                <div className='banner-text'>
+                    <h1 className='text-black mt-5 ml-5 text-6xl md:text-6xl lg:text-8xl font-bold'>
+                        JOIN OUR <span className='text-red-500'>CREW!</span>
                     </h1>
                 </div>
-                <div className='diagonal w-full h-full rounded shadow'></div>
+                <div className='diagonal w-full h-full rounded absolute shadow md:block hidden'></div>
             </div>
         </div>
     </ThemeProvider>
