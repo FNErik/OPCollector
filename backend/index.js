@@ -1,7 +1,7 @@
 const app = require("./app");
 require('dotenv').config();
 const mongoose = require("mongoose");
-const port = process.env.PORT || 4022;
+const port = process.env.PORT || 3333;
 
 console.log("[OPCollector] starting server");
 
@@ -14,7 +14,7 @@ mongoose.connection.on('error', (err) => {
     console.error('[OPCollector] MongoDB connection error:', err);
 });
 
-mongoose.connection.once('open', () => {
+mongoose.connection.once('open', async () => {
     console.log("[OPCollector] MongoDB connection successful");
 
     app.listen(port, () => {
