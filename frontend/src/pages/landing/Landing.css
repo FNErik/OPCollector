@@ -1,0 +1,7 @@
+.diagonal{
+    clip-path: polygon(65% 0, 100% 0, 100% 100%, 50% 100%);
+    background-image: url("../../images/banner-landing.png");
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: -4rem;
+}
