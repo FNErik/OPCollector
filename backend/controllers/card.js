@@ -40,11 +40,11 @@ async function getCards(req,res){
 async function getCard(req,res){
     const id = req.params.id;
     try {
-        const tasks = await Card.findById(id)
-        if(!tasks){
+        const card = await Card.findById(id)
+        if(!card){
             res.status(400).send({msg:"Error al obtener la tarea"})
         }else{
-            res.status(200).send(tasks);
+            res.status(200).send(card);
         }
     } catch (error) {
         res.status(500).send(error)
@@ -112,6 +112,17 @@ async function filterCard(req, res){
       }
 }
 
+async function getDistinctCollections(req, res) {
+    try {
+        const distinctCollections = await Card.distinct('cardCollection');
+
+        res.status(200).json({ colecciones: distinctCollections });
+    } catch (error) {
+        console.error("Error al obtener las colecciones de cartas:", error);
+        res.status(500).json({ error: "Error al obtener las colecciones de cartas" });
+    }
+}
+
 module.exports = {
     createCard,
     getCard,
@@ -119,4 +130,5 @@ module.exports = {
     updateCard,
     deleteCard,
     filterCard,
+    getDistinctCollections,
 }
