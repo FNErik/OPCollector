@@ -8,6 +8,7 @@
 
 .banner-text{
     width: 60%;
+    user-select: none;
 }
 
 @media screen and (width < 768px) {

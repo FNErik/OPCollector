@@ -13,7 +13,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validateFormData from '../../scripts/validateFormData.ts';
 import ImageCarousel from '../../components/ImageCarrousel.tsx';
 import OPCollectorLogo from '../../components/OPCollectorLogo.tsx';
-import { userInfo } from 'os';
+import Header from '../../components/Header.tsx';
+import { User } from '../../types/User.ts';
+import getCurrentUser from '../../scripts/getCurrentUser.ts';
 
 function Copyright(props: any) {
   return (
@@ -28,10 +30,17 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#CC3333', // Cambia este valor al color primario deseado
+    },
+  },
+});
 
 export default function SignInSide() {
+    const user: User | null = getCurrentUser();
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         const inputs = document.querySelectorAll('input');
@@ -73,7 +82,7 @@ export default function SignInSide() {
     };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <ImageCarousel />
@@ -82,7 +91,7 @@ export default function SignInSide() {
             sx={{
               my: 8,
               mx: 4,
-              mt: 10,
+              mt: 14,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

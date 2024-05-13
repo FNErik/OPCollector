@@ -10,6 +10,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validateFormData from '../../scripts/validateFormData.ts';
 import OPCollectorLogo from '../../components/OPCollectorLogo.tsx';
+import Header from '../../components/Header.tsx';
+import { User } from '../../types/User.ts';
+import getCurrentUser from '../../scripts/getCurrentUser.ts';
 
 function Copyright(props: any) {
   return (
@@ -25,9 +28,16 @@ function Copyright(props: any) {
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#CC3333', // Cambia este valor al color primario deseado
+      },
+    },
+  });
 
 export default function SignUp() {
+    const user: User | null = getCurrentUser();
     const handleSubmit = async(e) => {
         e.preventDefault();
         const inputs = document.querySelectorAll('input');
@@ -58,12 +68,13 @@ export default function SignUp() {
     };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
+        <Header user={user}/>
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
             sx={{
-                marginTop: 8,
+                marginTop: 15,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -125,7 +136,7 @@ export default function SignUp() {
                 </Button>
                 <Grid container justifyContent="flex-end">
                     <Grid item>
-                        <Link href="/" variant="body2">
+                        <Link href="/login" variant="body2">
                             Already have an account? Sign in
                         </Link>
                     </Grid>
