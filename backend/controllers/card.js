@@ -119,7 +119,7 @@ async function getDistinctCollections(req, res) {
     try {
         const distinctCollections = await Card.distinct('cardCollection');
 
-        res.status(200).json({ colecciones: distinctCollections });
+        res.status(200).json({ collections: distinctCollections });
     } catch (error) {
         console.error("Error al obtener las colecciones de cartas:", error);
         res.status(500).json({ error: "Error al obtener las colecciones de cartas" });

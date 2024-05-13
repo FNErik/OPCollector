@@ -14,7 +14,7 @@ const Collections = () => {
                 const response = await fetch('http://localhost:4022/api/card/collections');
                 if (response.ok) {
                     const jsonData = await response.json();
-                    setCollections(jsonData.colecciones);
+                    setCollections(jsonData.collections);
                 } else {
                     throw new Error('Error al obtener los datos');
                 }
@@ -25,7 +25,7 @@ const Collections = () => {
 
         fetchCollections();
     }, []);
-
+   
     const collectionsOP_EB = collections.filter(collection => collection.startsWith("OP") || collection.startsWith("EB"));
     const collectionsST = collections.filter(collection => collection.startsWith("ST"));
     

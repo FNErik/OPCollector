@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './css/CollectionCard.css';
 interface Props {
     collectionName: string;
 }
 
 const CollectionCard = ({ collectionName }: Props) => {
+    const linkUrl = `/collections/${collectionName}`
     const getImageUrl = (collectionName: string) => {
         return `../collections/${collectionName}.png`;
     };
@@ -21,15 +23,17 @@ const CollectionCard = ({ collectionName }: Props) => {
     };
 
     return (
-        <figure className="m-1 card-wrapper">
-            <img 
-                className='object-contain w-full aspect-square card'
-                src={imageUrl}
-                alt={collectionName}
-                onError={handleImageError} // Maneja el error de carga de la imagen
-            />
-            <figcaption>{collectionName}</figcaption>
-        </figure>
+        <Link to={linkUrl}>
+            <figure className="m-1 min-w-60 card-wrapper">
+                <img 
+                    className='object-contain w-full aspect-square card'
+                    src={imageUrl}
+                    alt={collectionName}
+                    onError={handleImageError} // Asigna imagen por defecto si no hay
+                />
+                <figcaption className='text-center font-semibold text-2xl'>{collectionName}</figcaption>
+            </figure>
+        </Link>
     );
 }
 
