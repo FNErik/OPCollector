@@ -13,9 +13,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validateFormData from '../../scripts/validateFormData.ts';
 import ImageCarousel from '../../components/ImageCarrousel.tsx';
 import OPCollectorLogo from '../../components/OPCollectorLogo.tsx';
-import Header from '../../components/Header.tsx';
-import { User } from '../../types/User.ts';
-import getCurrentUser from '../../scripts/getCurrentUser.ts';
 
 function Copyright(props: any) {
   return (
@@ -39,7 +36,6 @@ const theme = createTheme({
 });
 
 export default function SignInSide() {
-    const user: User | null = getCurrentUser();
 
     const handleSubmit = async(e) => {
         e.preventDefault();
