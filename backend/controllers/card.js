@@ -5,6 +5,7 @@ async function createCard(req, res) {
     const params = req.body;
 
     newCard.name = params.name;
+    newCard.type = params.type;
     newCard.cardCollection = params.cardCollection;
     newCard.collectionNumber = params.collectionNumber;
     newCard.color = params.color;
@@ -90,7 +91,8 @@ async function deleteCard(req,res){
 async function filterCard(req, res){
     try {
         const { 
-            name, 
+            name,
+            type, 
             cardCollection, 
             collectionNumber, 
             color, 
@@ -98,6 +100,7 @@ async function filterCard(req, res){
 
         const filter = {};
         if (name) filter.name = { $regex: new RegExp(name, 'i') };
+        if (type) filter.type = { $regex: new RegExp(type, 'i') };
         if (cardCollection) filter.cardCollection = { $regex: new RegExp(cardCollection, 'i') };
         if (collectionNumber) filter.collectionNumber = collectionNumber;
         if (color) filter.color = { $regex: new RegExp(color, 'i') };

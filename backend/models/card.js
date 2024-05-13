@@ -6,6 +6,10 @@ const cardSchema = Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    },
     cardCollection: {
         type: String,
         required: true,
