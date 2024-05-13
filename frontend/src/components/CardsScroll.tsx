@@ -1,15 +1,15 @@
 import React from 'react';
+import CardTiltable from './CardTiltable.tsx';
 
 const CardsScroll = ({ cards }) => {
     return (
-        <div>
+        <div className='w-full flex flex-wrap justify-center'>
             {cards.map((card, index) => (
-                <div key={index}>
-                    {/* Renderizar los datos de cada tarjeta */}
-                    <h2>{card.name}</h2>
-                    <p>{card.cardCollection + " " + card.collectionNumber}</p>
-                    <p>{}</p>
-                </div>
+                <CardTiltable 
+                collectionName={card.cardCollection}
+                cardNumber={card.collectionNumber}
+                key={index}
+                />
             ))}
         </div>
     );
