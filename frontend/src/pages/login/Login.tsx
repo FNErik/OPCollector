@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validateFormData from '../../scripts/validateFormData.ts';
 import ImageCarousel from '../../components/ImageCarrousel.tsx';
 import OPCollectorLogo from '../../components/OPCollectorLogo.tsx';
+import { userInfo } from 'os';
 
 function Copyright(props: any) {
   return (
@@ -48,8 +49,21 @@ export default function SignInSide() {
                     },
                     body: JSON.stringify({ email: email, pass: password }),
                 });
-                const data = await response.json();
-                console.log(data);
+                const user = await response.json();
+                if(response.ok){
+                  console.log("Logged correctly");
+                  console.log(user);
+                  if(!user.isDeleted){
+                    localStorage.setItem("user", JSON.stringify(user));
+                    const storedUser = localStorage.getItem("user");
+                    if (storedUser !== null) {
+                        const user = JSON.parse(storedUser);
+                        console.log(user);
+                    } else {
+                        console.error("No se encontraron datos de usuario en el almacenamiento local");
+                    }
+                  }
+                }
             } catch (err) {
                 console.error(err.message);
             }
