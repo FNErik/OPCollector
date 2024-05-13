@@ -5,19 +5,18 @@ import { PaletteMode } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Header from '../../components/Header.tsx';
+import { User } from "../../types/User";
+import getCurrentUser from '../../scripts/getCurrentUser.ts';
 
 export default function LandingPage() {
-  const [mode, setMode] = React.useState<PaletteMode>('light');
+  const [mode] = React.useState<PaletteMode>('light');
   const defaultTheme = createTheme({ palette: { mode } });
-
-  const toggleColorMode = () => {
-    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  const user: User | null = getCurrentUser()
 
   return (
     <ThemeProvider theme={defaultTheme}>
   <CssBaseline />
-  <Header mode={mode} toggleColorMode={toggleColorMode} />
+  <Header user={user}/>
         <div className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
             <div className='diagonalParent w-full h-80 flex shadow-lg rounded-lg relative'>
                 <div className='absolute'>
