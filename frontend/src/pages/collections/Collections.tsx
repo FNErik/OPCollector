@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import Header from '../../components/Header.tsx';
+import { User } from '../../types/User';
+import getCurrentUser from '../../scripts/getCurrentUser.ts';
+import CollectionsCarrousel from '../../components/CollectionsCarrousel.tsx';
 
 const Collections = () => {
-    const [data, setData] = useState([]);
+    const [collections, setCollections] = useState<string[]>([]);
+    const user: User | null = getCurrentUser();
 
     useEffect(() => {
         const fetchCollections = async () => {
@@ -9,7 +14,7 @@ const Collections = () => {
                 const response = await fetch('http://localhost:4022/api/card/collections');
                 if (response.ok) {
                     const jsonData = await response.json();
-                    setData(jsonData.colecciones);
+                    setCollections(jsonData.colecciones);
                 } else {
                     throw new Error('Error al obtener los datos');
                 }
@@ -21,22 +26,21 @@ const Collections = () => {
         fetchCollections();
     }, []);
 
-
-    console.log(data);
-
+    const collectionsOP_EB = collections.filter(collection => collection.startsWith("OP") || collection.startsWith("EB"));
+    const collectionsST = collections.filter(collection => collection.startsWith("ST"));
+    
     return (
-        <main>
-            {/* Renderiza tu componente con los datos, por ejemplo: */}
-            {data ? (
-                <ul>
-                    {data.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
-            ) : (
-                <p>Cargando...</p>
-            )}
-        </main>
+        <Fragment>
+            <Header user={user}/>
+            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
+                <CollectionsCarrousel 
+                    collections={collectionsOP_EB}
+                />
+                <CollectionsCarrousel 
+                    collections={collectionsST}
+                />
+            </main>
+        </Fragment>
     );
 };
 
