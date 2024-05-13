@@ -152,7 +152,7 @@ function Header({ user }: HeaderProps) {
               ) : (
                 
                 <React.Fragment>
-                  <p className=' text-gray-700 mr-5'>
+                  <p className=' text-gray-700 mr-5 select-none '>
                     {user?.name + " " + user?.surname}
                   </p>
                   <Button
@@ -239,7 +239,7 @@ function Header({ user }: HeaderProps) {
                   </React.Fragment>
                   ) : (
                     <React.Fragment>
-                      <p className=' text-2xl text-gray-700 ml-5 my-5'>
+                      <p className=' text-2xl text-gray-700 ml-5 my-5 select-none '>
                         {user?.name + " " + user?.surname}
                       </p>
                       <MenuItem>
