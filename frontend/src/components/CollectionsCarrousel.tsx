@@ -6,7 +6,7 @@ interface Props {
 }
 const CollectionsCarrousel = ({ collections }: Props) => {
     return (
-        <div className='flex overflow-x-auto bg-red-300 w-full mb-10'>
+        <div className='flex overflow-x-auto w-full mb-10'>
             {collections.length > 0 ? (
                 <Fragment>
                     {collections.map((item) => (

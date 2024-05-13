@@ -1,0 +1,8 @@
+.card-wrapper{
+    background: white;
+}
+
+.card{
+    background: white;
+    mix-blend-mode: multiply;
+}

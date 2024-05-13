@@ -1,4 +1,5 @@
 import React from 'react';
+import './css/CollectionCard.css'
 
 interface Props {
     collectionName: string;
@@ -6,19 +7,20 @@ interface Props {
 
 const CollectionCard = ({ collectionName }: Props) => {
     const getImageUrl = (collectionName: string) => {
-        return `../collections/${collectionName}.webp`;
+        return `../collections/${collectionName}.png`;
     };
 
     const imageUrl = getImageUrl(collectionName);
 
     return (
-        <div className="m-1 min-w-80 bg-blue-500">
+        <figure className="m-1 card-wrapper">
             <img 
+                className=' object-contain w-full aspect-square card'
                 src={imageUrl}
                 alt={collectionName}
             />
-            <p>{collectionName}</p>
-        </div>
+            <figcaption>{collectionName}</figcaption>
+        </figure>
     );
 }
 
