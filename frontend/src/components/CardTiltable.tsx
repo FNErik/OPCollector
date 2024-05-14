@@ -1,5 +1,6 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
+import './css/CollectionCard.css'
 
 interface Props {
     collectionName: string;
@@ -10,7 +11,7 @@ interface Props {
 
 const CardTiltable = ({ collectionName, cardNumber, isCentered, handleClick }: Props) => {
     return (
-        <div className='card-wrapper w-60 m-2'>
+        <div className='card-wrapper m-2' style={{ bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 999 : 'auto' }}>
             <Tilt
                 glareEnable={true}
                 glareMaxOpacity={0.4}
@@ -19,20 +20,19 @@ const CardTiltable = ({ collectionName, cardNumber, isCentered, handleClick }: P
                 glareBorderRadius="20px"
                 style={{
                     borderRadius: '0.5rem',
-                    position: isCentered ? 'absolute' : 'static',
-                    top: isCentered ? '50%' : 'auto',
-                    left: isCentered ? '50%' : 'auto',
                     transform: isCentered ? 'translate(-50%, -50%)' : 'none',
-                    zIndex: isCentered ? 999 : 'auto',
+                    height: isCentered ? '75vh' : 'auto',
+                    width: 'auto',
                 }}
-            >
+                >
                 <img 
                     src={`../cards/${collectionName}/${collectionName}-${cardNumber}.png`}
                     alt={`card ${collectionName}-${cardNumber}`} 
-                    className='object-contain rounded-lg shadow-lg'
+                    className=' object-contain aspect-auto rounded-lg shadow-lg border border-black'
                     onClick={handleClick}
                     style={{
                         height: isCentered ? '75vh' : 'auto',
+                        width: '100%',
                     }}
                 />
             </Tilt>

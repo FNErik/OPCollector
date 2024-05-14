@@ -1,4 +1,3 @@
-// CollectionCards.tsx
 import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
@@ -10,7 +9,8 @@ const CollectionCards = () => {
     const { collectionName } = useParams();
     const [cards, setCards] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
-    const [centeredCard, setCenteredCard] = useState<string | null>(null); // Aquí se declara centeredCard
+    const [centeredCard, setCenteredCard] = useState<string | null>(null);
+    const [isCardCentered, setIsCardCentered] = useState(false);
     const user: User | null = getCurrentUser();
 
     useEffect(() => {
@@ -42,7 +42,13 @@ const CollectionCards = () => {
     const handleContainerClick = () => {
         if (centeredCard !== null) {
             setCenteredCard(null);
+            setIsCardCentered(false);
         }
+    };
+
+    const handleCardClick = (cardNumber: string) => {
+        setCenteredCard(cardNumber);
+        setIsCardCentered(true);
     };
 
     if (loading) {
@@ -55,9 +61,10 @@ const CollectionCards = () => {
             <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={handleContainerClick}>
                 <CardsScroll 
                     cards={cards}
-                    centeredCard={centeredCard} // Pasamos centeredCard como prop a CardsScroll
-                    setCenteredCard={setCenteredCard} // Pasamos setCenteredCard como prop a CardsScroll
+                    centeredCard={centeredCard}
+                    handleCardClick={handleCardClick}
                 />
+                {isCardCentered && <div className="overlay"></div>}
             </main>
         </Fragment>
     );

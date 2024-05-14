@@ -1,0 +1,10 @@
+.card-wrapper:not(.centered) {
+    position: relative;
+    z-index: 1; /* Un valor más bajo que el de la imagen centrada */
+    /* Otros estilos */
+}
+.card-wrapper {
+    position: relative; /* Cambia la posición a relative */
+    z-index: 1; /* Ajusta el z-index según sea necesario */
+    /* Otros estilos */
+}
