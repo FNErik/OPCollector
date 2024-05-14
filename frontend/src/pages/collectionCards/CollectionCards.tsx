@@ -1,3 +1,4 @@
+// CollectionCards.tsx
 import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
@@ -9,6 +10,7 @@ const CollectionCards = () => {
     const { collectionName } = useParams();
     const [cards, setCards] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
+    const [centeredCard, setCenteredCard] = useState<string | null>(null); // Aquí se declara centeredCard
     const user: User | null = getCurrentUser();
 
     useEffect(() => {
@@ -36,8 +38,13 @@ const CollectionCards = () => {
 
         fetchCardsByCollection();
     }, [collectionName]);
-    console.log(cards);
     
+    const handleContainerClick = () => {
+        if (centeredCard !== null) {
+            setCenteredCard(null);
+        }
+    };
+
     if (loading) {
         return <div>Cargando...</div>;
     }
@@ -45,9 +52,11 @@ const CollectionCards = () => {
     return (
         <Fragment>
             <Header user={user} />
-            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
+            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={handleContainerClick}>
                 <CardsScroll 
                     cards={cards}
+                    centeredCard={centeredCard} // Pasamos centeredCard como prop a CardsScroll
+                    setCenteredCard={setCenteredCard} // Pasamos setCenteredCard como prop a CardsScroll
                 />
             </main>
         </Fragment>
