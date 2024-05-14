@@ -6,6 +6,7 @@ import SignUp from './pages/signup/SignUp.tsx';
 import Dashboard from './pages/admin/dashboard/Dashboard.tsx';
 import Collections from './pages/collections/Collections.tsx';
 import CollectionCards from './pages/collectionCards/CollectionCards.tsx';
+import BrowseCards from './pages/browseCards/BrowseCards.tsx';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/collections/:collectionName" element={<CollectionCards/>} />
+        <Route path="/browse-cards" element={<BrowseCards />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/admin" element={<Dashboard />} />
