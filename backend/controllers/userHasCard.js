@@ -1,17 +1,23 @@
 const UserHasCard = require("../models/userHasCard");
 
-async function addCardToUser(req,res){
+async function addCardToUser(req, res) {
     const userId = req.session.userId;
     const cardId = req.body.cardId;
+    const cardQuantity = req.body.cardQuantity;
     try {
         let userHasCardEntry = await UserHasCard.findOne({ user: userId });
         if (!userHasCardEntry) {
-            res.status(400).send({msg: "Error, no existe ninguna entrada en userHasCard para este usuario"})
+            res.status(400).send({ msg: "Error, no existe ninguna entrada en userHasCard para este usuario" });
         } else {
-            userHasCardEntry.cards.push({ cardId });
+            const existingCardIndex = userHasCardEntry.cards.findIndex(card => card.cardId === cardId);
+            if (existingCardIndex !== -1) {
+                userHasCardEntry.cards[existingCardIndex].quantity+=cardQuantity;
+            } else {
+                userHasCardEntry.cards.push({ cardId, quantity: cardQuantity });
+            }
             const newEntryCheck = await userHasCardEntry.save();
-            if(!newEntryCheck){
-                res.status(400).send({msg: "Error, no se ha podido guardar la información de la carta"})
+            if (!newEntryCheck) {
+                res.status(400).send({ msg: "Error, no se ha podido guardar la información de la carta" });
             } else {
                 res.status(200).send(newEntryCheck);
             }
@@ -20,6 +26,7 @@ async function addCardToUser(req,res){
         res.status(500).send(error);
     }
 }
+
 
 async function removeCardFromUser(req,res){
     const userId = req.session.userId;

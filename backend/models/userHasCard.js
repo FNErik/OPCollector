@@ -10,8 +10,13 @@ const userHasCardSchemma = Schema({
         cardObjId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Card'
+        },
+        quantity: {
+            type: Number,
+            default: 1 
         }
     }]
 });
 
 module.exports = mongoose.model("UserHasCard", userHasCardSchemma)
+
