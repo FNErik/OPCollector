@@ -18,6 +18,7 @@ const CardTiltable = ({ collectionName, cardNumber, isCentered, handleClick }: P
                 glareColor="lightblue"
                 glarePosition="all"
                 glareBorderRadius="20px"
+                gyroscope={isCentered}
                 style={{
                     borderRadius: '0.5rem',
                     transform: isCentered ? 'translate(-50%, -50%)' : 'none',
