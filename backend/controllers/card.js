@@ -145,6 +145,22 @@ async function getDistinctTypes(req, res) {
     }
 }
 
+async function getDistinctNames(req, res) {
+    try {
+        const distinctNames = await Card.distinct('name');
+        let names = []; // Inicializa names como un array vacío
+        distinctNames.forEach(namesResult => {
+            if (!names.includes(namesResult.trim())) {
+                names.push(namesResult.trim());
+            }
+        });
+        res.status(200).json({ names });
+    } catch (error) {
+        console.error("Error al obtener las colecciones de cartas:", error);
+        res.status(500).json({ error: "Error al obtener las colecciones de cartas" });
+    }
+}
+
 module.exports = {
     createCard,
     getCard,
@@ -154,4 +170,5 @@ module.exports = {
     filterCard,
     getDistinctCollections,
     getDistinctTypes,
+    getDistinctNames,
 }
