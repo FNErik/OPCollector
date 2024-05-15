@@ -23,7 +23,7 @@ const Label = styled('label')`
 
 const InputWrapper = styled('div')(
   ({ theme }) => `
-  width: 300px;
+  width: auto;
   border: 1px solid ${theme.palette.mode === 'dark' ? '#434343' : '#d9d9d9'};
   background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
   border-radius: 4px;
@@ -32,12 +32,12 @@ const InputWrapper = styled('div')(
   flex-wrap: wrap;
 
   &:hover {
-    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#CC3333'};
   }
 
   &.focused {
-    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#CC3333'};
+    box-shadow: 0 0 0 2px rgba(175, 44, 44, 0.2);
   }
 
   & input {
@@ -48,8 +48,7 @@ const InputWrapper = styled('div')(
     height: 30px;
     box-sizing: border-box;
     padding: 4px 6px;
-    width: 0;
-    min-width: 30px;
+    width: auto;
     flex-grow: 1;
     border: 0;
     margin: 0;
