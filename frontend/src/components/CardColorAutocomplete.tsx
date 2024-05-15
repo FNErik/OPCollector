@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react'
 import { useAutocomplete, AutocompleteGetTagProps } from '@mui/base/useAutocomplete';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -66,7 +65,7 @@ function Tag(props: TagProps) {
   const { label, onDelete, ...other } = props;
   return (
     <div {...other}>
-      <span className='selectedTypeFilterElement'>{label}</span>
+      <span className='selectedColorFilterElement'>{label}</span>
       <CloseIcon onClick={onDelete} />
     </div>
   );
@@ -155,26 +154,7 @@ const Listbox = styled('ul')(
 );
 
 export default function CustomizedHook() {
-  const [fetchedTypes, setTypes] = useState<string[]>([]);
-  useEffect(() => {
-    const fetchCardsByCollection = async () => {
-        try {
-            const response = await fetch('http://localhost:4022/api/card/types');
-            if (response.ok) {
-                const jsonData = await response.json();
-                setTypes(jsonData.types);
-            } else {
-                throw new Error('Error al obtener los datos');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        } finally {
-            
-        }
-    };
-
-    fetchCardsByCollection();
-}, [fetchedTypes]);
+  const colors = ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'Purple'];
 
   const {
     getRootProps,
@@ -190,14 +170,14 @@ export default function CustomizedHook() {
   } = useAutocomplete({
     id: 'customized-hook-demo',
     multiple: true,
-    options: fetchedTypes,
+    options: colors,
     getOptionLabel: (option) => option,
   });
 
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label {...getInputLabelProps()}>Card type</Label>
+        <Label {...getInputLabelProps()}>Color</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {value.map((option, index: number) => (
             <StyledTag label={option} {...getTagProps({ index })} />
@@ -207,7 +187,7 @@ export default function CustomizedHook() {
       </div>
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
-          {(groupedOptions as typeof fetchedTypes).map((option, index) => (
+          {(groupedOptions as typeof colors).map((option, index) => (
             <li {...getOptionProps({ option, index })}>
               <span>{option}</span>
               <CheckIcon fontSize="small" />

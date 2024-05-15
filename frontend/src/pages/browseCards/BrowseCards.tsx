@@ -3,6 +3,7 @@ import Header from '../../components/Header.tsx';
 import { User } from '../../types/User.ts';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import CardTypesAutocomplete from '../../components/CardTypesAutocomplete.tsx';
+import CardColorAutocomplete from '../../components/CardColorAutocomplete.tsx';
 
 const BrowseCards = () => {
     const user: User | null = getCurrentUser();
@@ -14,7 +15,10 @@ const BrowseCards = () => {
                     <h1>Filtros</h1>    
                 </div>
                 <div className='w-full'>
-                        <CardTypesAutocomplete />
+                    <CardTypesAutocomplete />
+                </div>
+                <div className='w-full'>
+                    <CardColorAutocomplete />
                 </div>
             </main>
         </Fragment>
