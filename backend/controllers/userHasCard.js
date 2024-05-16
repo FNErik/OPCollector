@@ -51,7 +51,7 @@ async function removeCardFromUser(req,res){
 
 async function getCardsFromUser(req,res){
     try {
-        const userId = req.session.userId;
+        const userId = req.body.user;
         const cards = await UserHasCard.findOne({user: userId});
         if (!cards) {
             res.status(400).send({msg:"Error: no se ha encontrado la entrada para este usuario"})

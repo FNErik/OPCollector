@@ -3,8 +3,8 @@ const userHasCardController = require("../controllers/userHasCard");
 
 const api = express.Router();
 
-api.get("/userHasCards", userHasCardController.getCardsFromUser);
-api.post("/userHasCards", userHasCardController.addCardToUser);
+api.post("/getCardsfromUser", userHasCardController.getCardsFromUser);
+api.post("/addCardToUser", userHasCardController.addCardToUser);
 api.delete("/userHasCards", userHasCardController.removeCardFromUser);
 
 

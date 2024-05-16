@@ -75,7 +75,6 @@ async function logInUser(req,res){
         if (!user) {
             res.status(400).send({msg: "Error, las credenciales no coinciden"})
         } else {
-            req.session.userId = user._id;
             res.status(200).send(user);
         }
     } catch (error) {
