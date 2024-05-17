@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import './CollectionCards.css'
+import './CollectionCards.css';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import { User } from '../../types/User.ts';
 import Header from '../../components/Header.tsx';
@@ -13,7 +13,8 @@ const CollectionCards = () => {
     const [yAxis, setYAxis] = useState(0);
     const [centeredCard, setCenteredCard] = useState<string | null>(null);
     const [isCardCentered, setIsCardCentered] = useState(false);
-    const [amountOfCard, setAmountOfCards] = useState(Number)
+    const [count, setCount] = useState(1);
+    const [amountOfCard, setAmountOfCards] = useState(Number);
     const user: User | null = getCurrentUser();
 
     useEffect(() => {
@@ -41,6 +42,7 @@ const CollectionCards = () => {
         };
         
         
+
         fetchCardsByCollection();
     }, [collectionName]);
 
@@ -88,8 +90,6 @@ const CollectionCards = () => {
         const controls = document.getElementById('controls');
         controls?.classList.add('hidden');
     };
-
-    const [count, setCount] = useState(1);
 
     const handleDecrement = () => {
         if (count > 1) {
@@ -144,7 +144,7 @@ const CollectionCards = () => {
     if (loading) {
         return <div>Cargando...</div>;
     }
-    
+
     return (
         <Fragment>
             <Header user={user} />
@@ -156,33 +156,29 @@ const CollectionCards = () => {
                 />
                 {isCardCentered && <div className="overlay"></div>}
             </main>
-            <div id='controls' className='fixed w-full h-full  top-0 hidden transition-all' >
-                <div className='absolute w-full h-full bg-black opacity-50 z-20' onClick={handleContainerClick}></div>
-                {/*Controles para pantallas grandes */}
-                {/* <div className='fixed flex w-full items-center justify-end min-h-screen z-50'>
-                    
-                </div> */}
-                <div className="absolute w-full top-60  left-80 flex flex-col items-center mr-60 z-50">
-                        <div className="flex flex-row items-center mb-3">
-                            <div className='w-20 h-20 text-center'>
-                                <button 
+            <div id='controls' className='fixed w-full h-full top-0 hidden'>
+                <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={handleContainerClick}></div>
+                <div className="absolute w-full top-60 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-50">
+                    <div className="flex flex-row items-center mb-3">
+                        <div className='w-20 h-20 text-center'>
+                            <button
                                 onClick={handleDecrement}
                                 className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-black rounded shadow">
-                                    -
-                                </button>
-                            </div>
-                            <div className='w-60 h-20  text-center'>
-                                <input
-                                    type="number"
-                                    value={count}
-                                    onChange={handleChange}
-                                    className='w-60 h-10 text-center bg-white border border-gray-300 rounded'
-                                    min="1"
-                                    max="99"
-                                />
-                            </div>
-                            <div className='w-20 h-20 text-center'>
-                                <button 
+                                -
+                            </button>
+                        </div>
+                        <div className='w-60 h-20 text-center'>
+                            <input
+                                type="number"
+                                value={count}
+                                onChange={handleChange}
+                                className='w-60 h-10 text-center bg-white border border-gray-300 rounded'
+                                min="1"
+                                max="99"
+                            />
+                        </div>
+                        <div className='w-20 h-20 text-center'>
+                            <button
                                 onClick={handleIncrement}
                                 className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-black rounded shadow">
                                     +
@@ -197,14 +193,12 @@ const CollectionCards = () => {
                             </button>
                         </div>
                     </div>
-                {/*Controles para movil */}
-                <div className='w-full sm:hidden flex justify-items-center'>
-                    <div className='w-10 h-10 bg-red-600 border border-black'></div>
-                    <div className='w-10 h-10 bg-red-600 border border-black'></div>
-                    <div className='w-10 h-10 bg-red-600 border border-black'></div>
-                    <div className='w-10 h-10 bg-red-600 border border-black'></div>
+                    <div className='w-50 h-10'>
+                        <button className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-20 border border-black rounded shadow">
+                            Añadir
+                        </button>
+                    </div>
                 </div>
-            </div>
         </Fragment>
     );
 };
