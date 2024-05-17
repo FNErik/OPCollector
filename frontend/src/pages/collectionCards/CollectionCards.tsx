@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import './CollectionCards.css'
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
@@ -10,6 +10,7 @@ const CollectionCards = () => {
     const { collectionName } = useParams();
     const [cards, setCards] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
+    const [yAxis, setYAxis] = useState(0);
     const [centeredCard, setCenteredCard] = useState<string | null>(null);
     const [isCardCentered, setIsCardCentered] = useState(false);
     const [amountOfCard, setAmountOfCards] = useState(Number)
@@ -57,13 +58,29 @@ const CollectionCards = () => {
 
         fetchCardsByCollection();
     }, [collectionName]);
-    
 
-    const handleContainerClick = (e) => {
+    const manageScroll = useCallback(() => {
+        if (isCardCentered) {
+            window.scrollTo(0, yAxis);
+        }
+    }, [isCardCentered, yAxis]);
+
+    useEffect(() => {
+        if (isCardCentered) {
+            window.addEventListener('scroll', manageScroll);
+        } else {
+            window.removeEventListener('scroll', manageScroll);
+        }
+        return () => {
+            window.removeEventListener('scroll', manageScroll);
+        };
+    }, [isCardCentered, manageScroll]);
+
+    const handleContainerClick = () => {
         if (centeredCard !== null) {
             setCenteredCard(null);
+            removeControls();
             setIsCardCentered(false);
-            removeControls()
         }
         console.log("Contenedor")
         console.log(e.target);
@@ -72,23 +89,21 @@ const CollectionCards = () => {
     const handleCardClick = (cardNumber: string) => {
         setCenteredCard(cardNumber);
         setIsCardCentered(true);
-        setControls(cardNumber)
         console.log("Carta")
         console.log(centeredCard);
+        setControls(cardNumber);
+        setYAxis(window.scrollY);
     };
 
-    
-    const setControls = (cardNumber) => {
-        let controls = document.getElementById("controls")
-        console.log(controls);
-        controls?.classList.remove("hidden")
-    }
+    const setControls = (cardNumber: string) => {
+        const controls = document.getElementById('controls');
+        controls?.classList.remove('hidden');
+    };
 
     const removeControls = () => {
-        let controls = document.getElementById("controls")
-        console.log(controls);
-        controls?.classList.add("hidden")
-    }
+        const controls = document.getElementById('controls');
+        controls?.classList.add('hidden');
+    };
 
     const [count, setCount] = useState(1);
 
@@ -123,8 +138,8 @@ const CollectionCards = () => {
     return (
         <Fragment>
             <Header user={user} />
-            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center z-10' onClick={handleContainerClick}>
-                <CardsScroll 
+            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={handleContainerClick}>
+                <CardsScroll
                     cards={cards}
                     centeredCard={centeredCard}
                     handleCardClick={handleCardClick}

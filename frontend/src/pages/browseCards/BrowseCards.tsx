@@ -5,6 +5,7 @@ import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import CardTypesAutocomplete from '../../components/InputsCardBrowser/CardTypesAutocomplete.tsx';
 import CardColorAutocomplete from '../../components/InputsCardBrowser/CardColorAutocomplete.tsx';
 import CardNameAutocomplete from '../../components/InputsCardBrowser/CardNameAutocomplete.tsx';
+import CardRaritySelect from '../../components/InputsCardBrowser/CardRaritySelect.tsx';
 import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
@@ -58,6 +59,9 @@ const BrowseCards = () => {
                 <div className='w-full'>
                     <div className='w-full'>
                         <h1 className='ml-5 text-3xl'>Browse any <span className=' text-red-500'>card</span> you want</h1>
+                    </div>
+                    <div className='w-full'>
+                        
                     </div>
                     <div className='w-full flex flex-col md:flex-row'>
                         <div className="w-full sm:w-1/2 p-5">
