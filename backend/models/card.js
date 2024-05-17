@@ -26,6 +26,11 @@ const cardSchema = Schema({
         type: String,
         required: true,
     },
+    defaultQuantity: {
+        type: Number,
+        default: 1,
+        required: true,
+    }
 });
 
 module.exports = mongoose.model("Card", cardSchema)

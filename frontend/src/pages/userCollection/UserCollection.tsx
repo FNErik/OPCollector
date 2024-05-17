@@ -1,6 +1,8 @@
 import { User } from '../../types/User.ts';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import React, { useState, useEffect, Fragment } from 'react';
+import Header from '../../components/Header.tsx';
+import CardsScroll from '../../components/CardsScroll.tsx';
 
 const UserCollection = () => {
     const [collection, setCollection] = useState<any[]>([]);
@@ -52,7 +54,16 @@ const UserCollection = () => {
     console.log(cards);
 
     return (
-        <h1>HOLA</h1>
+        <Fragment>
+            <Header user={user} />
+            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
+                {
+                    cards.map(card =>(
+                        <h1>{card._id}</h1>
+                    ))
+                }
+            </main>
+        </Fragment>
     );
 };
 
