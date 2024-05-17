@@ -35,7 +35,11 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-export default function RaritySelect() {
+interface RaritySelectProps {
+  onChange: (selectedRarities: string[]) => void;
+}
+
+const RaritySelect: React.FC<RaritySelectProps> = ({ onChange }) => {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState<string[]>([]);
 
@@ -43,17 +47,15 @@ export default function RaritySelect() {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    const selectedRarities = typeof value === 'string' ? value.split(',') : value;
+    setPersonName(selectedRarities);
+    onChange(selectedRarities); // Call the onChange prop
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+      <FormControl sx={{ width: '100%' }}>
         <Select
-        label="Rarity"
+          label="Rarity"
           multiple
           displayEmpty
           value={personName}
@@ -83,6 +85,7 @@ export default function RaritySelect() {
           ))}
         </Select>
       </FormControl>
-    </div>
   );
 }
+
+export default RaritySelect;
