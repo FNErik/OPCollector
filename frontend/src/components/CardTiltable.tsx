@@ -25,7 +25,7 @@ const CardTiltable = ({ collectionName, cardNumber, isCentered, handleClick }: P
     }, []);
 
     return (
-        <div className='card-wrapper m-2' style={{ bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}>
+        <div className='card-wrapper m-2' style={{ marginRight: (isCentered && isLargeScreen) ? '50vw' : 'auto', bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}>
             <Tilt
                 glareEnable={true}
                 glareMaxOpacity={0.4}
@@ -38,7 +38,6 @@ const CardTiltable = ({ collectionName, cardNumber, isCentered, handleClick }: P
                     transform: isCentered ? 'translate(-50%, -50%)' : 'none',
                     height: isCentered ? '75vh' : 'auto',
                     width: 'auto',
-                    marginRight: (isCentered && isLargeScreen) ? '50vw' : 'auto',
                 }}
             >
                 <img
