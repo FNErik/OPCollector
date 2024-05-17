@@ -205,12 +205,8 @@ const CollectionCards = () => {
                             </button>
                         </div>
                     </div>
-                    <div className='w-50 h-10'>
-                        <button className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-20 border border-black rounded shadow">
-                            Añadir
-                        </button>
-                    </div>
-                </div>
+                    
+            </div>
         </Fragment>
     );
 };
