@@ -100,14 +100,13 @@ async function filterCard(req, res){
 
         const filter = {};
         if (name) filter.name = { $regex: new RegExp(name, 'i') };
-        if (type) filter.type = {$in: type};
+        if (type && (type.length > 0)) filter.type = {$in: type};
         if (cardCollection) filter.cardCollection = { $regex: new RegExp(cardCollection, 'i') };
         if (collectionNumber) filter.collectionNumber = collectionNumber;
-        if (color) filter.color = {$in: color};
-        if (rarity) filter.rarity = {$in: rarity};
-    
+        if (color && (color.length > 0)) filter.color = {$in: color};
+        if (rarity && (rarity.length > 0)) filter.rarity = {$in: rarity};
         const cards = await Card.find(filter);
-    
+            console.log(filter);
         res.json(cards);
       } catch (error) {
         console.error(error);
