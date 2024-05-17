@@ -80,8 +80,8 @@ const CollectionCards = () => {
           }),
         });
         if (response.ok) {
-          await response.json(); // Consumir el cuerpo de la respuesta
-          setAmountOfCards(count); // Actualizar amountOfCard con el valor de count
+          await response.json();
+          setAmountOfCards(count);
         } else {
           console.log("Error en el if response");
           console.log(response);

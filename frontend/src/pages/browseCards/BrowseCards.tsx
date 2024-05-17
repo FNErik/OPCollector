@@ -22,6 +22,7 @@ import {
   handleIncrement,
   handleChange
 } from '../../scripts/cardsControlls.ts';
+import separateCollectionAndNumber from '../../scripts/separateCollectionAndNumber.ts';
 
 const BrowseCards = () => {
   const user: User | null = getCurrentUser();
@@ -78,17 +79,45 @@ const BrowseCards = () => {
   };
 
   // Función para ejecutar la búsqueda al hacer clic en el botón "Search"
-  const handleSearch = () => {
+  const handleSearch = async() => {
     const types = getTypesFromElements();
     const colors = getColorsFromElements();
+    const [collection, number] = separateCollectionAndNumber(filters.collection);
+    
     const searchFilters = {
       name: filters.name,
       type: types,
+      cardCollection: collection,
+      collectionNumber: number,
       color: colors,
       rarity: filters.rarity
     }
     console.log('Searching with filters:', searchFilters);
-    
+    // PUEDES USAR ESTE CLOG PARA MIRAR LO QUE SE ESTA MANDANDO AL BACK
+    const response = await fetch('http://localhost:4022/api/card/filterCard', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: searchFilters.name,
+            type: searchFilters.type, 
+            cardCollection: searchFilters.cardCollection, 
+            collectionNumber: searchFilters.collectionNumber, 
+            color: searchFilters.color, 
+            // ESTOY PASANDO LA RARITY COMO EL NOMBRE ENTERO Y NO EL CORTO DE LA BD SOY CONSCIENTE
+            // PERO POR AHORA QUE VAYAN LOS OTROS 2 (type y color)
+            //rarity: searchFilters.rarity,
+        }),
+    });
+    if (response.ok) {
+        const jsonData = await response.json();
+        console.log(jsonData);
+        setCards(jsonData)
+      } else {
+        console.log("Error en el if response");
+        console.log(response);
+      }
   };
 
   return (
