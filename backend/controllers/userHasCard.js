@@ -1,7 +1,7 @@
 const UserHasCard = require("../models/userHasCard");
 
 async function addCardToUser(req, res) {
-    const userId = req.session.userId;
+    const userId = req.body.userId;
     const cardId = req.body.cardId;
     const cardQuantity = req.body.cardQuantity;
     try {
