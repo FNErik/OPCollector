@@ -94,7 +94,7 @@ const CollectionCards = () => {
     const handleDecrement = () => {
         if (count > 1) {
             setCount(count - 1);
-            setAmountOfCards(count - 1)
+            setAmountOfCards(count - 1 < 1 ? 1 : count - 1); 
         }
         console.log(centeredCard);
     };
@@ -118,20 +118,31 @@ const CollectionCards = () => {
         
     const insertIntoCollection = async() =>{
         if(!user || !centeredCard){
-
+            console.log("FALLTA USUARIO O CARTA")
         }else{
+            console.log("Num carta: "+centeredCard)
+            console.log("Cantidad de cartas:"+amountOfCard);
+            console.log(amountOfCard);
+            console.log("id de usuario: "+user._id);
+            console.log("Coleccion: "+collectionName);          
+            if(amountOfCard==1){
+                setAmountOfCards(1)
+            }
             try {
                 const response = await fetch('http://localhost:4022/api/addCardToUser',{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ userId: user._id, cardCollection: collectionName, cardNumber: centeredCard, cardQuantity: amountOfCard}),
+                    body: JSON.stringify({ userId: user._id, cardCollection: collectionName, collectionNumber: centeredCard, cardQuantity: amountOfCard}),
                 });
                 if (response.ok) {
-                    const jsonData = await response.json();
-                    setAmountOfCards(jsonData);
+                    await response.json(); // Consumir el cuerpo de la respuesta
+                    setAmountOfCards(count); // Actualizar amountOfCard con el valor de count
                 } else {
+                    console.log("Error en el if response");
+                    console.log(response);
+                    
                     throw new Error('Error al obtener los datos');
                 }
             } catch (error) {
@@ -139,6 +150,7 @@ const CollectionCards = () => {
             }
         }
     }
+    
     
 
     if (loading) {
@@ -158,7 +170,7 @@ const CollectionCards = () => {
             </main>
             <div id='controls' className='fixed w-full h-full top-0 hidden'>
                 <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={handleContainerClick}></div>
-                <div className="absolute w-full top-60 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-50">
+                <div className="absolute w-full top-60 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-50 margen60">
                     <div className="flex flex-row items-center mb-3">
                         <div className='w-20 h-20 text-center'>
                             <button

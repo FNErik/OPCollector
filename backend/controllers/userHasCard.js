@@ -3,18 +3,18 @@ const UserHasCard = require("../models/userHasCard");
 async function addCardToUser(req, res) {
     const userId = req.body.userId;
     const collectionSave = req.body.cardCollection;
-    const numberSave = req.body.cardNumber;
+    const numberSave = req.body.collectionNumber;
     const cardQuantity = req.body.cardQuantity;
     try {
         let userHasCardEntry = await UserHasCard.findOne({ user: userId });
         if (!userHasCardEntry) {
             res.status(400).send({ msg: "Error, no existe ninguna entrada en userHasCard para este usuario" });
         } else {
-            const existingCardIndex = userHasCardEntry.cards.findIndex(card => card.cardId === cardId);
+            const existingCardIndex = userHasCardEntry.cards.findIndex(card => card.cardCollection === collectionSave && card.collectionNumber === numberSave);
             if (existingCardIndex !== -1) {
                 userHasCardEntry.cards[existingCardIndex].quantity+=cardQuantity;
             } else {
-                userHasCardEntry.cards.push({ cardCollection: collectionSave, cardNumber: numberSave, quantity: cardQuantity });
+                userHasCardEntry.cards.push({ cardCollection: collectionSave, collectionNumber: numberSave, quantity: cardQuantity });
             }
             const newEntryCheck = await userHasCardEntry.save();
             if (!newEntryCheck) {
@@ -24,6 +24,7 @@ async function addCardToUser(req, res) {
             }
         }
     } catch (error) {
+        console.log(error.message);
         res.status(500).send(error);
     }
 }
