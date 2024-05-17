@@ -3,13 +3,14 @@ import Tilt from 'react-parallax-tilt';
 import './css/CollectionCard.css';
 
 interface Props {
+    id: string;
     collectionName: string;
     cardNumber: string;
     isCentered: boolean;
     handleClick: () => void;
 }
 
-const CardTiltable = ({ collectionName, cardNumber, isCentered, handleClick }: Props) => {
+const CardTiltable = ({ id,collectionName, cardNumber, isCentered, handleClick }: Props) => {
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 640);
 
     useEffect(() => {

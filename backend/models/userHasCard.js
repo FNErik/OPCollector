@@ -8,9 +8,12 @@ const userHasCardSchemma = Schema({
         required: true,
     },
     cards: [{
-        cardObjId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Card',
+        cardCollection: {
+            type: String,
+            required: true,
+        },
+        collectionNumber: {
+            type: String,
             required: true,
         },
         quantity: {

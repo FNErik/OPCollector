@@ -2,7 +2,8 @@ const UserHasCard = require("../models/userHasCard");
 
 async function addCardToUser(req, res) {
     const userId = req.body.userId;
-    const cardId = req.body.cardId;
+    const collectionSave = req.body.cardCollection;
+    const numberSave = req.body.cardNumber;
     const cardQuantity = req.body.cardQuantity;
     try {
         let userHasCardEntry = await UserHasCard.findOne({ user: userId });
@@ -13,7 +14,7 @@ async function addCardToUser(req, res) {
             if (existingCardIndex !== -1) {
                 userHasCardEntry.cards[existingCardIndex].quantity+=cardQuantity;
             } else {
-                userHasCardEntry.cards.push({ cardId, quantity: cardQuantity });
+                userHasCardEntry.cards.push({ cardCollection: collectionSave, cardNumber: numberSave, quantity: cardQuantity });
             }
             const newEntryCheck = await userHasCardEntry.save();
             if (!newEntryCheck) {

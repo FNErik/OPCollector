@@ -24,6 +24,7 @@ const CollectionCards = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+
                     body: JSON.stringify({ cardCollection: collectionName }),
                 });
                 if (response.ok) {
@@ -38,24 +39,8 @@ const CollectionCards = () => {
                 setLoading(false);
             }
         };
-        const insertIntoCollection = async() =>{
-            if(!user || !centeredCard){
-
-            }else{
-                try {
-                    const response = await fetch('http://localhost:4022/api/addCardToUser',{
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ userId: user._id }),
-                    })
-                } catch (error) {
-                    
-                }
-            }
-        }
-
+        
+        
         fetchCardsByCollection();
     }, [collectionName]);
 
@@ -83,14 +68,13 @@ const CollectionCards = () => {
             setIsCardCentered(false);
         }
         console.log("Contenedor")
-        console.log(e.target);
+    
     };
 
     const handleCardClick = (cardNumber: string) => {
         setCenteredCard(cardNumber);
         setIsCardCentered(true);
         console.log("Carta")
-        console.log(centeredCard);
         setControls(cardNumber);
         setYAxis(window.scrollY);
     };
@@ -110,13 +94,17 @@ const CollectionCards = () => {
     const handleDecrement = () => {
         if (count > 1) {
             setCount(count - 1);
+            setAmountOfCards(count - 1)
         }
+        console.log(centeredCard);
     };
 
     const handleIncrement = () => {
         if (count < 99) {
             setCount(count + 1);
+            setAmountOfCards(count + 1)
         }
+        console.log(centeredCard);
     };
 
     const handleChange = (e) => {
@@ -127,8 +115,30 @@ const CollectionCards = () => {
             setCount(99);
         }
     };
-    
-    
+        
+    const insertIntoCollection = async() =>{
+        if(!user || !centeredCard){
+
+        }else{
+            try {
+                const response = await fetch('http://localhost:4022/api/addCardToUser',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: user._id, cardCollection: collectionName, cardNumber: centeredCard, cardQuantity: amountOfCard}),
+                });
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    setAmountOfCards(jsonData);
+                } else {
+                    throw new Error('Error al obtener los datos');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    }
     
 
     if (loading) {
@@ -180,7 +190,9 @@ const CollectionCards = () => {
                             </div>
                         </div>
                         <div className='w-50 h-10'>
-                            <button className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-20 border border-black rounded shadow">
+                            <button 
+                            onClick={insertIntoCollection}
+                            className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-20 border border-black rounded shadow">
                                 Añadir
                             </button>
                         </div>
