@@ -14,7 +14,8 @@ interface Props {
 
 const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick, userHasCard, quantity }: Props) => {
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 640);
-
+    if(userHasCard === undefined) userHasCard = true // Parche de mierda historico
+    
     useEffect(() => {
         const handleResize = () => {
             setIsLargeScreen(window.innerWidth >= 640);
