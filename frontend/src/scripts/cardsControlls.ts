@@ -34,17 +34,20 @@ export const handleContainerClick = (
 };
 
 export const handleCardClick = (
+  collectionName: string,
   cardNumber: string,
   setCenteredCard: (card: string) => void,
   setIsCardCentered: (centered: boolean) => void,
   setControls: (card: string) => void,
   setYAxis: (y: number) => void
 ) => {
-  setCenteredCard(cardNumber);
+  const cardId = `${collectionName}-${cardNumber}`;
+  setCenteredCard(cardId);
   setIsCardCentered(true);
-  setControls(cardNumber);
+  setControls(cardId);
   setYAxis(window.scrollY);
   console.log("Carta");
+  console.log(cardId);
 };
 
 export const setControls = (cardNumber: string) => {

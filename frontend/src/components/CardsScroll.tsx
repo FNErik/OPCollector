@@ -10,8 +10,8 @@ const CardsScroll = ({ cards, centeredCard, handleCardClick }) => {
                     collectionName={card.cardCollection}
                     cardNumber={card.collectionNumber}
                     id={card._id}
-                    isCentered={centeredCard === card.collectionNumber}
-                    handleClick={() => handleCardClick(card.collectionNumber)}
+                    isCentered={centeredCard === `${card.cardCollection}-${card.collectionNumber}`}
+                    handleClick={() => handleCardClick(card.cardCollection, card.collectionNumber)}
                 />
             ))}
         </div>

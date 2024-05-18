@@ -10,7 +10,7 @@ interface Props {
     handleClick: () => void;
 }
 
-const CardTiltable = ({ id,collectionName, cardNumber, isCentered, handleClick }: Props) => {
+const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick }: Props) => {
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 640);
 
     useEffect(() => {
@@ -44,7 +44,7 @@ const CardTiltable = ({ id,collectionName, cardNumber, isCentered, handleClick }
                 <img
                     src={`../cards/${collectionName}/${collectionName}-${cardNumber}.png`}
                     alt={`card ${collectionName}-${cardNumber}`}
-                    className=' object-contain aspect-auto rounded-lg shadow-lg border border-black'
+                    className='object-contain aspect-auto rounded-lg shadow-lg border border-black'
                     onClick={handleClick}
                     style={{
                         height: isCentered ? '75vh' : 'auto',
@@ -57,3 +57,4 @@ const CardTiltable = ({ id,collectionName, cardNumber, isCentered, handleClick }
 };
 
 export default CardTiltable;
+    

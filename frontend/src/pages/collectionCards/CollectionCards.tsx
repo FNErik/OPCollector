@@ -104,7 +104,7 @@ const CollectionCards = () => {
         <CardsScroll
           cards={cards}
           centeredCard={centeredCard}
-          handleCardClick={(cardNumber: string) => handleCardClick(cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
+          handleCardClick={(collectionName: string, cardNumber: string) => handleCardClick(collectionName, cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
         />
         {isCardCentered && <div className="overlay"></div>}
       </main>

@@ -64,10 +64,6 @@ const UserCollection = () => {
     fetchAllCards();
     fetchCollection();
   }, []); // eslint-disable-line
-  // AQUI HABIA UN WARNING
-  // EXPLICACION: ESTE ARRAY VACIO [] QUE SE DECLARA AQUI SON LAS DEPENDENCIAS DE USE EFFECT LO QUE SIGNIFICA
-  // QUE ESTA FUNCION SE EJECUTA CADA VEZ QUE CAMBIA UNA VARIABLE DE LAS QUE PASAS EN EL ARRAY, EN NUESTRO CASO
-  // LE ESTABAMOS PASANDO USER Y SE ESTABA RALLANDO Y METIA UN BUCLE INFINITO
 
   useManageScroll(isCardCentered, yAxis);
 
@@ -82,7 +78,7 @@ const UserCollection = () => {
         <CardsScroll
           cards={collection}
           centeredCard={centeredCard}
-          handleCardClick={(cardNumber: string) => handleCardClick(cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
+          handleCardClick={(collectionName: string, cardNumber: string) => handleCardClick(collectionName, cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
         />
       </main>
       <div id='controls' className='fixed w-full h-full top-0 hidden'>
