@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import { User } from '../../types/User.ts';
 import Header from '../../components/Header.tsx';
-import CardsScroll from '../../components/CardsScroll.tsx';
+import MyCollection from '../../components/myCollection.tsx';
 import AuthNeeded from '../../components/UserNotLogged/AuthNeeded.tsx';
 import {
   useManageScroll,
@@ -14,10 +14,13 @@ import {
   handleIncrement,
   handleChange
 } from '../../scripts/cardsControlls.ts';
+import getUserCollectionObject from '../../scripts/getUserCollectionObject.ts';
 
 const UserCollection = () => {
   const [collection, setCollection] = useState<any[]>([]);
+  const [userCollection, setUserCollection] = useState<any[]>([]);
   const [cards, setCards] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true); // Estado de carga
   const [yAxis, setYAxis] = useState(0);
   const [centeredCard, setCenteredCard] = useState<string | null>(null);
   const [isCardCentered, setIsCardCentered] = useState(false);
@@ -29,52 +32,53 @@ const UserCollection = () => {
     const fetchCollection = async () => {
       try {
         if (user === null) {
-          // handle no user case
+          setLoading(false);
+          return;
+        }
+        const response = await fetch('http://localhost:4022/api/getCardsfromUser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ user: user._id }),
+        });
+        if (response.ok) {
+          const jsonData = await response.json();
+          setCollection(jsonData.cards);
         } else {
-          const response = await fetch('http://localhost:4022/api/getCardsfromUser', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ user: user._id }),
-          });
-          if (response.ok) {
-            const jsonData = await response.json();
-            setCollection(jsonData.cards);
-          } else {
-            throw new Error('Error al obtener los datos');
-          }
+          throw new Error('Error al obtener los datos');
         }
       } catch (error) {
         console.error('Error:', error);
       }
     };
+
     const fetchAllCards = async () => {
-      if(user === null) {
-        // handle no user case
-      } else {
-        try {
-          const cardsResponse = await fetch('http://localhost:4022/api/card');
-          if (cardsResponse.ok) {
-            const jsonData = await cardsResponse.json();
-            setCards(jsonData);
-          } else {
-            throw new Error('Error al obtener los datos');
-          }
-        } catch (error) {
-          console.error('Error:', error);
+      try {
+        const cardsResponse = await fetch('http://localhost:4022/api/card');
+        if (cardsResponse.ok) {
+          const jsonData = await cardsResponse.json();
+          setCards(jsonData);
+          setLoading(false);
+        } else {
+          throw new Error('Error al obtener los datos');
         }
+      } catch (error) {
+        console.error('Error:', error);
+        setLoading(false);
       }
     };
-    fetchAllCards();
-    fetchCollection();
-  }, []); // eslint-disable-line
+
+    fetchCollection().then(() => fetchAllCards());
+  }, []);
 
   useManageScroll(isCardCentered, yAxis);
-
+  
+  useEffect(() => {
+    setUserCollection(getUserCollectionObject(cards, collection));
+  }, [cards]);
   console.log(collection);
-  console.log(cards);
-
+  
   return (
     <Fragment>
       <Header user={user} />
@@ -84,53 +88,20 @@ const UserCollection = () => {
             page='my-collection'
           />
         ) : (
-          <Fragment>
-            <h1 className="text-3xl mb-5">My collection</h1>
-            <CardsScroll
-              cards={collection}
-              centeredCard={centeredCard}
-              handleCardClick={(collectionName: string, cardNumber: string) => handleCardClick(collectionName, cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
-            />
-          </Fragment>
+          loading ? (
+            <p>Cargando...</p>
+          ) : (
+            <Fragment>
+              <h1 className="text-3xl mb-5">My collection</h1>
+              <MyCollection
+                cards={userCollection}
+                centeredCard={centeredCard}
+                handleCardClick={(collectionName: string, cardNumber: string) => handleCardClick(collectionName, cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
+              />
+            </Fragment>
+          )
         )}
       </main>
-      <div id='controls' className='fixed w-full h-full top-0 hidden'>
-        <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>
-        <div className="absolute w-full top-60 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-50 margen60">
-          <div className="flex flex-row items-center mb-3">
-            <div className='w-20 h-20 text-center'>
-              <button
-                onClick={() => handleDecrement(count, setCount, setAmountOfCards)}
-                className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-black rounded shadow">
-                -
-              </button>
-            </div>
-            <div className='w-60 h-20 text-center'>
-              <input
-                type="number"
-                value={count}
-                onChange={(e) => handleChange(e, setCount)}
-                className='w-60 h-10 text-center bg-white border border-gray-300 rounded'
-                min="1"
-                max="99"
-              />
-            </div>
-            <div className='w-20 h-20 text-center'>
-              <button
-                onClick={() => handleIncrement(count, setCount, setAmountOfCards)}
-                className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-black rounded shadow">
-                +
-              </button>
-            </div>
-          </div>
-          <div className='w-50 h-10'>
-            <button 
-              className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-20 border border-black rounded shadow">
-              Añadir
-            </button>
-          </div>
-        </div>
-      </div>
     </Fragment>
   );
 };

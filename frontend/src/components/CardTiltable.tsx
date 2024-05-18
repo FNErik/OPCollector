@@ -8,9 +8,10 @@ interface Props {
     cardNumber: string;
     isCentered: boolean;
     handleClick: () => void;
+    userHasCard? : boolean;
 }
 
-const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick }: Props) => {
+const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick, userHasCard }: Props) => {
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 640);
 
     useEffect(() => {
@@ -49,6 +50,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick 
                     style={{
                         height: isCentered ? '75vh' : 'auto',
                         width: '100%',
+                        filter: userHasCard ? 'none' : 'grayscale(1)',
                     }}
                 />
             </Tilt>

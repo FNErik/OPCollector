@@ -16,7 +16,12 @@ const DeckBuilder = () => {
                     page='deck-builder'
                 />
             ) : (
-                <h1>Deck builder</h1>
+                <Fragment>
+                    <h1 className="text-3xl mb-10 text-left w-full">Deck builder</h1>
+                    <div className='bg-red-500 w-full h-80 flex overflow-y-auto flex-wrap'>
+                        
+                    </div>
+                </Fragment>
             )}
             </main>
         </Fragment>
