@@ -77,7 +77,7 @@ function Header({ user }: HeaderProps) {
                 px: 0,
               }}
             >
-              <Link to='/' style={{color: 'rgba(0, 0, 0, 0.87);', marginBottom: '5px', marginLeft: '1rem'}}>
+              <Link to='/' style={{marginBottom: '5px', marginLeft: '1rem'}}>
                 <OPCollectorLogo />
               </Link>  
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

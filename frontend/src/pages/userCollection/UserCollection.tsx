@@ -3,6 +3,7 @@ import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import { User } from '../../types/User.ts';
 import Header from '../../components/Header.tsx';
 import CardsScroll from '../../components/CardsScroll.tsx';
+import AuthNeeded from '../../components/UserNotLogged/AuthNeeded.tsx';
 import {
   useManageScroll,
   handleContainerClick,
@@ -27,7 +28,7 @@ const UserCollection = () => {
   useEffect(() => {
     const fetchCollection = async () => {
       try {
-        if (!user) {
+        if (user === null) {
           // handle no user case
         } else {
           const response = await fetch('http://localhost:4022/api/getCardsfromUser', {
@@ -49,16 +50,20 @@ const UserCollection = () => {
       }
     };
     const fetchAllCards = async () => {
-      try {
-        const cardsResponse = await fetch('http://localhost:4022/api/card');
-        if (cardsResponse.ok) {
-          const jsonData = await cardsResponse.json();
-          setCards(jsonData);
-        } else {
-          throw new Error('Error al obtener los datos');
+      if(user === null) {
+        // handle no user case
+      } else {
+        try {
+          const cardsResponse = await fetch('http://localhost:4022/api/card');
+          if (cardsResponse.ok) {
+            const jsonData = await cardsResponse.json();
+            setCards(jsonData);
+          } else {
+            throw new Error('Error al obtener los datos');
+          }
+        } catch (error) {
+          console.error('Error:', error);
         }
-      } catch (error) {
-        console.error('Error:', error);
       }
     };
     fetchAllCards();
@@ -74,12 +79,20 @@ const UserCollection = () => {
     <Fragment>
       <Header user={user} />
       <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
-        <h1 className="text-3xl mb-5">My collection</h1>
-        <CardsScroll
-          cards={collection}
-          centeredCard={centeredCard}
-          handleCardClick={(collectionName: string, cardNumber: string) => handleCardClick(collectionName, cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
-        />
+        {user === null ? (
+          <AuthNeeded 
+            page='my-collection'
+          />
+        ) : (
+          <Fragment>
+            <h1 className="text-3xl mb-5">My collection</h1>
+            <CardsScroll
+              cards={collection}
+              centeredCard={centeredCard}
+              handleCardClick={(collectionName: string, cardNumber: string) => handleCardClick(collectionName, cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
+            />
+          </Fragment>
+        )}
       </main>
       <div id='controls' className='fixed w-full h-full top-0 hidden'>
         <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>
