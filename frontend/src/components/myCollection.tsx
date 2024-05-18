@@ -45,7 +45,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                     {collections.map(collection => (
                         <Fragment key={collection}>
                             <div 
-                                className='border p-2 px-3 border-black'
+                                className='border p-2 mx-1 px-3 border-black user-select-none cursor-pointer'
                                 onClick={() => setCurrentCollection(collection)}
                             >
                                 {collection}
@@ -63,6 +63,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                             isCentered={centeredCard === `${card.cardCollection}-${card.collectionNumber}`}
                             handleClick={() => handleCardClick(card.cardCollection, card.collectionNumber)}
                             userHasCard={card.hasCard}
+                            quantity={card.quantity}
                         />
                     ))}
                 </div>

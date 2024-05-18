@@ -92,7 +92,7 @@ const UserCollection = () => {
             <p>Cargando...</p>
           ) : (
             <Fragment>
-              <h1 className="text-3xl mb-5">My collection</h1>
+              
               <MyCollection
                 cards={userCollection}
                 centeredCard={centeredCard}
