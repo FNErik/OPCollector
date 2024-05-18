@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import CardTiltable from './CardTiltable.tsx';
+import './css/MyCollection.css'
 
 const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
     const [collections, setCollections] = useState<any[]>([]);
@@ -44,8 +45,9 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                 <div className='flex overflow-y-auto'>
                     {collections.map(collection => (
                         <Fragment key={collection}>
-                            <div 
-                                className='border p-2 mx-1 px-3 border-black user-select-none cursor-pointer'
+                            <div
+                                id={collection}
+                                className={`border p-2 mx-1 px-3 border-black user-select-none cursor-pointer ${collection === currentCollection ? 'selected' : ''}`}
                                 onClick={() => setCurrentCollection(collection)}
                             >
                                 {collection}
