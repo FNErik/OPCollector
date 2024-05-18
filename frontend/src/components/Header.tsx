@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
+import OPCollectorLogo from './OPCollectorLogoSmall.tsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { User } from '../types/User';
@@ -82,13 +83,9 @@ function Header({ user }: HeaderProps) {
                 px: 0,
               }}
             >
-              <img
-                src={
-                  'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
-                }
-                style={logoStyle}
-                alt="logo of opcollector"
-              />
+              <Link to='/' style={{color: 'rgba(0, 0, 0, 0.87);', marginBottom: '5px', marginLeft: '1rem'}}>
+                <OPCollectorLogo />
+              </Link>  
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <Link to="/collections" style={{ textDecoration: 'none', color: 'inherit', marginLeft: '1rem', marginRight: '1rem'}}>
                   <Typography variant="body2" color="text.primary">

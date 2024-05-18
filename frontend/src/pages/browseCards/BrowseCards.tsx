@@ -131,12 +131,10 @@ const BrowseCards = () => {
           <div className='w-full flex flex-col md:flex-row'>
             <div className="w-full sm:w-1/2 p-5">
               <CardTypesAutocomplete
-                // onChange={(types) => handleFilterChange({ types })}
               />
             </div>
             <div className="w-full sm:w-1/2 p-5">
               <CardColorAutocomplete
-                // onChange={(colors) => handleFilterChange({ colors })}
               />
             </div>
           </div>
