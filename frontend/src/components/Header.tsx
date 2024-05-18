@@ -15,12 +15,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { User } from '../types/User';
 
-const logoStyle = {
-  width: '140px',
-  height: 'auto',
-  cursor: 'pointer',
-};
-
 interface HeaderProps {
   user: User | null; // Definición de la prop user, que puede ser User o null
 }
