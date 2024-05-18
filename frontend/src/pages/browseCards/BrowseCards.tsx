@@ -24,6 +24,7 @@ import {
   handleChange
 } from '../../scripts/cardsControlls.ts';
 import separateCollectionAndNumber from '../../scripts/separateCollectionAndNumber.ts';
+import getRarityValues from '../../scripts/getRarityValues.ts';
 
 const BrowseCards = () => {
   const user: User | null = getCurrentUser();
@@ -123,14 +124,14 @@ const BrowseCards = () => {
     const types = getTypesFromElements();
     const colors = getColorsFromElements();
     const [collection, number] = separateCollectionAndNumber(filters.collection);
-    
+    const rarity = getRarityValues(filters.rarity)
     const searchFilters = {
       name: filters.name,
       type: types,
       cardCollection: collection,
       collectionNumber: number,
       color: colors,
-      rarity: filters.rarity
+      rarity: rarity
     }
     console.log('Searching with filters:', searchFilters);
     // PUEDES USAR ESTE CLOG PARA MIRAR LO QUE SE ESTA MANDANDO AL BACK
@@ -145,9 +146,7 @@ const BrowseCards = () => {
             cardCollection: searchFilters.cardCollection, 
             collectionNumber: searchFilters.collectionNumber, 
             color: searchFilters.color, 
-            // ESTOY PASANDO LA RARITY COMO EL NOMBRE ENTERO Y NO EL CORTO DE LA BD SOY CONSCIENTE
-            // PERO POR AHORA QUE VAYAN LOS OTROS 2 (type y color)
-            //rarity: searchFilters.rarity,
+            rarity: searchFilters.rarity,
         }),
     });
     if (response.ok) {
