@@ -100,7 +100,9 @@ async function filterCard(req, res){
 
         const filter = {};
         if (name) filter.name = { $regex: new RegExp(name, 'i') };
-        if (Array.isArray(type) && type.length > 0) filter.type = { $in: type };
+        console.log(type); // YO CREO QUE LA COSA VA POR AQUI 
+        const filterReg = new RegExp(type, 'i')
+        if (Array.isArray(type) && type.length > 0) filter.type = { $in: [filterReg] };
         if (cardCollection) filter.cardCollection = { $regex: new RegExp(cardCollection, 'i') };
         if (collectionNumber) filter.collectionNumber = collectionNumber;
         if (Array.isArray(color) && color.length > 0) filter.color = { $in: color };
