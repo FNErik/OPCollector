@@ -12,6 +12,7 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import getTypesFromElements from '../../scripts/getTypesFromElements.ts';
 import getColorsFromElements from '../../scripts/getColorsFromElements.ts';
 import CardsScroll from '../../components/CardsScroll.tsx';
+import Controls from '../../components/AddToCollectionControls.tsx';
 import {
   useManageScroll,
   handleContainerClick,
@@ -51,6 +52,45 @@ const BrowseCards = () => {
   }, []);
   
   useManageScroll(isCardCentered, yAxis);
+
+  const insertIntoCollection = async () => {
+    if (!user || !centeredCard) {
+      console.log("FALTA USUARIO O CARTA");
+    } else {
+      const [collection, number] = separateCollectionAndNumber(centeredCard)
+      console.log("Num carta: " + number);
+      console.log("Cantidad de cartas:" + amountOfCard);
+      console.log("id de usuario: " + user._id);
+      console.log("Coleccion: " + collection);
+      if (amountOfCard === 1) {
+        setAmountOfCards(1);
+      }
+      try {
+        const response = await fetch('http://localhost:4022/api/addCardToUser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user._id,
+            cardCollection: collection,
+            collectionNumber: number,
+            cardQuantity: amountOfCard
+          }),
+        });
+        if (response.ok) {
+          await response.json();
+          setAmountOfCards(count);
+        } else {
+          console.log("Error en el if response");
+          console.log(response);
+          throw new Error('Error al obtener los datos');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  }
 
   const theme = createTheme({
     palette: {
@@ -184,6 +224,23 @@ const BrowseCards = () => {
           handleCardClick={(collectionName: string, cardNumber: string) => handleCardClick(collectionName, cardNumber, setCenteredCard, setIsCardCentered, setControls, setYAxis)}
         />
       </main>
+      {isCardCentered && (
+        <Controls
+          count={count}
+          setCount={setCount}
+          amountOfCard={amountOfCard}
+          setAmountOfCards={setAmountOfCards}
+          centeredCard={centeredCard}
+          setCenteredCard={setCenteredCard}
+          setIsCardCentered={setIsCardCentered}
+          insertIntoCollection={insertIntoCollection}
+          handleDecrement={handleDecrement}
+          handleIncrement={handleIncrement}
+          handleChange={handleChange}
+          handleContainerClick={handleContainerClick}
+          removeControls={removeControls}
+        />
+      )}
     </ThemeProvider>
   );
 };

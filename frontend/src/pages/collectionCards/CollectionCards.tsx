@@ -5,6 +5,7 @@ import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import { User } from '../../types/User.ts';
 import Header from '../../components/Header.tsx';
 import CardsScroll from '../../components/CardsScroll.tsx';
+import Controls from '../../components/AddToCollectionControls.tsx';
 import {
   useManageScroll,
   handleContainerClick,
@@ -15,6 +16,7 @@ import {
   handleIncrement,
   handleChange
 } from '../../scripts/cardsControlls.ts';
+import separateCollectionAndNumber from '../../scripts/separateCollectionAndNumber.ts';
 
 const CollectionCards = () => {
   const { collectionName } = useParams();
@@ -55,15 +57,16 @@ const CollectionCards = () => {
 
   useManageScroll(isCardCentered, yAxis);
 
-  const insertIntoCollection = async() => {
-    if(!user || !centeredCard){
+  const insertIntoCollection = async () => {
+    if (!user || !centeredCard) {
       console.log("FALTA USUARIO O CARTA");
     } else {
       console.log("Num carta: " + centeredCard);
       console.log("Cantidad de cartas:" + amountOfCard);
       console.log("id de usuario: " + user._id);
       console.log("Coleccion: " + collectionName);
-      if(amountOfCard === 1){
+      const [collection, number] = separateCollectionAndNumber(centeredCard)
+      if (amountOfCard === 1 || amountOfCard === 0) {
         setAmountOfCards(1);
       }
       try {
@@ -74,8 +77,8 @@ const CollectionCards = () => {
           },
           body: JSON.stringify({
             userId: user._id,
-            cardCollection: collectionName,
-            collectionNumber: centeredCard,
+            cardCollection: collection,
+            collectionNumber: number,
             cardQuantity: amountOfCard
           }),
         });
@@ -108,44 +111,23 @@ const CollectionCards = () => {
         />
         {isCardCentered && <div className="overlay"></div>}
       </main>
-      <div id='controls' className='fixed w-full h-full top-0 hidden'>
-        <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>
-        <div className="absolute w-full top-60 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-50 margen60">
-          <div className="flex flex-row items-center mb-3">
-            <div className='w-20 h-20 text-center'>
-              <button
-                onClick={() => handleDecrement(count, setCount, setAmountOfCards)}
-                className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-black rounded shadow">
-                -
-              </button>
-            </div>
-            <div className='w-60 h-20 text-center'>
-              <input
-                type="number"
-                value={count}
-                onChange={(e) => handleChange(e, setCount)}
-                className='w-60 h-10 text-center bg-white border border-gray-300 rounded'
-                min="1"
-                max="99"
-              />
-            </div>
-            <div className='w-20 h-20 text-center'>
-              <button
-                onClick={() => handleIncrement(count, setCount, setAmountOfCards)}
-                className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-black rounded shadow">
-                +
-              </button>
-            </div>
-          </div>
-          <div className='w-50 h-10'>
-            <button 
-              onClick={insertIntoCollection}
-              className="bg-red-900 hover:bg-red-700 text-white font-semibold py-2 px-20 border border-black rounded shadow">
-              Añadir
-            </button>
-          </div>
-        </div>
-      </div>
+      {isCardCentered && (
+        <Controls
+          count={count}
+          setCount={setCount}
+          amountOfCard={amountOfCard}
+          setAmountOfCards={setAmountOfCards}
+          centeredCard={centeredCard}
+          setCenteredCard={setCenteredCard}
+          setIsCardCentered={setIsCardCentered}
+          insertIntoCollection={insertIntoCollection}
+          handleDecrement={handleDecrement}
+          handleIncrement={handleIncrement}
+          handleChange={handleChange}
+          handleContainerClick={handleContainerClick}
+          removeControls={removeControls}
+        />
+      )}
     </Fragment>
   );
 };
