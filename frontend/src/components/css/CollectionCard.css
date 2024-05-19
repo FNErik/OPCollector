@@ -20,5 +20,5 @@
     border-radius: 0.5em;
     content: "x" attr(data-quantity);
     border: 1px solid;
-    z-index: 20;
+    z-index: 18;
 }

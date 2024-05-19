@@ -7,9 +7,7 @@ import { autocompleteClasses } from '@mui/material/Autocomplete';
 
 const Root = styled('div')(
   ({ theme }) => `
-  color: ${
-    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
-  };
+  color: ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'};
   font-size: 14px;
 `,
 );
@@ -41,9 +39,7 @@ const InputWrapper = styled('div')(
 
   & input {
     background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
-    color: ${
-      theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
-    };
+    color: ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'};
     height: 30px;
     box-sizing: border-box;
     padding: 4px 6px;
@@ -77,9 +73,7 @@ const StyledTag = styled(Tag)<TagProps>(
   height: 24px;
   margin: 2px;
   line-height: 22px;
-  background-color: ${
-    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#fafafa'
-  };
+  background-color: ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#fafafa'};
   border: 1px solid ${theme.palette.mode === 'dark' ? '#303030' : '#e8e8e8'};
   border-radius: 2px;
   box-sizing: content-box;
@@ -117,7 +111,7 @@ const Listbox = styled('ul')(
   max-height: 250px;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1;
+  z-index: 20;
 
   & li {
     padding: 5px 12px;
@@ -178,16 +172,17 @@ export default function CustomizedHook() {
       <div {...getRootProps()}>
         <Label {...getInputLabelProps()}>Color</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-          {value.map((option, index: number) => (
-            <StyledTag label={option} {...getTagProps({ index })} />
-          ))}
+          {value.map((option, index: number) => {
+            const { key, ...tagProps } = getTagProps({ index });
+            return <StyledTag key={key} label={option} {...tagProps} />;
+          })}
           <input {...getInputProps()} />
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
           {(groupedOptions as typeof colors).map((option, index) => (
-            <li {...getOptionProps({ option, index })}>
+            <li key={index} {...getOptionProps({ option, index })}>
               <span>{option}</span>
               <CheckIcon fontSize="small" />
             </li>
