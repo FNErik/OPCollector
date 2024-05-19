@@ -88,37 +88,53 @@ async function deleteCard(req,res){
     console.log("Obteniendo tarea")
 }
 
-async function filterCard(req, res){
+async function filterCard(req, res) {
     try {
-        const { 
+        const {
             name,
-            type, 
-            cardCollection, 
-            collectionNumber, 
-            color, 
-            rarity } = req.body;
-
-        const filter = {};
-        if (name) filter.name = { $regex: new RegExp(name, 'i') };
+            type,
+            cardCollection,
+            collectionNumber,
+            color,
+            rarity,
+        } = req.body;
+  
+        const filter = {
+        // Excluir resultados que contengan 'placeholder' en cualquier campo
+            name: { $not: /placeholder/i },
+            type: { $not: /placeholder/i },
+            cardCollection: { $not: /placeholder/i },
+            collectionNumber: { $not: /placeholder/i },
+            color: { $not: /placeholder/i },
+            rarity: { $not: /placeholder/i }
+        };
+    
+        if (name) filter.name.$regex = new RegExp(name, 'i');
         if (Array.isArray(type) && type.length > 0) {
-            filter.type = { $regex: new RegExp(type.join('|'), 'i') };
-        }        
-        if (cardCollection) filter.cardCollection = { $regex: new RegExp(cardCollection, 'i') };
-        if (collectionNumber) filter.collectionNumber = collectionNumber;
+            filter.type.$regex = new RegExp(type.join('|'), 'i');
+        }
+        if (cardCollection) filter.cardCollection.$regex = new RegExp(cardCollection, 'i');
+        if (collectionNumber) {
+            filter.collectionNumber = collectionNumber; // Número exacto
+            filter.collectionNumber.$not = /placeholder/i;
+        } else {
+            filter.collectionNumber = { $not: /placeholder/i };
+        }
         if (Array.isArray(color) && color.length > 0) {
-            filter.color = { $regex: new RegExp(color.join('|'), 'i') };
-        }        
+            filter.color.$regex = new RegExp(color.join('|'), 'i');
+        }
         if (Array.isArray(rarity) && rarity.length > 0) {
-            filter.rarity = { $regex: new RegExp(rarity.join('|'), 'i') };
-        }        
+            filter.rarity.$regex = new RegExp(rarity.join('|'), 'i');
+        }
+    
         const cards = await Card.find(filter);
-            console.log(filter);
+        console.log(filter);
         res.json(cards);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json(error);
-      }
-}
+    } catch (error) {
+            console.error(error);
+            res.status(500).json(error);
+        }
+}  
 
 async function getDistinctCollections(req, res) {
     try {
