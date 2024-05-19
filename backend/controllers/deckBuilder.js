@@ -72,8 +72,24 @@ async function deleteDecks(req,res){
     }
 }
 
+async function getUserDecks(req,res){
+    try {
+        const userId = req.body.user;
+        const decks = await DeckBuilder.findOne({user: userId}).sort({created_at: -1});
+        if(!decks){
+            res.status(400).send({msg:"Error al obtener los mazos"})
+        }else{
+            res.status(200).send(decks);
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+}
+
 module.exports = {
     addNewDeck,
     getDecks,
     deleteDecks,
+    getUserDecks,
 }

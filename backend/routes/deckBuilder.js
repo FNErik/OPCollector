@@ -5,6 +5,7 @@ const api = express.Router();
 
 api.post("/deckBuilder", deckBuilderContoller.addNewDeck);
 api.get("/deckBuilder", deckBuilderContoller.getDecks);
+api.post("/deckBuilder/getUserDecks", deckBuilderContoller.getUserDecks);
 
 
 module.exports = api;
