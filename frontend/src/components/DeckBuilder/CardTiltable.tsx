@@ -8,6 +8,7 @@ interface Props {
     cardNumber: string;
     handleClick: () => void;
     userHasCard: boolean;
+    cardIsInDeck?: boolean
 }
 
 const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard }: Props) => {
@@ -25,6 +26,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard
                 style={{
                     borderRadius: '0.5rem',
                     width: 'auto',
+                    cursor: 'pointer'
                 }}
             >
                 <img
