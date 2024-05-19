@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validateFormData from '../../scripts/validateFormData.ts';
 import ImageCarousel from '../../components/ImageCarrousel.tsx';
 import OPCollectorLogo from '../../components/OPCollectorLogo.tsx';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props: any) {
   return (
@@ -35,12 +36,13 @@ const theme = createTheme({
   },
 });
 
-export default function SignInSide() {
+
+export default function Login() {
+    const navigate = useNavigate();
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         const inputs = document.querySelectorAll('input');
-    
         const formValidation = validateFormData(inputs);
         if(!Array.isArray(formValidation)){
             try {
@@ -64,6 +66,7 @@ export default function SignInSide() {
                     if (storedUser !== null) {
                         const user = JSON.parse(storedUser);
                         console.log(user);
+                        navigate("/my-collection")
                     } else {
                         console.error("No se encontraron datos de usuario en el almacenamiento local");
                     }
