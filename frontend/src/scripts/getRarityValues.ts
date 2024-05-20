@@ -15,7 +15,7 @@ export default function getRarityValues(rarities){
                 rarityValues.push("SR")
                 break;
             case 'Secret':
-                rarityValues.push("SC")
+                rarityValues.push("SEC")
                 break;
             case 'Promotional':
                 rarityValues.push("P")
