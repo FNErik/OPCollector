@@ -10,12 +10,14 @@ import BrowseCards from './pages/browseCards/BrowseCards.tsx';
 import UserCollection from './pages/userCollection/UserCollection.tsx';
 import DeckBuilder from './pages/deckBuilder/DeckBuilder.tsx';
 import NewDeck from './pages/newDeck/NewDeck.tsx';
+import Test from './pages/TEST/Test.tsx';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/test" element={<Test />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/collections/:collectionName" element={<CollectionCards/>} />
         <Route path="/browse-cards" element={<BrowseCards />} />

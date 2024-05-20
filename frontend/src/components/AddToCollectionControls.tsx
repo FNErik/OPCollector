@@ -13,7 +13,8 @@ interface ControlsProps {
   handleIncrement: (count: number, setCount: (count: number) => void, setAmountOfCards: (amount: number) => void) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>, setCount: (count: number) => void) => void;
   handleContainerClick: (centeredCard: string | null, setCenteredCard: (card: string | null) => void, removeControls: () => void, setIsCardCentered: (centered: boolean) => void) => void;
-  removeControls: () => void; // Añadir removeControls como prop
+  removeControls: () => void;
+  showPrice?: () => void;
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -29,8 +30,10 @@ const Controls: React.FC<ControlsProps> = ({
   handleIncrement,
   handleChange,
   handleContainerClick,
-  removeControls // Recibir removeControls como prop
+  removeControls,
+  showPrice,
 }) => {
+  showPrice &&  showPrice();
   return (
     <div id='controls' className='fixed w-full h-full top-0'>
       <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>

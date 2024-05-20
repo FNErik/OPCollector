@@ -96,6 +96,12 @@ const CollectionCards = () => {
     }
   };
 
+  const showPrice = async () => {
+    console.log("SHOW PRICE")
+    console.log(centeredCard);
+    
+  }
+
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -126,6 +132,7 @@ const CollectionCards = () => {
           handleChange={handleChange}
           handleContainerClick={handleContainerClick}
           removeControls={removeControls}
+          showPrice={showPrice}
         />
       )}
     </Fragment>
