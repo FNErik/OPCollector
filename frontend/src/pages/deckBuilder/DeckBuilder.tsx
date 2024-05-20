@@ -68,7 +68,9 @@ const DeckBuilder = () => {
                     <div className='border border-black w-full h-80 flex overflow-y-auto flex-wrap'>
                         {
                         userDecks && userDecks.map((deck, index) => (
-                            <h1 key={index}>Mazo {index}</h1>
+                            <Link to={`/deck-builder/${deck._id}`} key={index}>
+                                <h1 key={index}>Mazo {index}</h1>
+                            </Link>
                         ))
                         }
                     </div>

@@ -176,7 +176,7 @@ const NewDeck = () => {
                     collectionNumber: card.collectionNumber,
                     quantity: card.quantity
                 }));
-    
+                
                 const response = await fetch('http://localhost:4022/api/addNewDeck', {
                     method: 'POST',
                     headers: {
