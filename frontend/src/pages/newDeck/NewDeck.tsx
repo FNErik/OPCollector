@@ -10,8 +10,10 @@ import CardTiltable from '../../components/DeckBuilder/CardTiltable.tsx';
 import CardColorAutocomplete from '../../components/InputsCardBrowser/CardColorAutocomplete.tsx';
 import getColorsFromElements from '../../scripts/getColorsFromElements.ts';
 import getUserCollectionObject from '../../scripts/getUserCollectionObject.ts';
+import { useNavigate } from 'react-router-dom';
 
 const NewDeck = () => {
+    const navigate = useNavigate();
     const user: User | null = getCurrentUser();
     const [loading, setLoading] = useState(true);
     const [restrictedMode, setRestrictedMode] = useState(true);
@@ -162,6 +164,7 @@ const NewDeck = () => {
         }
     };
     const saveDeckToDatabase = async () => {
+        
         try {
             if(!user){}else{
                 const userId = user._id;
@@ -188,6 +191,7 @@ const NewDeck = () => {
                     const jsonData = await response.json();
                     console.log(jsonData);
                     alert('Mazo guardado exitosamente');
+                    navigate("/deck-builder")
                 } else {
                     throw new Error('Error al guardar el mazo');
                 }
