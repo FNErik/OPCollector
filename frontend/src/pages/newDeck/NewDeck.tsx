@@ -24,6 +24,7 @@ const NewDeck = () => {
     const [selectedLeader, setSelectedLeader] = useState<any>();
     const [deck, setDeck] = useState<any>([]);
     const [deckName, setDeckName] = useState("");
+    const [totalCardsInDeck, setTotalCardsInDeck] = useState(0);
 
     useEffect(() => {
         const fetchCollection = async () => {
@@ -117,6 +118,14 @@ const NewDeck = () => {
         setUserAvailableCards(getUserCollectionObject(availableCards, userCollection));
     }, [availableCards]);
 
+    useEffect(() => {
+        let total = 0;
+        for (const card of deck) {
+            total += card.quantity;
+        }
+        setTotalCardsInDeck(total);
+    }, [deck]);
+
     const handleAddCardToDeck = (card) => {
         const cardIndex = deck.findIndex(deckCard => deckCard._id === card._id);
         let updatedDeck = [...deck];
@@ -138,8 +147,6 @@ const NewDeck = () => {
         }
         
         setDeck(updatedDeck);
-        console.log("AÑADIENDO A MAZO");
-        console.log(updatedDeck);
     };
 
     const handleRemoveCardFromDeck = (card) => {
@@ -152,11 +159,8 @@ const NewDeck = () => {
                 updatedDeck.splice(cardIndex, 1);
             }
             setDeck(updatedDeck);
-            console.log("REMOVIENDO DEL MAZO");
-            console.log(updatedDeck);
         }
     };
-
     const saveDeckToDatabase = async () => {
         try {
             if(!user){}else{
@@ -191,6 +195,12 @@ const NewDeck = () => {
             }
         } catch (error) {
             console.error('Error:', error);
+        }
+    };
+    
+    const removeAllCardsFromDeck = () => {
+        if (window.confirm('¿Estás seguro de que deseas eliminar todas las cartas del mazo?')) {
+            setDeck([]);
         }
     };
 
@@ -257,13 +267,13 @@ const NewDeck = () => {
                                     <div className='w-80 mr-5'>
                                         <p>Leader: {selectedLeader.name}</p>
                                         <TextField
-                                        label="Deck name"
-                                        variant="standard"
-                                        InputLabelProps={{ shrink: true, style: { fontSize: '18px', color: '#444444' } }}
-                                        style={{ width: '100%' }}
-                                        onChange={(e) => setDeckName(e.target.value)}
-                                        value={deckName}
-                                        placeholder='Enter the deck name here'
+                                            label="Deck name"
+                                            variant="standard"
+                                            InputLabelProps={{ shrink: true, style: { fontSize: '18px', color: '#444444' } }}
+                                            style={{ width: '100%' }}
+                                            onChange={(e) => setDeckName(e.target.value)}
+                                            value={deckName}
+                                            placeholder='Enter the deck name here'
                                         /> 
                                     </div>
                                     <Switch
@@ -299,7 +309,15 @@ const NewDeck = () => {
                                     })}
                                 </div>
                                 <div className='w-1/4 bg-red-200 p-4'>
-                                    <h3 className='text-xl font-semibold'>Deck</h3>
+                                    <div className='flex items-center justify-between mb-2'>
+                                        <h3 className='text-xl font-semibold'>Deck ({totalCardsInDeck})</h3>
+                                        <button 
+                                            className='bg-red-500 text-white px-2 py-1 rounded'
+                                            onClick={removeAllCardsFromDeck}
+                                        >
+                                            Remove All
+                                        </button>
+                                    </div>
                                     {deck.map(card => (
                                         <div key={card._id} className='flex items-center justify-between'>
                                             <span>{card.name} - x{card.quantity.toString().padStart(2, '0')}</span>
