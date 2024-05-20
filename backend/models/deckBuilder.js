@@ -36,10 +36,5 @@ const deckBuilder = Schema ({
     }]
 });
 
-function arrayLimit(val) {
-    return val.length <= 50;
-}
-
-deckBuilder.path('decks.deck').validate(arrayLimit, '{PATH} exceeds the limit of 50');
 
 module.exports = mongoose.model('Deck', deckBuilder);

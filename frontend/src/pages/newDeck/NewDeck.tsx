@@ -164,9 +164,9 @@ const NewDeck = () => {
         }
     };
     const saveDeckToDatabase = async () => {
-        
         try {
-            if(!user){}else{
+            if (!user) {
+            } else {
                 const userId = user._id;
                 const leadId = selectedLeader._id;
                 const cardIdsArray = deck.map(card => ({
@@ -180,7 +180,7 @@ const NewDeck = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                         userId: userId,
                         deckName: deckName,
                         leadId: leadId,
@@ -195,12 +195,12 @@ const NewDeck = () => {
                 } else {
                     throw new Error('Error al guardar el mazo');
                 }
-                
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
+    
     
     const removeAllCardsFromDeck = () => {
         if (window.confirm('¿Estás seguro de que deseas eliminar todas las cartas del mazo?')) {
