@@ -8,7 +8,7 @@ const deckBuilder = Schema ({
         required: true,
     },
     decks: [{
-        deck: [{
+        deck: {
             name: {
                 type: String,
                 required: true,
@@ -32,8 +32,7 @@ const deckBuilder = Schema ({
                     default: 1 
                 }
             }]
-           
-        }]
+        }
     }]
 });
 
