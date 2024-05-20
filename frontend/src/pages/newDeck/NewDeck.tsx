@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import Switch from '@mui/material/Switch';
 import { User } from '../../types/User.ts';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import Header from '../../components/Header.tsx';
+import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import AuthNeeded from '../../components/UserNotLogged/AuthNeeded.tsx';
 import CardTiltable from '../../components/DeckBuilder/CardTiltable.tsx';
@@ -147,10 +147,10 @@ const NewDeck = () => {
         } else {
             updatedDeck.push({ ...card, quantity: 1 });
         }
-        
+
         setDeck(updatedDeck);
         console.log(updatedDeck);
-        
+
     };
 
     const handleRemoveCardFromDeck = (card) => {
@@ -165,6 +165,7 @@ const NewDeck = () => {
             setDeck(updatedDeck);
         }
     };
+
     const saveDeckToDatabase = async () => {
         try {
             if (!user) {
@@ -176,7 +177,7 @@ const NewDeck = () => {
                     collectionNumber: card.collectionNumber,
                     quantity: card.quantity
                 }));
-                
+
                 const response = await fetch('http://localhost:4022/api/addNewDeck', {
                     method: 'POST',
                     headers: {
@@ -202,8 +203,8 @@ const NewDeck = () => {
             console.error('Error:', error);
         }
     };
-    
-    
+
+
     const removeAllCardsFromDeck = () => {
         if (window.confirm('¿Estás seguro de que deseas eliminar todas las cartas del mazo?')) {
             setDeck([]);
@@ -266,6 +267,7 @@ const NewDeck = () => {
                     </Fragment>
                 ) : (
                     <Fragment>
+                        {/* TODO: THEME PROVIDER EN VEZ DE FRAGMENT */}
                         <div className='w-full'>
                             <div className='w-full mb-5 ml-20 pl-4'>
                                 <p className='text-2xl font-semibold'>Build your Deck</p>
@@ -280,7 +282,7 @@ const NewDeck = () => {
                                             onChange={(e) => setDeckName(e.target.value)}
                                             value={deckName}
                                             placeholder='Enter the deck name here'
-                                        /> 
+                                        />
                                     </div>
                                     <Switch
                                         checked={restrictedMode}
@@ -309,7 +311,7 @@ const NewDeck = () => {
                                                 cardNumber={card.collectionNumber}
                                                 handleClick={() => handleAddCardToDeck(card)}
                                                 userHasCard={card.hasCard}
-                                                cardIsInDeck={false}
+                                                quantity={0}
                                             />
                                         );
                                     })}
@@ -317,7 +319,7 @@ const NewDeck = () => {
                                 <div className='w-1/4 bg-red-200 p-4'>
                                     <div className='flex items-center justify-between mb-2'>
                                         <h3 className='text-xl font-semibold'>Deck ({totalCardsInDeck})</h3>
-                                        <button 
+                                        <button
                                             className='bg-red-500 text-white px-2 py-1 rounded'
                                             onClick={removeAllCardsFromDeck}
                                         >
@@ -327,7 +329,7 @@ const NewDeck = () => {
                                     {deck.map(card => (
                                         <div key={card._id} className='flex items-center justify-between'>
                                             <span>{card.name} - x{card.quantity.toString().padStart(2, '0')}</span>
-                                            <button 
+                                            <button
                                                 className='bg-red-500 text-white px-2 py-1 rounded ml-4'
                                                 onClick={() => handleRemoveCardFromDeck(card)}
                                             >

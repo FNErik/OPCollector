@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
-//import './../css/CollectionCard.css';
+import './../css/CollectionCard.css';
 
 interface Props {
     id: string;
@@ -8,14 +8,15 @@ interface Props {
     cardNumber: string;
     handleClick: () => void;
     userHasCard: boolean;
-    cardIsInDeck?: boolean
+    quantity?: number
 }
 
-const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard }: Props) => {
+const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard, quantity }: Props) => {
     
     return (
         <div 
-            className={`card-wrapper w-40 m-2`} 
+            className={`card-wrapper w-40 m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`}
+            data-quantity={quantity}
         >
             <Tilt
                 glareEnable={true}
@@ -32,6 +33,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard
                 <img
                     src={`../cards/${collectionName}/${collectionName}-${cardNumber}.png`}
                     alt={`card ${collectionName}-${cardNumber}`}
+                    loading='lazy'
                     className={`object-contain aspect-auto rounded-lg shadow-lg border border-black `}
                     onClick={handleClick}
                     style={{
