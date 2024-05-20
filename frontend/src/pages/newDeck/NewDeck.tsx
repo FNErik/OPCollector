@@ -149,6 +149,8 @@ const NewDeck = () => {
         }
         
         setDeck(updatedDeck);
+        console.log(updatedDeck);
+        
     };
 
     const handleRemoveCardFromDeck = (card) => {
