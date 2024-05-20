@@ -166,43 +166,47 @@ const NewDeck = () => {
         }
     };
 
-    const saveDeckToDatabase = async () => {
-        try {
-            if (!user) {
-            } else {
-                const userId = user._id;
-                const leadId = selectedLeader._id;
-                const cardIdsArray = deck.map(card => ({
-                    cardCollection: card.cardCollection,
-                    collectionNumber: card.collectionNumber,
-                    quantity: card.quantity
-                }));
+ const saveDeckToDatabase = async () => {
+    try {
+        if (!user) {
+        } else {
+            const userId = user._id;
+            const lead = {
+                cardCollection: selectedLeader.cardCollection,
+                collectionNumber: selectedLeader.collectionNumber
+            };
+            const cardIdsArray = deck.map(card => ({
+                cardCollection: card.cardCollection,
+                collectionNumber: card.collectionNumber,
+                quantity: card.quantity
+            }));
 
-                const response = await fetch('http://localhost:4022/api/addNewDeck', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        userId: userId,
-                        deckName: deckName,
-                        leadId: leadId,
-                        cardIdsArray: cardIdsArray
-                    }),
-                });
-                if (response.ok) {
-                    const jsonData = await response.json();
-                    console.log(jsonData);
-                    alert('Mazo guardado exitosamente');
-                    navigate("/deck-builder")
-                } else {
-                    throw new Error('Error al guardar el mazo');
-                }
+            const response = await fetch('http://localhost:4022/api/addNewDeck', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                    deckName: deckName,
+                    lead: lead,
+                    cardIdsArray: cardIdsArray
+                }),
+            });
+            if (response.ok) {
+                const jsonData = await response.json();
+                console.log(jsonData);
+                alert('Mazo guardado exitosamente');
+                navigate("/deck-builder")
+            } else {
+                throw new Error('Error al guardar el mazo');
             }
-        } catch (error) {
-            console.error('Error:', error);
         }
-    };
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
 
 
     const removeAllCardsFromDeck = () => {

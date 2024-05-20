@@ -8,12 +8,12 @@ async function addNewDeck(req, res) {
             res.status(400).send({ msg: "Error, no existe ninguna entrada en deckBuilder para este usuario" });
         } else {
             const deckName = req.body.deckName;
-            const deckLead = req.body.leadId;
+            const lead = req.body.lead;
             const cardList = req.body.cardIdsArray;
-           
+
             const newDeck = {
                 name: deckName,
-                lead: deckLead,
+                lead: lead,
                 cards: cardList,
             };
 
@@ -33,6 +33,7 @@ async function addNewDeck(req, res) {
         res.status(500).send(error);
     }
 }
+
 
 
 
