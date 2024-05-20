@@ -4,6 +4,7 @@ import Switch from '@mui/material/Switch';
 import { User } from '../../types/User.ts';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import Header from '../../components/Header.tsx';
+import TextField from '@mui/material/TextField';
 import AuthNeeded from '../../components/UserNotLogged/AuthNeeded.tsx';
 import CardTiltable from '../../components/DeckBuilder/CardTiltable.tsx';
 import CardColorAutocomplete from '../../components/InputsCardBrowser/CardColorAutocomplete.tsx';
@@ -22,6 +23,7 @@ const NewDeck = () => {
     const [userCollection, setCollection] = useState<any[]>([]);
     const [selectedLeader, setSelectedLeader] = useState<any>();
     const [deck, setDeck] = useState<any>([]);
+    const [deckName, setDeckName] = useState("");
 
     useEffect(() => {
         const fetchCollection = async () => {
@@ -155,6 +157,43 @@ const NewDeck = () => {
         }
     };
 
+    const saveDeckToDatabase = async () => {
+        try {
+            if(!user){}else{
+                const userId = user._id;
+                const leadId = selectedLeader._id;
+                const cardIdsArray = deck.map(card => ({
+                    cardCollection: card.cardCollection,
+                    collectionNumber: card.collectionNumber,
+                    quantity: card.quantity
+                }));
+    
+                const response = await fetch('http://localhost:4022/api/addNewDeck', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        userId: userId,
+                        deckName: deckName,
+                        leadId: leadId,
+                        cardIdsArray: cardIdsArray
+                    }),
+                });
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    console.log(jsonData);
+                    alert('Mazo guardado exitosamente');
+                } else {
+                    throw new Error('Error al guardar el mazo');
+                }
+                
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <Fragment>
             <Header user={user} />
@@ -217,12 +256,27 @@ const NewDeck = () => {
                                 <div className='flex items-end'>
                                     <div className='w-80 mr-5'>
                                         <p>Leader: {selectedLeader.name}</p>
+                                        <TextField
+                                        label="Deck name"
+                                        variant="standard"
+                                        InputLabelProps={{ shrink: true, style: { fontSize: '18px', color: '#444444' } }}
+                                        style={{ width: '100%' }}
+                                        onChange={(e) => setDeckName(e.target.value)}
+                                        value={deckName}
+                                        placeholder='Enter the deck name here'
+                                        /> 
                                     </div>
                                     <Switch
                                         checked={restrictedMode}
                                         onChange={() => setRestrictedMode(!restrictedMode)}
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
+                                    <button
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+                                        onClick={saveDeckToDatabase}
+                                    >
+                                        Save Deck
+                                    </button>
                                 </div>
                             </div>
                             <div className='w-full flex'>

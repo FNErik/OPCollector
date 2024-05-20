@@ -1,7 +1,7 @@
 const DeckBuilder = require("../models/deckBuilder")
 
 async function addNewDeck(req,res){
-    const userId = req.session.userId;
+    const userId = req.body.userId;
     try {
         let userDeckBuilder = await DeckBuilder.findOne({user: userId});
         if (!userDeckBuilder) {
