@@ -50,6 +50,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick,
                 <img
                     src={`../cards/${collectionName}/${collectionName}-${cardNumber}.png`}
                     alt={`card ${collectionName}-${cardNumber}`}
+                    loading='lazy'
                     className={`object-contain aspect-auto rounded-lg shadow-lg border border-black `}
                     onClick={handleClick}
                     style={{
