@@ -12,12 +12,12 @@ import getUserCollectionObject from '../../scripts/getUserCollectionObject.ts';
 
 const NewDeck = () => {
     const user: User | null = getCurrentUser();
-    const [loading, setLoading] = useState(true); // Estado de carga
+    const [loading, setLoading] = useState(true);
     const [restrictedMode, setRestrictedMode] = useState(true);
     const [leaders, setLeaders] = useState<any>([]);
     const [availableCards, setAvailableCards] = useState<any[]>([]);
     const [userAvailableCards, setUserAvailableCards] = useState<any[]>([]);
-    const [userLeaders, setUserLeaders] = useState<any>([]);
+    const [userLeaders, setUserLeaders] = useState<any[]>([]);
     const [colors, setColors] = useState<string[]>([]);
     const [userCollection, setCollection] = useState<any[]>([]);
     const [selectedLeader, setSelectedLeader] = useState<any>();
@@ -83,9 +83,8 @@ const NewDeck = () => {
     }, [leaders]);
 
     useEffect(() => {
-        console.log(selectedLeader);
         if (selectedLeader) {
-            setLoading(true)
+            setLoading(true);
             const leaderColors = selectedLeader.color.split("/");
             const fetchAvailableCards = async () => {
                 try {
@@ -104,6 +103,8 @@ const NewDeck = () => {
                     }
                 } catch (error) {
                     console.error('Error:', error);
+                } finally {
+                    setLoading(false);
                 }
             };
             fetchAvailableCards();
@@ -111,26 +112,49 @@ const NewDeck = () => {
     }, [selectedLeader]);
 
     useEffect(() => {
-        setUserAvailableCards(getUserCollectionObject(availableCards, userCollection))
-    }, [availableCards])
-
-    useEffect(() => {
-        setLoading(false)
-    }, [userAvailableCards])
+        setUserAvailableCards(getUserCollectionObject(availableCards, userCollection));
+    }, [availableCards]);
 
     const handleAddCardToDeck = (card) => {
-        console.log("AÑADIENDO A MAZO");
-        console.log(deck);
-        let updatedDeck = deck;
-        updatedDeck.push(card);
-        setDeck(updatedDeck);
-    }
+        const cardIndex = deck.findIndex(deckCard => deckCard._id === card._id);
+        let updatedDeck = [...deck];
+        let totalCards = deck.reduce((acc, deckCard) => acc + deckCard.quantity, 0);
 
-    useEffect(() => {
-        console.log("UPDATEADO");
-        console.log(deck);
-    }, [deck])
-    
+        if (totalCards >= 50) {
+            alert('No puedes añadir más de 50 cartas al mazo');
+            return;
+        }
+
+        if (cardIndex > -1) {
+            if (updatedDeck[cardIndex].quantity >= 4) {
+                alert('No puedes añadir más de 4 cartas iguales');
+                return;
+            }
+            updatedDeck[cardIndex].quantity += 1;
+        } else {
+            updatedDeck.push({ ...card, quantity: 1 });
+        }
+        
+        setDeck(updatedDeck);
+        console.log("AÑADIENDO A MAZO");
+        console.log(updatedDeck);
+    };
+
+    const handleRemoveCardFromDeck = (card) => {
+        const cardIndex = deck.findIndex(deckCard => deckCard._id === card._id);
+        if (cardIndex > -1) {
+            let updatedDeck = [...deck];
+            if (updatedDeck[cardIndex].quantity > 1) {
+                updatedDeck[cardIndex].quantity -= 1;
+            } else {
+                updatedDeck.splice(cardIndex, 1);
+            }
+            setDeck(updatedDeck);
+            console.log("REMOVIENDO DEL MAZO");
+            console.log(updatedDeck);
+        }
+    };
+
     return (
         <Fragment>
             <Header user={user} />
@@ -220,8 +244,19 @@ const NewDeck = () => {
                                         );
                                     })}
                                 </div>
-                                <div className='w-1/4 bg-red-200 h-20'>
-
+                                <div className='w-1/4 bg-red-200 p-4'>
+                                    <h3 className='text-xl font-semibold'>Deck</h3>
+                                    {deck.map(card => (
+                                        <div key={card._id} className='flex items-center justify-between'>
+                                            <span>{card.name} - x{card.quantity.toString().padStart(2, '0')}</span>
+                                            <button 
+                                                className='bg-red-500 text-white px-2 py-1 rounded ml-4'
+                                                onClick={() => handleRemoveCardFromDeck(card)}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
