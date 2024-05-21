@@ -264,7 +264,7 @@ const NewDeck = () => {
                                 <p className='text-2xl font-semibold'>Build your Deck</p>
                                 <div className='flex items-end'>
                                     <div className='w-80 mr-5'>
-                                        <p>Leader: {}</p>
+                                        <p>Leader: {selectedLeader.name}</p>
                                         <TextField
                                             label="Deck name"
                                             variant="standard"
