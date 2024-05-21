@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../types/User.ts";
 import getCurrentUser from "../../scripts/getCurrentUser.ts";
 import Header from "../../components/Header.tsx";
@@ -15,6 +15,7 @@ const MyDeck = () => {
     const [selectedDeck, setSelectedDeck] = useState<any>();
     const [loading, setLoading] = useState(true); // Estado de carga
     const [deckName, setDeckName] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -112,11 +113,38 @@ const MyDeck = () => {
                                             placeholder='Enter the deck name here'
                                         />
                                     </div>
-                                    {/* <Switch 
-                                        checked={restrictedMode}
-                                        onChange={() => setRestrictedMode(!restrictedMode)}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    /> */}
+                                    <button
+                                        className='
+                                        px-10 py-2 ml-5 flex justify-center items-center
+                                        text-white rounded bg-red-500 transition-colors
+                                        hover:bg-red-600
+                                        active:bg-red-700'
+                                        onClick={() => navigate("/deck-builder/edit/" + deckId)}
+                                    >
+                                        Edit deck
+                                    </button>
+                                    <button
+                                        className='
+                                        px-10 py-2 ml-5 flex justify-center items-center
+                                        text-white rounded bg-red-500 transition-colors
+                                        hover:bg-red-600
+                                        active:bg-red-700'
+                                    >
+                                        Export deck
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="w-full flex ml-20 pl-4">
+                                <div>
+                                    <p>Leader: </p>
+                                    <CardTiltable
+                                        key={"leader"}
+                                        id={"leader"}
+                                        collectionName={selectedDeck.deck.lead.cardCollection}
+                                        cardNumber={selectedDeck.deck.lead.collectionNumber}
+                                        handleClick={() => console.log(selectedDeck.deck.lead)}
+                                        userHasCard={true}
+                                    />
                                 </div>
                             </div>
                         </div>

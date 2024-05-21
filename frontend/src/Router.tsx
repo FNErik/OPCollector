@@ -11,6 +11,7 @@ import UserCollection from './pages/userCollection/UserCollection.tsx';
 import DeckBuilder from './pages/deckBuilder/DeckBuilder.tsx';
 import NewDeck from './pages/newDeck/NewDeck.tsx';
 import MyDeck from './pages/myDeck/MyDeck.tsx';
+import EditDeck from './pages/editDeck/EditDeck.tsx';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/deck-builder" element={<DeckBuilder />} />
         <Route path="/deck-builder/new-deck" element={<NewDeck />} />
         <Route path="/deck-builder/:deckId" element={<MyDeck />} />
+        <Route path="/deck-builder/edit/:deckId" element={<EditDeck />} />
       </Routes>
     </Router>
   );
