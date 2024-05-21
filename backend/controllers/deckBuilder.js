@@ -1,4 +1,6 @@
 const DeckBuilder = require("../models/deckBuilder")
+const fs = require('fs');
+const path = require('path');
 
 async function addNewDeck(req, res) {
     const userId = req.body.userId;
@@ -88,9 +90,62 @@ async function getUserDecks(req,res){
     }
 }
 
+const getDeckFormatted = async (req, res) => {
+    try {
+        const { userId, deckId } = req.params;
+
+        // Encuentra el deck DeckBuilder por usuario y deckId
+        const userDeck = await DeckBuilder.findOne({ user: userId, 'decks._id': deckId });
+        if (!userDeck) {
+            return res.status(404).send('Deck no encontrado');
+        }
+
+        // Encuentra el deck específico dentro del array de decks
+        const deck = userDeck.decks.id(deckId).deck;
+        if (!deck) {
+            return res.status(404).send('Deck no encontrado');
+        }
+
+        // Formatea el lead
+        const lead = deck.lead;
+        const leadFormatted = `1x${lead.cardCollection}-${lead.collectionNumber}`;
+
+        // Formatea las cartas
+        const cardsFormatted = deck.cards.map(card => 
+            `${card.quantity}x${card.cardCollection}-${card.collectionNumber}`
+        );
+
+        // Combina el lead y las cartas en el formato solicitado
+        const formattedDeck = [leadFormatted, ...cardsFormatted].join('\n');
+        console.log(cardsFormatted)
+        console.log(formattedDeck)
+        // Define la ruta del archivo temporal
+        const filePath = path.join(__dirname, '..', 'tmp', `deck-${deckId}.deck`);
+
+        // Escribe el contenido formateado en el archivo
+        fs.writeFileSync(filePath, formattedDeck);
+
+        // Envía el archivo como respuesta para su descarga
+        res.download(filePath, `deck-${deckId}.deck`, (err) => {
+            if (err) {
+                console.error('Error al enviar el archivo', err);
+                res.status(500).send('Error al enviar el archivo');
+            } else {
+                // Elimina el archivo después de enviarlo
+                fs.unlinkSync(filePath);
+            }
+        });
+    } catch (error) {
+        console.error('Error al obtener el deck', error);
+        res.status(500).send('Error al obtener el deck');
+    }
+};
+
+
 module.exports = {
     addNewDeck,
     getDecks,
     deleteDecks,
     getUserDecks,
+    getDeckFormatted
 }

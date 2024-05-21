@@ -54,6 +54,36 @@ const MyDeck = () => {
         setLoading(false)
     }, [selectedDeck])
 
+    const handleDownload = async () => {
+        try {
+            if(!user){
+
+            }else{
+                const response = await fetch(`http://localhost:4022/api/getDeckFormatted/${user._id}/${deckId}/download`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    console.log(response);
+                    a.download = `deck-${deckId}.deck`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    console.error('Error al descargar el archivo');
+                }
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud de descarga', error);
+        }
+    }
     return (
         <Fragment>
             <Header user={user} />
@@ -105,6 +135,9 @@ const MyDeck = () => {
                                 );
                             })}
                         </div>
+                        <button onClick={handleDownload}>
+                            Descargar Deck
+                        </button>
                     </Fragment>
                 )}
             </main>
