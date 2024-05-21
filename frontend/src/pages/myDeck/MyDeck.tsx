@@ -7,6 +7,7 @@ import AuthNeeded from "../../components/UserNotLogged/AuthNeeded.tsx";
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import CardTiltable from "../../components/DeckBuilder/CardTiltable.tsx";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const MyDeck = () => {
     const user: User | null = getCurrentUser();
@@ -84,9 +85,19 @@ const MyDeck = () => {
         } catch (error) {
             console.error('Error al realizar la solicitud de descarga', error);
         }
+
     }
+
+    const theme = createTheme({
+        palette: {
+          primary: {
+            main: '#CC3333',
+          },
+        },
+    });
+    
     return (
-        <Fragment>
+        <ThemeProvider theme={theme}>
             <Header user={user} />
             <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
                 {user === null ? (
@@ -169,7 +180,7 @@ const MyDeck = () => {
                     </Fragment>
                 )}
             </main>
-        </Fragment>
+        </ThemeProvider>
     )
 }
 

@@ -8,6 +8,7 @@ import AuthNeeded from '../../components/UserNotLogged/AuthNeeded.tsx';
 import CardTiltable from '../../components/DeckBuilder/CardTiltable.tsx';
 import getUserCollectionObject from '../../scripts/getUserCollectionObject.ts';
 import { useNavigate, useParams } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const NewDeck = () => {
     const navigate = useNavigate();
@@ -248,15 +249,23 @@ const NewDeck = () => {
         }
     };
 
+    const theme = createTheme({
+        palette: {
+          primary: {
+            main: '#CC3333',
+          },
+        },
+      });
+
     return (
-        <Fragment>
+        <ThemeProvider theme={theme}>
             <Header user={user} />
             <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
                 {user === null ? (
                     <AuthNeeded page='deck-builder' />
                 ) : loading ? (
                     <p>Cargando...</p>
-                ): userAvailableCards && selectedDeck && (
+                ): userAvailableCards && selectedDeck && selectedLeader && (
                     <Fragment>
                         {/* TODO: THEME PROVIDER EN VEZ DE FRAGMENT */}
                         <div className='w-full'>
@@ -281,7 +290,11 @@ const NewDeck = () => {
                                         inputProps={{ 'aria-label': 'controlled' }}
                                     />
                                     <button
-                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4"
+                                        className='
+                                        px-10 py-2 ml-5 flex justify-center items-center
+                                        text-white rounded bg-red-500 transition-colors
+                                        hover:bg-red-600
+                                        active:bg-red-700'
                                         onClick={saveDeckToDatabase}
                                     >
                                         Save Deck
@@ -335,7 +348,7 @@ const NewDeck = () => {
                     </Fragment>
                 )}
             </main>
-        </Fragment>
+        </ThemeProvider>
     );
 };
 
