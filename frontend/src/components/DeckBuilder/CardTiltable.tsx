@@ -9,9 +9,10 @@ interface Props {
     handleClick: () => void;
     userHasCard: boolean;
     quantity?: number
+    relativeRoute?: boolean
 }
 
-const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard, quantity }: Props) => {
+const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard, quantity, relativeRoute }: Props) => {
     
     return (
         <div 
@@ -31,7 +32,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard
                 }}
             >
                 <img
-                    src={`../cards/${collectionName}/${collectionName}-${cardNumber}.png`}
+                    src={relativeRoute ? `../../cards/${collectionName}/${collectionName}-${cardNumber}.png` : `../cards/${collectionName}/${collectionName}-${cardNumber}.png`}
                     alt={`card ${collectionName}-${cardNumber}`}
                     loading='lazy'
                     className={`object-contain aspect-auto rounded-lg shadow-lg border border-black `}

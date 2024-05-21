@@ -16,11 +16,9 @@ const NewDeck = () => {
     const [selectedDeck, setSelectedDeck] = useState<any>();
     const user: User | null = getCurrentUser();
     const [loading, setLoading] = useState(true);
-    const [restrictedMode, setRestrictedMode] = useState(true);
-    const [leaders, setLeaders] = useState<any>([]);
+    const [restrictedMode, setRestrictedMode] = useState(false);
     const [availableCards, setAvailableCards] = useState<any[]>([]);
     const [userAvailableCards, setUserAvailableCards] = useState<any[]>([]);
-    const [colors, setColors] = useState<string[]>([]);
     const [userCollection, setCollection] = useState<any[]>([]);
     const [selectedLeader, setSelectedLeader] = useState<any>();
     const [deck, setDeck] = useState<any>([]);
@@ -91,6 +89,8 @@ const NewDeck = () => {
     }, []);
 
     useEffect(() => {
+        if(selectedDeck){
+        setDeck(selectedDeck.deck.cards)
         const fetchLeaders = async () => {
             setLoading(true);
             try {
@@ -99,11 +99,11 @@ const NewDeck = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ rarity: ['L'], color: colors }),
+                    body: JSON.stringify({ cardCollection: selectedDeck.deck.lead.cardCollection, collectionNumber: selectedDeck.deck.lead.collectionNumber }),
                 });
                 if (response.ok) {
-                    const jsonData = await response.json();
-                    setLeaders(jsonData);
+                    const jsonData = await response.json();                  
+                    setSelectedLeader(jsonData[0]);
                 } else {
                     throw new Error('Error al obtener los datos');
                 }
@@ -114,7 +114,8 @@ const NewDeck = () => {
             }
         };
         fetchLeaders();
-    }, [colors]);
+        }
+    }, [selectedDeck]);
 
     useEffect(() => {
         if (selectedLeader) {
@@ -131,6 +132,7 @@ const NewDeck = () => {
                     });
                     if (response.ok) {
                         const jsonData = await response.json();
+                        
                         setAvailableCards(jsonData);
                     } else {
                         throw new Error('Error al obtener los datos');
@@ -148,6 +150,10 @@ const NewDeck = () => {
     useEffect(() => {
         setUserAvailableCards(getUserCollectionObject(availableCards, userCollection));
     }, [availableCards]);
+
+    useEffect(() => {
+        setLoading(false)
+    }, [userAvailableCards]);
 
     useEffect(() => {
         let total = 0;
@@ -250,7 +256,7 @@ const NewDeck = () => {
                     <AuthNeeded page='deck-builder' />
                 ) : loading ? (
                     <p>Cargando...</p>
-                ): (
+                ): userAvailableCards && selectedDeck && (
                     <Fragment>
                         {/* TODO: THEME PROVIDER EN VEZ DE FRAGMENT */}
                         <div className='w-full'>
@@ -265,7 +271,7 @@ const NewDeck = () => {
                                             InputLabelProps={{ shrink: true, style: { fontSize: '18px', color: '#444444' } }}
                                             style={{ width: '100%' }}
                                             onChange={(e) => setDeckName(e.target.value)}
-                                            value={deckName}
+                                            value={selectedDeck.deck.name}
                                             placeholder='Enter the deck name here'
                                         />
                                     </div>
@@ -285,7 +291,7 @@ const NewDeck = () => {
                             <div className='w-full flex'>
                                 <div className='w-3/4 flex justify-center items-center flex-wrap'>
                                     {userAvailableCards.map(card => {
-                                        if (restrictedMode && !card.hasCard) {
+                                        if (restrictedMode && !card.hasCard) {                                           
                                             return null;
                                         }
                                         return (
@@ -297,6 +303,7 @@ const NewDeck = () => {
                                                 handleClick={() => handleAddCardToDeck(card)}
                                                 userHasCard={card.hasCard}
                                                 quantity={0}
+                                                relativeRoute={true}
                                             />
                                         );
                                     })}
