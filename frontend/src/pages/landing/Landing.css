@@ -6,6 +6,14 @@
     background-position-y: -4rem;
 }
 
+.diagonal2{
+  background-image: url("../../images/tournament.jpg");
+  background-repeat: no-repeat;
+  background-position-x: -8rem;
+  background-position-y: -25rem;
+  clip-path: polygon(0 0, 38% 0, 56% 100%, 0% 100%);
+}
+
 .banner-text{
     width: 60%;
     user-select: none;
