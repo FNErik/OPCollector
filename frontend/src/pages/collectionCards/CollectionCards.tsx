@@ -103,7 +103,7 @@ const CollectionCards = () => {
   return (
     <Fragment>
       <Header user={user} />
-      <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
+      <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
         <CardsScroll
           cards={cards}
           centeredCard={centeredCard}

@@ -98,7 +98,7 @@ const MyDeck = () => {
     return (
         <ThemeProvider theme={theme}>
             <Header user={user} />
-            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
+            <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
                 {user === null ? (
                     <AuthNeeded
                         page='deck-builder'

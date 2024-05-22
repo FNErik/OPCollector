@@ -42,7 +42,7 @@ const DeckBuilder = () => {
     return (
         <Fragment>
             <Header user={user} />
-            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
+            <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
             {user === null ? (
                 <AuthNeeded 
                     page='deck-builder'
@@ -65,7 +65,7 @@ const DeckBuilder = () => {
                             </button>
                         </Link>
                     </div>
-                    <div className='border border-black w-full h-80 flex overflow-y-auto flex-wrap'>
+                    <div className='border border-black w-full h-80 flex overflow-y-auto flex-wrap fixed-container'>
                         {
                         userDecks && userDecks.map((deck, index) => (
                             <Link to={`/deck-builder/${deck._id}`} key={index}>

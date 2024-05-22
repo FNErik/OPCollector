@@ -79,7 +79,7 @@ const UserCollection = () => {
   return (
     <Fragment>
       <Header user={user} />
-      <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
+      <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
         {user === null ? (
           <AuthNeeded 
             page='my-collection'
@@ -89,7 +89,6 @@ const UserCollection = () => {
             <p>Cargando...</p>
           ) : (
             <Fragment>
-              
               <MyCollection
                 cards={userCollection}
                 centeredCard={centeredCard}
