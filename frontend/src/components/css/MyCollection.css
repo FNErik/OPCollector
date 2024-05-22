@@ -1,7 +1,9 @@
 .selected{
-    background-color: lightgray;
+    background-color: rgb(229 231 235)
 }
-
+.tab{
+    border-radius: 0.5em 0.5em 0px 0px;
+}
 .collection-tabs::-webkit-scrollbar{
     width: 1px!important;
 }

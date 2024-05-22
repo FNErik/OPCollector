@@ -1,4 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import Switch from '@mui/material/Switch';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CardTiltable from './CardTiltable.tsx';
 import './css/MyCollection.css'
 
@@ -31,23 +33,34 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
         else setDisplayedCards(cards.filter(card => (card.cardCollection === currentCollection) && card.hasCard));
     }, [collections, currentCollection, showMissing]); // eslint-disable-line
     
-    console.log(displayedCards);
+    const theme = createTheme({
+        palette: {
+          primary: {
+            main: '#CC3333',
+          },
+        },
+      });
+
     return (
-        <Fragment>
+        <ThemeProvider theme={theme}>
             <div className='flex w-full justify-between'>
                 <h1 className="text-3xl mb-5">My collection</h1>
-                <label htmlFor="showMissing">
-                    <p>Show missing</p>
-                    <input type="checkbox" name="showMissing" id="showMissing" onChange={() => setShowMissing(!showMissing)}/>
-                </label>
+                <div className='flex items-center justify-center'>
+                    Show missing
+                    <Switch
+                        checked={showMissing}
+                        onChange={() => setShowMissing(!showMissing)}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                </div>
             </div>
-            <div className='w-full border border-black mx-10'>
+            <div className='w-full  mx-10'>
                 <div className='flex overflow-y-auto collection-tabs'>
                     {collections.map(collection => (
                         <Fragment key={collection}>
                             <div
                                 id={collection}
-                                className={`border p-2 mx-1 px-3 border-black user-select-none cursor-pointer ${collection === currentCollection ? 'selected' : ''}`}
+                                className={`bg-gray-100 tab p-2 mx-1 px-3 user-select-none cursor-pointer ${collection === currentCollection ? 'selected' : ''}`}
                                 onClick={() => setCurrentCollection(collection)}
                             >
                                 {collection}
@@ -55,7 +68,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                         </Fragment>
                     ))}
                 </div>
-                <div className='flex flex-wrap overflow-x-auto justify-center fixed-container'>
+                <div className='bg-gray-200 flex flex-wrap overflow-x-auto justify-center fixed-container'>
                     {displayedCards.length > 0 ? displayedCards.map((card, index) => (
                         <CardTiltable 
                             key={index}
@@ -65,14 +78,13 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                             isCentered={centeredCard === `${card.cardCollection}-${card.collectionNumber}`}
                             handleClick={() => handleCardClick(card.cardCollection, card.collectionNumber)}
                             userHasCard={card.hasCard}
-                            quantity={card.quantity}
                         />
                     )) : (
                     <p className='font-medium text-2xl'>You have no cards from this expansion or starter pack</p>
                     )}
                 </div>
             </div>
-        </Fragment>
+        </ThemeProvider>
     );
 };
 
