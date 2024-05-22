@@ -173,11 +173,12 @@ const NewDeck = () => {
         } else {
             const userId = user._id;
             const lead = {
+                cardId: selectedLeader._id,
                 cardCollection: selectedLeader.cardCollection,
                 collectionNumber: selectedLeader.collectionNumber
             };
             const cardIdsArray = deck.map(card => ({
-                cardName: card.name,
+                name: card.name,
                 cardCollection: card.cardCollection,
                 collectionNumber: card.collectionNumber,
                 quantity: card.quantity,

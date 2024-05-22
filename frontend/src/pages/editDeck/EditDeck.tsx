@@ -208,45 +208,39 @@ const NewDeck = () => {
                 alert('User not found');
                 return;
             }
-    
+            console.log(deckId)
             const userId = user._id;
             const lead = {
+                cardId: selectedLeader._id,
                 cardCollection: selectedLeader.cardCollection,
-                collectionNumber: selectedLeader.collectionNumber,
+                collectionNumber: selectedLeader.collectionNumber
             };
             const cardIdsArray = deck.map(card => ({
-                cardName: card.name,
+                name: card.name,
                 cardCollection: card.cardCollection,
                 collectionNumber: card.collectionNumber,
                 quantity: card.quantity,
                 _id: card._id
             }));
-            console.log("MAZO:")
-            console.log(cardIdsArray);
-            
-            const deckData = {
-                deckId,
-                userId,
-                deckName: selectedDeck.deck.name,
-                lead,
-                cardIdsArray: cardIdsArray,
-            };
-    
-            console.log('Sending data to server:', deckData);
-    
-            const response = await fetch('http://localhost:4022/api/saveEditedDeck', {
+
+            const response = await fetch('http://localhost:4022/api/addNewDeck', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(deckData),
+                body: JSON.stringify({
+                    deckId: deckId,
+                    userId: userId,
+                    deckName: deckName,
+                    lead: lead,
+                    cardIdsArray: cardIdsArray
+                }),
             });
-    
             if (response.ok) {
                 const jsonData = await response.json();
                 console.log(jsonData);
                 alert('Mazo guardado exitosamente');
-                navigate("/deck-builder");
+                navigate("/deck-builder")
             } else {
                 throw new Error('Error al guardar el mazo');
             }
@@ -348,7 +342,7 @@ const NewDeck = () => {
                                     </div>
                                     {deck.map(card => (
                                         <div key={card._id} className='flex items-center justify-between'>
-                                            <span>{card.cardName} - x{card.quantity.toString().padStart(2, '0')}</span>
+                                            <span>{card.name}{card.cardName} - x{card.quantity.toString().padStart(2, '0')}</span>
                                             <button
                                                 className='bg-red-500 text-white px-2 py-1 rounded ml-4'
                                                 onClick={() => handleRemoveCardFromDeck(card)}

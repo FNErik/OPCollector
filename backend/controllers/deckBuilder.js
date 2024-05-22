@@ -38,38 +38,62 @@ async function addNewDeck(req, res) {
 
 async function saveEditedDeck(req, res) {
     const userId = req.body.userId;
+    const deckId = req.body.deckId;
+    
     try {
+        // Encuentra el documento del usuario
         let userDeckBuilder = await DeckBuilder.findOne({ user: userId });
-        if (!userDeckBuilder) {
-            return res.status(400).send({ msg: "Error, no existe ninguna entrada en deckBuilder para este usuario" });
-        } 
         
-        const deckId = req.body.deckId;
+        if (!userDeckBuilder) {
+            return res.status(400).send({ msg: "Error, no existe ninguna entrada en DeckBuilder para este usuario" });
+        }
+
+        // Encuentra el índice del mazo a eliminar
+        const deckIndex = userDeckBuilder.decks.findIndex(deck => deck._id.toString() === deckId);
+
+        if (deckIndex === -1) {
+            return res.status(404).send({ msg: "Error, no se ha encontrado el mazo" });
+        }
+
+        // Elimina el mazo del array de mazos
+        userDeckBuilder.decks.splice(deckIndex, 1);
+
+        // Guarda los cambios después de eliminar el mazo
+        const updatedUserDeckList = await userDeckBuilder.save();
+
+        if (!updatedUserDeckList) {
+            return res.status(400).send({ msg: "Error, no se ha podido eliminar el mazo" });
+        }
+
+        // Crear un nuevo mazo
         const deckName = req.body.deckName;
         const lead = req.body.lead;
         const cardList = req.body.cardIdsArray;
 
-        const deckIndex = userDeckBuilder.decks.findIndex(deck => deck._id.toString() === deckId);
-
-        if (deckIndex === -1) {
-            return res.status(400).send({ msg: "Error, no existe un mazo con ese ID" });
-        }
-
-        userDeckBuilder.decks[deckIndex] = {
-            ...userDeckBuilder.decks[deckIndex],
+        const newDeck = {
             name: deckName,
             lead: lead,
             cards: cardList,
         };
 
+        // Agregar el nuevo mazo
+        userDeckBuilder.decks.push({ deck: newDeck });
+
+        // Guarda los cambios con el nuevo mazo añadido
         const saveDeck = await userDeckBuilder.save();
 
-        return res.status(200).send({ DeckBuilder: saveDeck });
+        if (!saveDeck) {
+            return res.status(400).send({ msg: "Error, no se ha podido guardar el nuevo mazo" });
+        } else {
+            return res.status(200).send({ DeckBuilder: saveDeck });
+        }
     } catch (error) {
-        console.log(error);
         return res.status(500).send(error);
     }
 }
+
+
+
 
 
 async function getDecks(req,res){
@@ -86,14 +110,14 @@ async function getDecks(req,res){
 }
 
 async function deleteDecks(req,res){
-    const userId = req.session.userId;
+    const userId = req.body.userId;
     const deckName = req.body.deckName;
     try {
         let userDeckList = await DeckBuilder.findOne({ user: userId });
         if (!userDeckList) {
             return res.status(400).send({ msg: "Error, no existe ninguna entrada en deckBuilder para este usuario" });
         }
-        const deckIndex = userDeckList.decks.findIndex(deck => deck.name === deckName);
+        const deckIndex = userDeckBuilder.decks.findIndex(deck => deck._id.toString() === deckId)
         if (deckIndex === -1) {
             return res.status(400).send({ msg: "Error, no existe el mazo especificado para este usuario" });
         }

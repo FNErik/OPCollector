@@ -19,10 +19,6 @@ const deckBuilder = Schema ({
                     ref: 'Card',
                     required: true,
                 },
-                cardName:{
-                    type: String,
-                    required: true,
-                },
                 cardCollection: {
                     type: String,
                     required: true,
@@ -33,7 +29,7 @@ const deckBuilder = Schema ({
                 }
             },
             cards: [{
-                cardName:{
+                name:{
                     type: String,
                     required: true,
                 },
