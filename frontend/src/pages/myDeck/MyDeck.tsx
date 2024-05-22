@@ -122,7 +122,7 @@ const MyDeck = () => {
                     const a = document.createElement('a');
                     a.href = url;
                     console.log(response);
-                    a.download = `deck-${selectedDeck.deck.name}.deck`;
+                    a.download = `${selectedDeck.deck.name}.deck`;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();

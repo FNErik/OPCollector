@@ -12,7 +12,7 @@ import getColorsFromElements from '../../scripts/getColorsFromElements.ts';
 import getUserCollectionObject from '../../scripts/getUserCollectionObject.ts';
 import { useNavigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+// TODO: EL nombre no puede contener caracteres especiales
 const NewDeck = () => {
     const navigate = useNavigate();
     const user: User | null = getCurrentUser();
