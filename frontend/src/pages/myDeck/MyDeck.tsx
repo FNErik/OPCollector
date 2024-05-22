@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../types/User.ts";
 import getCurrentUser from "../../scripts/getCurrentUser.ts";
 import Header from "../../components/Header.tsx";
@@ -7,6 +7,7 @@ import AuthNeeded from "../../components/UserNotLogged/AuthNeeded.tsx";
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import CardTiltable from "../../components/DeckBuilder/CardTiltable.tsx";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const MyDeck = () => {
     const user: User | null = getCurrentUser();
@@ -15,6 +16,7 @@ const MyDeck = () => {
     const [selectedDeck, setSelectedDeck] = useState<any>();
     const [loading, setLoading] = useState(true); // Estado de carga
     const [deckName, setDeckName] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -83,9 +85,19 @@ const MyDeck = () => {
         } catch (error) {
             console.error('Error al realizar la solicitud de descarga', error);
         }
+
     }
+
+    const theme = createTheme({
+        palette: {
+          primary: {
+            main: '#CC3333',
+          },
+        },
+    });
+    
     return (
-        <Fragment>
+        <ThemeProvider theme={theme}>
             <Header user={user} />
             <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
                 {user === null ? (
@@ -112,11 +124,38 @@ const MyDeck = () => {
                                             placeholder='Enter the deck name here'
                                         />
                                     </div>
-                                    {/* <Switch 
-                                        checked={restrictedMode}
-                                        onChange={() => setRestrictedMode(!restrictedMode)}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    /> */}
+                                    <button
+                                        className='
+                                        px-10 py-2 ml-5 flex justify-center items-center
+                                        text-white rounded bg-red-500 transition-colors
+                                        hover:bg-red-600
+                                        active:bg-red-700'
+                                        onClick={() => navigate("/deck-builder/edit/" + deckId)}
+                                    >
+                                        Edit deck
+                                    </button>
+                                    <button
+                                        className='
+                                        px-10 py-2 ml-5 flex justify-center items-center
+                                        text-white rounded bg-red-500 transition-colors
+                                        hover:bg-red-600
+                                        active:bg-red-700'
+                                    >
+                                        Export deck
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="w-full flex ml-20 pl-4">
+                                <div>
+                                    <p>Leader: </p>
+                                    <CardTiltable
+                                        key={"leader"}
+                                        id={"leader"}
+                                        collectionName={selectedDeck.deck.lead.cardCollection}
+                                        cardNumber={selectedDeck.deck.lead.collectionNumber}
+                                        handleClick={() => console.log(selectedDeck.deck.lead)}
+                                        userHasCard={true}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -141,7 +180,7 @@ const MyDeck = () => {
                     </Fragment>
                 )}
             </main>
-        </Fragment>
+        </ThemeProvider>
     )
 }
 
