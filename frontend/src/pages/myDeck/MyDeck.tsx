@@ -108,11 +108,11 @@ const MyDeck = () => {
                 ) : selectedDeck && ( // Hace falta poner el 'selectedDeck &&' porque si llega antes de estar seteada se caga encima
                 <Fragment>
                         {/* TODO: THEME PROVIDER EN VEZ DE FRAGMENT */}
-                        <div className="w-full">
-                            <div className='w-full mb-5 ml-20 pl-4'>
+                        <div className="w-full flex md:flex-row flex-col">
+                            <div className='mb-5 md:ml-20 pl-4'>
                                 <p className='text-2xl font-semibold mb-5'>View your <span className="text-red-500">deck</span> info</p>
-                                <div className='flex items-end'>
-                                    <div className='w-80 mr-5'>
+                                <div className='flex items-end flex-wrap'>
+                                    <div className='md:w-80'>
                                         <TextField
                                             label="Deck name"
                                             variant="standard"
@@ -123,31 +123,33 @@ const MyDeck = () => {
                                             placeholder='Enter the deck name here'
                                         />
                                     </div>
-                                    <button
-                                        className='
-                                        px-10 py-2 ml-5 flex justify-center items-center
-                                        text-white rounded bg-red-500 transition-colors
-                                        hover:bg-red-600
-                                        active:bg-red-700'
-                                        onClick={() => navigate("/deck-builder/edit/" + deckId)}
-                                    >
-                                        Edit deck
-                                    </button>
-                                    <button
-                                        className='
-                                        px-10 py-2 ml-5 flex justify-center items-center
-                                        text-white rounded bg-red-500 transition-colors
-                                        hover:bg-red-600
-                                        active:bg-red-700'
-                                        onClick={handleDownload}
-                                    >
-                                        Export deck
-                                    </button>
+                                    <div className="w-full flex flex-col mt-5 md:mr-0 mr-5">
+                                        <button
+                                            className='
+                                            w-full py-2 md:mt-10 mt-5 flex justify-center items-center
+                                            text-white rounded bg-red-500 transition-colors
+                                            hover:bg-red-600
+                                            active:bg-red-700'
+                                            onClick={() => navigate("/deck-builder/edit/" + deckId)}
+                                        >
+                                            Edit deck
+                                        </button>
+                                        <button
+                                            className='
+                                            w-full py-2 mt-5 flex justify-center items-center
+                                            text-white rounded bg-red-500 transition-colors
+                                            hover:bg-red-600
+                                            active:bg-red-700'
+                                            onClick={handleDownload}
+                                        >
+                                            Export deck
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="w-full flex ml-20 pl-4">
+                            <div className="w-full flex md:ml-20 pl-4">
                                 <div>
-                                    <p>Leader: </p>
+                                    <p className="text-2xl font-semibold">Leader: </p>
                                     <CardTiltable
                                         key={"leader"}
                                         id={"leader"}
@@ -159,7 +161,7 @@ const MyDeck = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-full flex flex-wrap items-center justify-center">
+                        <div className="w-full flex flex-wrap fixed-container overflow-y-auto justify-center">
                             {selectedDeck.deck.cards.map(card => {
                                 return (
                                     <CardTiltable
