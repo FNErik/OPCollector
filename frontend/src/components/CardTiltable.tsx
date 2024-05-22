@@ -33,7 +33,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick,
 
     return (
         <div 
-            className={`card-wrapper m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`} style={{ marginRight: (isCentered && isLargeScreen && user) ? '50vw' : '0vw', bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}
+            className={`card-wrapper m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`} style={{ marginBottom: (isCentered && isLargeScreen) ? "4.5rem" : "", marginRight: (isCentered && isLargeScreen && user) ? '50vw' : '0vw', bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}
             data-quantity={quantity}
         >
             <Tilt
