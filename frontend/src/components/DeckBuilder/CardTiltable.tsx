@@ -1,6 +1,7 @@
 import React from 'react';
 import Tilt from 'react-parallax-tilt';
 import './../css/CollectionCard.css';
+import cardBack from '../../images/card-back.png'; // eslint-disable-line
 
 interface Props {
     id: string;
@@ -8,17 +9,26 @@ interface Props {
     cardNumber: string;
     handleClick: () => void;
     userHasCard: boolean;
-    quantity?: number
-    relativeRoute?: boolean
+    quantity?: number;
+    relativeRoute?: boolean;
 }
 
-const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard, quantity, relativeRoute }: Props) => {
-    
+const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard, quantity = 0, relativeRoute }: Props) => {
     return (
-        <div 
-            className={`card-wrapper w-40 m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`}
-            data-quantity={quantity}
-        >
+        <div className="card-wrapper w-40 m-2 relative">
+            {Array.from({ length: quantity-1 }).map((_, index) => (
+                <img
+                    key={index}
+                    src={cardBack}
+                    alt={`card back ${index}`}
+                    className="card-back"
+                    style={{
+                        bottom: `${index*4 + 7}px`,
+                        left: `${index*4 + 7}px`,
+                        zIndex: `-${index}`,
+                    }}
+                />
+            ))}
             <Tilt
                 glareEnable={true}
                 glareMaxOpacity={0.4}
@@ -28,7 +38,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard
                 style={{
                     borderRadius: '0.5rem',
                     width: 'auto',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                 }}
             >
                 <img
@@ -48,4 +58,3 @@ const CardTiltable = ({ id, collectionName, cardNumber, handleClick, userHasCard
 };
 
 export default CardTiltable;
-    

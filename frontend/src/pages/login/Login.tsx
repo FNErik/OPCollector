@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -31,54 +32,62 @@ function Copyright(props: any) {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#CC3333', // Cambia este valor al color primario deseado
+      main: '#CC3333',
     },
   },
 });
 
-
 export default function Login() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [errorVisible, setErrorVisible] = useState(false);
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-        const inputs = document.querySelectorAll('input');
-        const formValidation = validateFormData(inputs);
-        if(!Array.isArray(formValidation)){
-            try {
-                const email: string = formValidation['email'].value
-                const password: string = formValidation['password'].value
-                
-                const response = await fetch('http://localhost:4022/api/user/login', {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email: email, pass: password }),
-                });
-                const user = await response.json();
-                if(response.ok){
-                  console.log("Logged correctly");
-                  console.log(user);
-                  if(!user.isDeleted){
-                    localStorage.setItem("user", JSON.stringify(user));
-                    const storedUser = localStorage.getItem("user");
-                    if (storedUser !== null) {
-                        const user = JSON.parse(storedUser);
-                        console.log(user);
-                        navigate("/my-collection")
-                    } else {
-                        console.error("No se encontraron datos de usuario en el almacenamiento local");
-                    }
-                  }
-                }
-            } catch (err) {
-                console.error(err.message);
+  const handleInputChange = () => {
+    setErrorVisible(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const inputs = document.querySelectorAll('input');
+    const formValidation = validateFormData(inputs);
+    if (!Array.isArray(formValidation)) {
+      try {
+        const email = formValidation['email'].value;
+        const password = formValidation['password'].value;
+
+        const response = await fetch('http://localhost:4022/api/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, pass: password }),
+        });
+        const user = await response.json();
+        if (response.ok) {
+          console.log("Logged correctly");
+          console.log(user);
+          if (!user.isDeleted) {
+            localStorage.setItem("user", JSON.stringify(user));
+            const storedUser = localStorage.getItem("user");
+            if (storedUser !== null) {
+              const user = JSON.parse(storedUser);
+              console.log(user);
+              navigate("/my-collection");
+            } else {
+              console.error("No se encontraron datos de usuario en el almacenamiento local");
             }
+          }
         } else {
-            console.error(formValidation);
+          console.log("mala");
         }
-    };
+      } catch (err) {
+        setErrorVisible(true);
+        console.error(err.message);
+      }
+    } else {
+      setErrorVisible(true);
+      console.error(formValidation);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,6 +116,7 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={handleInputChange}
               />
               <TextField
                 margin="normal"
@@ -117,7 +127,10 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                style={{ marginBottom: "1rem" }}
+                onChange={handleInputChange}
               />
+              <h1 id="control" className={`ml-1 text-red-500 ${errorVisible ? '' : 'invisible'}`}> Invalid credentials </h1>
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
@@ -126,16 +139,11 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, pb: 1, pt: 1 }}
               >
-                Sign In
+                Log In
               </Button>
               <Grid container>
-                {/*<Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>*/}
                 <Grid item>
                   <Link href="/signup" variant="body2">
                     {"Don't have an account? Sign Up"}
