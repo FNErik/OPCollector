@@ -78,6 +78,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                             isCentered={centeredCard === `${card.cardCollection}-${card.collectionNumber}`}
                             handleClick={() => handleCardClick(card.cardCollection, card.collectionNumber)}
                             userHasCard={card.hasCard}
+                            ignoreMR={true}
                         />
                     )) : (
                     <p className='font-medium text-2xl'>You have no cards from this expansion or starter pack</p>

@@ -12,9 +12,10 @@ interface Props {
     handleClick: () => void;
     userHasCard? : boolean;
     quantity? : number;
+    ignoreMR?: boolean
 }
 
-const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick, userHasCard, quantity }: Props) => {
+const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick, userHasCard, quantity, ignoreMR }: Props) => {
     const user: User | null = getCurrentUser();
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 640);
     if(userHasCard === undefined) userHasCard = true // Parche de mierda historico
@@ -33,7 +34,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick,
 
     return (
         <div 
-            className={`card-wrapper m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`} style={{ marginBottom: (isCentered && isLargeScreen) ? "4.5rem" : "", marginRight: (isCentered && isLargeScreen && user) ? '50vw' : '0vw', bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}
+            className={`card-wrapper m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`} style={{ marginBottom: (isCentered && isLargeScreen) ? "4.5rem" : "", marginRight: ((isCentered && isLargeScreen && user) && !ignoreMR) ? '50vw' : '0vw', bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}
             data-quantity={quantity}
         >
             <Tilt
