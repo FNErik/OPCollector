@@ -52,13 +52,13 @@ const NewDeck = () => {
             }
         };
         fetchDecks();
-    }, [])
+    }, []) // eslint-disable-line
 
     useEffect(() => {
         const deck = userDecks && userDecks.find((deck) => deck._id === deckId);
         console.log(deck);
         setSelectedDeck(deck);
-    }, [userDecks])
+    }, [userDecks]) // eslint-disable-line
 
     useEffect(() => {
         const fetchCollection = async () => {
@@ -87,7 +87,7 @@ const NewDeck = () => {
             }
         };
         fetchCollection();
-    }, []);
+    }, []); // eslint-disable-line
 
     useEffect(() => {
         if(selectedDeck){
@@ -150,7 +150,7 @@ const NewDeck = () => {
 
     useEffect(() => {
         setUserAvailableCards(getUserCollectionObject(availableCards, userCollection));
-    }, [availableCards]);
+    }, [availableCards]); // eslint-disable-line
 
     useEffect(() => {
         setLoading(false)
@@ -275,7 +275,7 @@ const NewDeck = () => {
     return (
         <ThemeProvider theme={theme}>
             <Header user={user} />
-            <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
+            <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
                 {user === null ? (
                     <AuthNeeded page='deck-builder' />
                 ) : loading ? (

@@ -10,9 +10,6 @@ import {
   handleCardClick,
   setControls,
   removeControls,
-  handleDecrement,
-  handleIncrement,
-  handleChange
 } from '../../scripts/cardsControlls.ts';
 import getUserCollectionObject from '../../scripts/getUserCollectionObject.ts';
 
@@ -24,7 +21,7 @@ const UserCollection = () => {
   const [yAxis, setYAxis] = useState(0);
   const [centeredCard, setCenteredCard] = useState<string | null>(null);
   const [isCardCentered, setIsCardCentered] = useState(false);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(1); // eslint-disable-line
   const [amountOfCard, setAmountOfCards] = useState(Number); // eslint-disable-line
   const user: User | null = getCurrentUser();
 
@@ -70,19 +67,19 @@ const UserCollection = () => {
     };
 
     fetchCollection().then(() => fetchAllCards());
-  }, []);
+  }, []); // eslint-disable-line
 
   useManageScroll(isCardCentered, yAxis);
   
   useEffect(() => {
     setUserCollection(getUserCollectionObject(cards, collection));
-  }, [cards]);
+  }, [cards]);  // eslint-disable-line
   console.log(collection);
   
   return (
     <Fragment>
       <Header user={user} />
-      <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
+      <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
         {user === null ? (
           <AuthNeeded 
             page='my-collection'
@@ -92,7 +89,6 @@ const UserCollection = () => {
             <p>Cargando...</p>
           ) : (
             <Fragment>
-              
               <MyCollection
                 cards={userCollection}
                 centeredCard={centeredCard}

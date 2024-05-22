@@ -17,7 +17,7 @@ export default function LandingPage() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Header user={user}/>
-        <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
+        <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center'>
             <div className='diagonalParent w-full h-80 flex shadow-lg rounded-lg relative'>
                 <div className='banner-text'>
                     <h1 className='text-black mt-5 ml-5 text-6xl md:text-6xl lg:text-8xl font-bold'>

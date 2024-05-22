@@ -162,7 +162,7 @@ const BrowseCards = () => {
   return (
     <ThemeProvider theme={theme}>
       <Header user={user} />
-      <main className='mt-40 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
+      <main className='md:mt-40 mt-20 px-4 md:px-20 lg:px-40 flex flex-col items-center' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}>
         <div className='w-full'>
           <div className='w-full'>
             <h1 className='ml-5 text-3xl'>Browse any <span className=' text-red-500'>card</span> you want</h1>

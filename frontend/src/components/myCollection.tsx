@@ -29,7 +29,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
     useEffect(() => {
         if(showMissing) setDisplayedCards(cards.filter(card => (card.cardCollection === currentCollection)));
         else setDisplayedCards(cards.filter(card => (card.cardCollection === currentCollection) && card.hasCard));
-    }, [collections, currentCollection, showMissing]); // Ahora depende de cards también
+    }, [collections, currentCollection, showMissing]); // eslint-disable-line
     
     console.log(displayedCards);
     return (
@@ -42,7 +42,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                 </label>
             </div>
             <div className='w-full border border-black mx-10'>
-                <div className='flex overflow-y-auto'>
+                <div className='flex overflow-y-auto collection-tabs'>
                     {collections.map(collection => (
                         <Fragment key={collection}>
                             <div
@@ -55,7 +55,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                         </Fragment>
                     ))}
                 </div>
-                <div className='flex flex-wrap'>
+                <div className='flex flex-wrap overflow-x-auto justify-center fixed-container'>
                     {displayedCards.map((card, index) => (
                         <CardTiltable 
                             key={index}

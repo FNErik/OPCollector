@@ -10,9 +10,9 @@
 }
 
 .showQuantity::before {
-    position: absolute;
-    margin-top: 1.5em;
-    margin-left: 1.5em;
+    position: relative;
+    top: 3.5rem;
+    left: 1.5rem;
     padding-left: 0.5em;
     padding-right: 0.5em;
     background-color: rgb(239, 239, 239);
