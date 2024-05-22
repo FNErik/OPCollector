@@ -177,9 +177,11 @@ const NewDeck = () => {
                 collectionNumber: selectedLeader.collectionNumber
             };
             const cardIdsArray = deck.map(card => ({
+                cardName: card.name,
                 cardCollection: card.cardCollection,
                 collectionNumber: card.collectionNumber,
-                quantity: card.quantity
+                quantity: card.quantity,
+                _id: card._id
             }));
 
             const response = await fetch('http://localhost:4022/api/addNewDeck', {

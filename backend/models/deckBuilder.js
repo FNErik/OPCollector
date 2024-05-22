@@ -33,6 +33,10 @@ const deckBuilder = Schema ({
                 }
             },
             cards: [{
+                cardName:{
+                    type: String,
+                    required: true,
+                },
                 cardCollection: {
                     type: String,
                     required: true,
@@ -44,6 +48,11 @@ const deckBuilder = Schema ({
                 quantity: {
                     type: Number,
                     default: 1 
+                },
+                _id:{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Card',
+                    required: true,
                 }
             }]
         }

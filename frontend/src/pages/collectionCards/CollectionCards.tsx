@@ -66,8 +66,10 @@ const CollectionCards = () => {
       console.log("id de usuario: " + user._id);
       console.log("Coleccion: " + collectionName);
       const [collection, number] = separateCollectionAndNumber(centeredCard)
-      if (amountOfCard === 1 || amountOfCard === 0) {
+      const cardQuantity = amountOfCard < 1 ? 1 : amountOfCard;
+      if (amountOfCard <= 1) {
         setAmountOfCards(1);
+        console.log("Cantidad actualizada: "+amountOfCard)
       }
       try {
         const response = await fetch('http://localhost:4022/api/addCardToUser', {
@@ -79,7 +81,7 @@ const CollectionCards = () => {
             userId: user._id,
             cardCollection: collection,
             collectionNumber: number,
-            cardQuantity: amountOfCard
+            cardQuantity: cardQuantity
           }),
         });
         if (response.ok) {

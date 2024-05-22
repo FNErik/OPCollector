@@ -135,6 +135,7 @@ const MyDeck = () => {
                                         Edit deck
                                     </button>
                                     <button
+                                        onClick={handleDownload}
                                         className='
                                         px-10 py-2 ml-5 flex justify-center items-center
                                         text-white rounded bg-red-500 transition-colors
@@ -174,9 +175,6 @@ const MyDeck = () => {
                                 );
                             })}
                         </div>
-                        <button onClick={handleDownload}>
-                            Descargar Deck
-                        </button>
                     </Fragment>
                 )}
             </main>

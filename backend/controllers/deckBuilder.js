@@ -36,7 +36,40 @@ async function addNewDeck(req, res) {
     }
 }
 
+async function saveEditedDeck(req, res) {
+    const userId = req.body.userId;
+    try {
+        let userDeckBuilder = await DeckBuilder.findOne({ user: userId });
+        if (!userDeckBuilder) {
+            return res.status(400).send({ msg: "Error, no existe ninguna entrada en deckBuilder para este usuario" });
+        } 
+        
+        const deckId = req.body.deckId;
+        const deckName = req.body.deckName;
+        const lead = req.body.lead;
+        const cardList = req.body.cardIdsArray;
 
+        const deckIndex = userDeckBuilder.decks.findIndex(deck => deck._id.toString() === deckId);
+
+        if (deckIndex === -1) {
+            return res.status(400).send({ msg: "Error, no existe un mazo con ese ID" });
+        }
+
+        userDeckBuilder.decks[deckIndex] = {
+            ...userDeckBuilder.decks[deckIndex],
+            name: deckName,
+            lead: lead,
+            cards: cardList,
+        };
+
+        const saveDeck = await userDeckBuilder.save();
+
+        return res.status(200).send({ DeckBuilder: saveDeck });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+    }
+}
 
 
 async function getDecks(req,res){
@@ -148,5 +181,6 @@ module.exports = {
     getDecks,
     deleteDecks,
     getUserDecks,
-    getDeckFormatted
+    getDeckFormatted,
+    saveEditedDeck
 }
