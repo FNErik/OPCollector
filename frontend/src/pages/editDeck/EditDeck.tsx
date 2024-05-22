@@ -251,8 +251,6 @@ const NewDeck = () => {
             console.error('Error:', error);
         }
     };
-    
-
 
     const removeAllCardsFromDeck = () => {
         if (window.confirm('¿Estás seguro de que deseas eliminar todas las cartas del mazo?')) {
@@ -290,7 +288,6 @@ const NewDeck = () => {
                                             variant="standard"
                                             InputLabelProps={{ shrink: true, style: { fontSize: '18px', color: '#444444' } }}
                                             style={{ width: '100%' }}
-                                            onChange={(e) => setDeckName(e.target.value)}
                                             value={selectedDeck.deck.name}
                                             placeholder='Enter the deck name here'
                                         />
@@ -312,8 +309,8 @@ const NewDeck = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className='w-full flex'>
-                                <div className='w-3/4 flex justify-center items-center flex-wrap'>
+                            <div className='w-full flex  fixed-container shadow-lg'>
+                                <div className='md:w-3/4 w-full flex justify-center items-center flex-wrap overflow-y-auto'>
                                     {userAvailableCards.map(card => {
                                         if (restrictedMode && !card.hasCard) {                                           
                                             return null;
@@ -332,7 +329,7 @@ const NewDeck = () => {
                                         );
                                     })}
                                 </div>
-                                <div className='w-1/4 bg-red-200 p-4'>
+                                <div className='w-1/4 hidden md:block bg-red-200 p-4 overflow-y-auto'>
                                     <div className='flex items-center justify-between mb-2'>
                                         <h3 className='text-xl font-semibold'>Deck ({totalCardsInDeck})</h3>
                                         <button

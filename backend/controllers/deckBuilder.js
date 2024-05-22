@@ -36,6 +36,7 @@ async function addNewDeck(req, res) {
         res.status(500).send(error);
     }
 }
+
 async function updateDeck(req, res) {
     const userId = req.body.userId;
     const deckId = req.body.deckId;
@@ -44,50 +45,36 @@ async function updateDeck(req, res) {
     try {
         // Buscar el DeckBuilder del usuario
         let userDeckBuilder = await DeckBuilder.findOne({ user: userId });
-        console.log("DECK BUILDER: ")
-        console.log(userDeckBuilder)
         if (!userDeckBuilder) {
             return res.status(400).send({ msg: "Error, no existe ninguna entrada en deckBuilder para este usuario" });
         }
 
         // Encontrar el mazo que se va a actualizar
-        const deckToUpdate = await userDeckBuilder.decks.find(deck => deck._id.toString() === deckId);
-        console.log("ID DEL MAZO:")
-        console.log(deckId)
-        console.log("INDICE DEL MAZO:")
-        console.log(deckToUpdate)
-        if (!deckToUpdate) {
+        const deckToUpdateIndex = userDeckBuilder.decks.findIndex(deck => deck._id.toString() === deckId);
+        if (deckToUpdateIndex === -1) {
             return res.status(400).send({ msg: "Error, no se encontró el mazo especificado para este usuario" });
         }
 
         // Actualizar los datos del mazo
-        deckToUpdate.name = updatedDeckData.deckName || "No Name";
-        deckToUpdate.lead = updatedDeckData.lead || deckToUpdate.lead;
-        deckToUpdate.cards = updatedDeckData.cardIdsArray || deckToUpdate.cards;
+        const deckToUpdate = userDeckBuilder.decks[deckToUpdateIndex];
+        deckToUpdate.deck.name = updatedDeckData.deckName || "No Name";
+        deckToUpdate.deck.lead = updatedDeckData.lead || deckToUpdate.deck.lead;
+        deckToUpdate.deck.cards = updatedDeckData.cardIdsArray || deckToUpdate.deck.cards;
 
-        const newDeck = {
-            name:  updatedDeckData.deckName,
-            lead: updatedDeckData.lead,
-            cards: updatedDeckData.cardIdsArray,
-        };
-
-        const saveDeck = await DeckBuilder.findOneAndUpdate(
-            { user: userId },
-            { $push: { decks: { deck: newDeck } } },
-            { new: true }
-            
-        );
-        
-        if (!saveDeck) {
+        // Guardar los cambios en la base de datos
+        const saveDeckBuilder = await userDeckBuilder.save();
+        if (!saveDeckBuilder) {
             return res.status(500).send({ msg: "Error, no se pudo guardar la actualización del mazo" });
         }
+
         // Devolver el DeckBuilder actualizado como respuesta
-        res.status(200).send({ DeckBuilder: saveDeck });
+        res.status(200).send({ DeckBuilder: saveDeckBuilder });
     } catch (error) {
         console.error("Error al actualizar el mazo:", error);
         res.status(500).send({ msg: "Error del servidor al actualizar el mazo", error });
     }
 }
+
 
 async function getDecks(req,res){
     try {

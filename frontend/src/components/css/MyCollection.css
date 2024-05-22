@@ -9,12 +9,12 @@
 }
 
 .collection-tabs::-webkit-scrollbar-track-piece{
-    background-color: #FFF!important;
+    background-color: rgb(229 231 235)!important;
 }
 
 .collection-tabs::-webkit-scrollbar-thumb{
     background-color: #CBCBCB!important;
-    outline: 2px solid #FFF!important;
+    outline: 2px solid rgb(229 231 235)!important;
     outline-offset: -2px!important;
     border: .1px solid #B7B7B7!important;
 }
