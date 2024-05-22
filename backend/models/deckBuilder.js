@@ -14,6 +14,15 @@ const deckBuilder = Schema ({
                 required: true,
             },
             lead:{
+                cardId:{
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Card',
+                    required: true,
+                },
+                cardName:{
+                    type: String,
+                    required: true,
+                },
                 cardCollection: {
                     type: String,
                     required: true,
