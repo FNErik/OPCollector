@@ -1,4 +1,6 @@
 import React from 'react';
+import { User } from '../types/User';
+import getCurrentUser from '../scripts/getCurrentUser.ts';
 
 interface ControlsProps {
   count: number;
@@ -15,7 +17,6 @@ interface ControlsProps {
   handleContainerClick: (centeredCard: string | null, setCenteredCard: (card: string | null) => void, removeControls: () => void, setIsCardCentered: (centered: boolean) => void) => void;
   removeControls: () => void; // Añadir removeControls como prop
 }
-
 const Controls: React.FC<ControlsProps> = ({
   count,
   setCount,
@@ -31,6 +32,16 @@ const Controls: React.FC<ControlsProps> = ({
   handleContainerClick,
   removeControls // Recibir removeControls como prop
 }) => {
+  const user: User | null = getCurrentUser();
+
+  if(!user){
+    return(
+      <div id='controls' className='fixed w-full h-full top-0'>
+        <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>
+      </div>  
+    )
+  }
+
   return (
     <div id='controls' className='fixed w-full h-full top-0'>
       <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>

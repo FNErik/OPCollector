@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 import './css/CollectionCard.css';
+import { User } from '../types/User';
+import getCurrentUser from '../scripts/getCurrentUser.ts';
 
 interface Props {
     id: string;
@@ -13,6 +15,7 @@ interface Props {
 }
 
 const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick, userHasCard, quantity }: Props) => {
+    const user: User | null = getCurrentUser();
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 640);
     if(userHasCard === undefined) userHasCard = true // Parche de mierda historico
     
@@ -30,7 +33,7 @@ const CardTiltable = ({ id, collectionName, cardNumber, isCentered, handleClick,
 
     return (
         <div 
-            className={`card-wrapper m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`} style={{ marginRight: (isCentered && isLargeScreen) ? '50vw' : '0vw', bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}
+            className={`card-wrapper m-2 ${quantity && quantity > 0 ? 'showQuantity' : ''}`} style={{ marginRight: (isCentered && isLargeScreen && user) ? '50vw' : '0vw', bottom: isCentered ? '2rem' : 'auto', width: isCentered ? 'auto' : '15rem', position: isCentered ? 'fixed' : 'static', zIndex: isCentered ? 19 : 'auto' }}
             data-quantity={quantity}
         >
             <Tilt
