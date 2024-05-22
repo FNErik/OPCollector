@@ -4,6 +4,7 @@ import { User } from '../../types/User.ts';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
 import Header from '../../components/Header.tsx';
 import AuthNeeded from '../../components/UserNotLogged/AuthNeeded.tsx';
+import './DeckBuilder.css';
 
 const DeckBuilder = () => {
     const user: User | null = getCurrentUser();
@@ -65,11 +66,20 @@ const DeckBuilder = () => {
                             </button>
                         </Link>
                     </div>
-                    <div className='border border-black w-full h-80 flex overflow-y-auto flex-wrap fixed-container'>
+                    <div className='w-full flex overflow-y-auto flex-wrap fixed-container shadow-lg'>
                         {
                         userDecks && userDecks.map((deck, index) => (
-                            <Link to={`/deck-builder/${deck._id}`} key={index}>
-                                <h1 key={index}>Mazo {index}</h1>
+                            <Link to={`/deck-builder/${deck._id}`} key={index} className='m-5'>
+                                  <figure className='deck-preview border border-black rounded-lg'>
+                                    <img 
+                                    className=' object-contain h-60 m-1'
+                                    src={`../cards/${deck.deck.lead.cardCollection}/${deck.deck.lead.cardCollection}-${deck.deck.lead.collectionNumber}.png`}
+                                    alt={deck.deck.name}
+                                    />
+                                    <figcaption className='w-full text-center'>
+                                      {deck.deck.name}
+                                    </figcaption>
+                                  </figure>
                             </Link>
                         ))
                         }

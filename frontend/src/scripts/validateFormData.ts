@@ -26,11 +26,6 @@ export default function validateFormData(inputs) {
             const isValidEmail = /\S+@\S+\.\S+/.test(email);
 
             if (!isValidEmail) errors.push({ "email": "not valid" });
-            // TODO: Mirar si existe en un endpoint
-            // const emailExists = await(fetch("api/user/emailExists", post, email))
-            // if(!emailExists) {
-            //   errors.push({"email" : "already exists"})            
-            //}
 
         } else if (input.type === 'password') {
             const value = input.value.trim();

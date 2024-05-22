@@ -22,3 +22,16 @@
     border: 1px solid;
     z-index: 18;
 }
+
+.card-wrapper {
+    position: relative;
+}
+
+.card-back {
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    transition: top 0.3s ease, left 0.3s ease;
+    border-radius: 0.5em;
+    border: 1px solid black;
+}

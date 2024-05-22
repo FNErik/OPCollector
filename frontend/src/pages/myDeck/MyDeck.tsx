@@ -147,9 +147,9 @@ const MyDeck = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full flex md:ml-20 pl-4">
+                            <div className="w-full flex flex-col md:ml-20 pl-4">
+                                    <p className="text-2xl font-semibold ml-2">Leader: </p>
                                 <div>
-                                    <p className="text-2xl font-semibold">Leader: </p>
                                     <CardTiltable
                                         key={"leader"}
                                         id={"leader"}
@@ -161,7 +161,7 @@ const MyDeck = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-full flex flex-wrap fixed-container overflow-y-auto justify-center">
+                        <div className="w-full pt-5 flex flex-wrap fixed-container shadow-lg overflow-y-auto justify-center">
                             {selectedDeck.deck.cards.map(card => {
                                 return (
                                     <CardTiltable
