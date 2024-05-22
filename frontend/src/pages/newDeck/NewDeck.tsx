@@ -259,7 +259,7 @@ const NewDeck = () => {
                                     />
                                 </div>
                             </div>
-                            <div className='w-full flex justify-center flex-wrap overflow-y-auto fixed-container'>
+                            <div className='w-full flex justify-center flex-wrap overflow-y-auto fixed-container shadow-lg'>
                                 {userLeaders.map(leader => {
                                     if (restrictedMode && !leader.hasCard) {
                                         return null;
@@ -319,7 +319,7 @@ const NewDeck = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='w-full flex fixed-container'>
+                            <div className='w-full flex fixed-container shadow-lg'>
                                 <div className='md:w-3/4 w-full flex justify-center items-center flex-wrap h-full overflow-y-auto'>
                                     {userAvailableCards.map(card => {
                                         if (restrictedMode && !card.hasCard) {

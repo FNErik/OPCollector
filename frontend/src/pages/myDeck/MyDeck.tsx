@@ -161,7 +161,7 @@ const MyDeck = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-full pt-5 flex flex-wrap fixed-container overflow-y-auto justify-center">
+                        <div className="w-full pt-5 flex flex-wrap fixed-container shadow-lg overflow-y-auto justify-center">
                             {selectedDeck.deck.cards.map(card => {
                                 return (
                                     <CardTiltable

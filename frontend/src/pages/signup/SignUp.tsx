@@ -14,6 +14,7 @@ import OPCollectorLogo from '../../components/OPCollectorLogo.tsx';
 import Header from '../../components/Header.tsx';
 import { User } from '../../types/User.ts';
 import getCurrentUser from '../../scripts/getCurrentUser.ts';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props: any) {
   return (
@@ -39,6 +40,7 @@ const theme = createTheme({
 
 export default function SignUp() {
   const user: User | null = getCurrentUser();
+  const navigate = useNavigate();
   const [errorVisible, setErrorVisible] = useState({
     firstName: false,
     lastName: false,
@@ -79,7 +81,15 @@ export default function SignUp() {
         const data = await response.json();
         console.log(data);
         if (response.ok) {
-          // Loguear el usuario creado
+          localStorage.setItem("user", JSON.stringify(data.user));
+            const storedUser = localStorage.getItem("user");
+            if (storedUser !== null) {
+              const user = JSON.parse(storedUser);
+              console.log(user);
+              navigate("/my-collection");
+            } else {
+              console.error("No se encontraron datos de usuario en el almacenamiento local");
+            }
         } else {
             setErrorVisible((prev) => ({ ...prev, emailExists: true }));
         }

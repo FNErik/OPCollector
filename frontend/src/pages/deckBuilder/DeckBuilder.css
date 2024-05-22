@@ -1,0 +1,7 @@
+.deck-preview{
+    filter: grayscale(0);
+    transition: filter 0.2s ease;
+}
+.deck-preview:hover{
+    filter: grayscale(0.7);
+}
