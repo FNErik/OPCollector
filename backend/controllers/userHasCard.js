@@ -12,7 +12,7 @@ async function addCardToUser(req, res) {
         } else {
             const existingCardIndex = userHasCardEntry.cards.findIndex(card => card.cardCollection === collectionSave && card.collectionNumber === numberSave);
             if (existingCardIndex !== -1) {
-                userHasCardEntry.cards[existingCardIndex].quantity+=cardQuantity;
+                userHasCardEntry.cards[existingCardIndex].quantity=cardQuantity;
             } else {
                 userHasCardEntry.cards.push({ cardCollection: collectionSave, collectionNumber: numberSave, quantity: cardQuantity });
             }
