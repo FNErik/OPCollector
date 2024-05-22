@@ -56,7 +56,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                     ))}
                 </div>
                 <div className='flex flex-wrap overflow-x-auto justify-center fixed-container'>
-                    {displayedCards.map((card, index) => (
+                    {displayedCards.length > 0 ? displayedCards.map((card, index) => (
                         <CardTiltable 
                             key={index}
                             collectionName={card.cardCollection}
@@ -67,7 +67,9 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
                             userHasCard={card.hasCard}
                             quantity={card.quantity}
                         />
-                    ))}
+                    )) : (
+                    <p className='font-medium text-2xl'>You have no cards from this expansion or starter pack</p>
+                    )}
                 </div>
             </div>
         </Fragment>

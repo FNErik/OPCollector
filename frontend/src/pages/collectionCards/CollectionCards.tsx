@@ -66,7 +66,9 @@ const CollectionCards = () => {
       console.log("id de usuario: " + user._id);
       console.log("Coleccion: " + collectionName);
       const [collection, number] = separateCollectionAndNumber(centeredCard)
-      const cardQuantity = amountOfCard < 1 ? 1 : amountOfCard;
+      let cardQuantity = amountOfCard < 1 ? 1 : amountOfCard;
+      console.log(typeof cardQuantity);
+      
       if (amountOfCard <= 1) {
         setAmountOfCards(1);
         console.log("Cantidad actualizada: "+amountOfCard)

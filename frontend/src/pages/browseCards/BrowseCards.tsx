@@ -63,8 +63,12 @@ const BrowseCards = () => {
       console.log("Cantidad de cartas:" + amountOfCard);
       console.log("id de usuario: " + user._id);
       console.log("Coleccion: " + collection);
-      if (amountOfCard === 1) {
+      let cardQuantity = amountOfCard < 1 ? 1 : amountOfCard;
+      console.log(typeof cardQuantity);
+      
+      if (amountOfCard <= 1) {
         setAmountOfCards(1);
+        console.log("Cantidad actualizada: "+amountOfCard)
       }
       try {
         const response = await fetch('http://localhost:4022/api/addCardToUser', {
@@ -76,7 +80,7 @@ const BrowseCards = () => {
             userId: user._id,
             cardCollection: collection,
             collectionNumber: number,
-            cardQuantity: amountOfCard
+            cardQuantity: cardQuantity
           }),
         });
         if (response.ok) {
@@ -91,7 +95,7 @@ const BrowseCards = () => {
         console.error('Error:', error);
       }
     }
-  }
+  };
 
   const theme = createTheme({
     palette: {
