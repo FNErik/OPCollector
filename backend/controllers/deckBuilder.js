@@ -108,6 +108,7 @@ const getDeckFormatted = async (req, res) => {
 
         // Formatea el lead
         const lead = deck.lead;
+        const deckName= deck.name;
         const leadFormatted = `1x${lead.cardCollection}-${lead.collectionNumber}`;
 
         // Formatea las cartas
@@ -120,13 +121,13 @@ const getDeckFormatted = async (req, res) => {
         console.log(cardsFormatted)
         console.log(formattedDeck)
         // Define la ruta del archivo temporal
-        const filePath = path.join(__dirname, '..', 'tmp', `deck-${deckId}.deck`);
+        const filePath = path.join(__dirname, '..', 'tmp', `deck-${deckName}.deck`);
 
         // Escribe el contenido formateado en el archivo
         fs.writeFileSync(filePath, formattedDeck);
 
         // Envía el archivo como respuesta para su descarga
-        res.download(filePath, `deck-${deckId}.deck`, (err) => {
+        res.download(filePath, `deck-${deckName}.deck`, (err) => {
             if (err) {
                 console.error('Error al enviar el archivo', err);
                 res.status(500).send('Error al enviar el archivo');
