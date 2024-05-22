@@ -5,8 +5,10 @@ import getCurrentUser from "../../scripts/getCurrentUser.ts";
 import Header from "../../components/Header.tsx";
 import AuthNeeded from "../../components/UserNotLogged/AuthNeeded.tsx";
 import TextField from '@mui/material/TextField';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CardTiltable from "../../components/DeckBuilder/CardTiltable.tsx";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import getUserCollectionObject from "../../scripts/getUserCollectionObject.ts";
 
 const MyDeck = () => {
     const user: User | null = getCurrentUser();
@@ -14,8 +16,39 @@ const MyDeck = () => {
     const [userDecks, setUserDecks] = useState<any>();
     const [selectedDeck, setSelectedDeck] = useState<any>();
     const [loading, setLoading] = useState(true); // Estado de carga
+    const [userHasAllCards, setUserHasAllCards] = useState(false); // Estado de carga
     const [deckName, setDeckName] = useState(""); // eslint-disable-line
+    const [userCollection, setCollection] = useState<any[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCollection = async () => {
+            if (user === null) {
+                setLoading(false);
+                return;
+            }
+            try {
+                const response = await fetch('http://localhost:4022/api/getCardsfromUser', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user: user._id }),
+                });
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    setCollection(jsonData.cards);
+                } else {
+                    throw new Error('Error al obtener los datos');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCollection();
+    }, []); // eslint-disable-line
 
     useEffect(() => {
         const fetchDecks = async () => {
@@ -52,8 +85,25 @@ const MyDeck = () => {
     }, [userDecks]) // eslint-disable-line
 
     useEffect(() => {
-        setLoading(false)
-    }, [selectedDeck])
+        let deckToValidate = []
+        if(selectedDeck) {
+            deckToValidate.push(selectedDeck.deck.lead) // eslint-disable-line
+        selectedDeck.deck.cards.forEach(card => {
+            deckToValidate.push(card)
+        });
+        console.log(userCollection);
+        setUserHasAllCards(hasAllCards(getUserCollectionObject(deckToValidate, userCollection)));
+    }   
+    }, [selectedDeck]) // eslint-disable-line
+
+    useEffect(() => {
+        setLoading(false);
+        console.log(userHasAllCards);
+    }, [userHasAllCards])
+
+    const hasAllCards = (deck) => {
+        return deck.every(card => card.hasCard);
+      };
 
     const handleDownload = async () => {
         try {
@@ -147,8 +197,8 @@ const MyDeck = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full flex flex-col md:ml-20 pl-4">
-                                    <p className="text-2xl font-semibold ml-2">Leader: </p>
+                            <div className="w-full md:w-auto flex flex-col md:ml-20 pl-4">
+                                <p className="text-2xl font-semibold ml-2">Leader: </p>
                                 <div>
                                     <CardTiltable
                                         key={"leader"}
@@ -160,6 +210,12 @@ const MyDeck = () => {
                                     />
                                 </div>
                             </div>
+                            {!userHasAllCards ? (
+                                <div className="ml-10 mt-40 bg-yellow-300 h-10 flex justify-center items-center p-5 rounded-lg">
+                                <WarningAmberIcon />
+                                You dont have all the cards to play this deck
+                                </div>
+                            ) : (<Fragment />)}
                         </div>
                         <div className="w-full pt-5 flex flex-wrap fixed-container shadow-lg overflow-y-auto justify-center">
                             {selectedDeck.deck.cards.map(card => {
