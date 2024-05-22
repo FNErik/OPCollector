@@ -77,7 +77,7 @@ const Controls: React.FC<ControlsProps> = ({
 
   return (
     <div id='controls' className='fixed w-full h-full top-0'>
-      <div className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>
+      <div id="click-out" className='absolute w-full h-full bg-black opacity-50 z-40' onClick={() => handleContainerClick(centeredCard, setCenteredCard, removeControls, setIsCardCentered)}></div>
       <div className="absolute top-60 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-50 margen60 ">
         <div className='h-80 w-80 ml-40 bg-red-300 p-10 rounded-md'>
           {amountOfCardInCollection && amountOfCardInCollection > 0 ? (

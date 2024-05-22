@@ -85,6 +85,8 @@ const BrowseCards = () => {
         });
         if (response.ok) {
           await response.json();
+          const clickOut = document.getElementById("click-out");
+          clickOut && clickOut.click()
           setAmountOfCards(count);
         } else {
           console.log("Error en el if response");
