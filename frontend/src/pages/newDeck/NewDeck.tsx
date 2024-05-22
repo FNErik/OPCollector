@@ -255,11 +255,14 @@ const NewDeck = () => {
                                         <p className='mb-1'>Search</p>
                                         <ExploreOutlinedIcon sx={{ color: "white" }} className='h-2/3 ml-3' />
                                     </button>
-                                    <Switch
-                                        checked={restrictedMode}
-                                        onChange={() => setRestrictedMode(!restrictedMode)}
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                    />
+                                    <div className='flex items-center justify-center'>
+                                        Restricted mode
+                                        <Switch
+                                            checked={restrictedMode}
+                                            onChange={() => setRestrictedMode(!restrictedMode)}
+                                            inputProps={{ 'aria-label': 'controlled' }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             <div className='w-full flex justify-center flex-wrap overflow-y-auto fixed-container shadow-lg'>
