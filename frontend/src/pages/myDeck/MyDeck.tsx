@@ -211,7 +211,7 @@ const MyDeck = () => {
                                 </div>
                             </div>
                             {!userHasAllCards ? (
-                                <div className="ml-10 mt-40 bg-yellow-300 h-10 flex justify-center items-center p-5 rounded-lg">
+                                <div className="ml-10 mt-40 bg-yellow-300 h-10 flex justify-center items-center p-5 rounded-lg user-select-none ">
                                 <WarningAmberIcon />
                                 You dont have all the cards to play this deck
                                 </div>
