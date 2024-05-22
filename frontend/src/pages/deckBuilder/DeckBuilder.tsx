@@ -36,7 +36,7 @@ const DeckBuilder = () => {
             }
         };
         fetchDecks();
-    }, [])
+    }, []) // eslint-disable-line
     
     console.log(userDecks);
     return (

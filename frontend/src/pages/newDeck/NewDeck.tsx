@@ -56,7 +56,7 @@ const NewDeck = () => {
             }
         };
         fetchCollection();
-    }, []);
+    }, []); // eslint-disable-line
 
     useEffect(() => {
         const fetchLeaders = async () => {
@@ -86,7 +86,7 @@ const NewDeck = () => {
 
     useEffect(() => {
         setUserLeaders(getUserCollectionObject(leaders, userCollection));
-    }, [leaders]);
+    }, [leaders]);  // eslint-disable-line
 
     useEffect(() => {
         if (selectedLeader) {
@@ -119,7 +119,7 @@ const NewDeck = () => {
 
     useEffect(() => {
         setUserAvailableCards(getUserCollectionObject(availableCards, userCollection));
-    }, [availableCards]);
+    }, [availableCards]);  // eslint-disable-line
 
     useEffect(() => {
         let total = 0;

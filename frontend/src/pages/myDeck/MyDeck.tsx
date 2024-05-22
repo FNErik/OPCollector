@@ -4,7 +4,6 @@ import { User } from "../../types/User.ts";
 import getCurrentUser from "../../scripts/getCurrentUser.ts";
 import Header from "../../components/Header.tsx";
 import AuthNeeded from "../../components/UserNotLogged/AuthNeeded.tsx";
-import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import CardTiltable from "../../components/DeckBuilder/CardTiltable.tsx";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -15,7 +14,7 @@ const MyDeck = () => {
     const [userDecks, setUserDecks] = useState<any>();
     const [selectedDeck, setSelectedDeck] = useState<any>();
     const [loading, setLoading] = useState(true); // Estado de carga
-    const [deckName, setDeckName] = useState("");
+    const [deckName, setDeckName] = useState(""); // eslint-disable-line
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,13 +43,13 @@ const MyDeck = () => {
             }
         };
         fetchDecks();
-    }, [])
+    }, []) // eslint-disable-line
 
     useEffect(() => {
         const deck = userDecks && userDecks.find((deck) => deck._id === deckId);
         console.log(deck);
         setSelectedDeck(deck);
-    }, [userDecks])
+    }, [userDecks]) // eslint-disable-line
 
     useEffect(() => {
         setLoading(false)
@@ -140,6 +139,7 @@ const MyDeck = () => {
                                         text-white rounded bg-red-500 transition-colors
                                         hover:bg-red-600
                                         active:bg-red-700'
+                                        onClick={handleDownload}
                                     >
                                         Export deck
                                     </button>
@@ -174,9 +174,6 @@ const MyDeck = () => {
                                 );
                             })}
                         </div>
-                        <button onClick={handleDownload}>
-                            Descargar Deck
-                        </button>
                     </Fragment>
                 )}
             </main>

@@ -29,7 +29,7 @@ const MyCollection = ({ cards, centeredCard, handleCardClick }) => {
     useEffect(() => {
         if(showMissing) setDisplayedCards(cards.filter(card => (card.cardCollection === currentCollection)));
         else setDisplayedCards(cards.filter(card => (card.cardCollection === currentCollection) && card.hasCard));
-    }, [collections, currentCollection, showMissing]); // Ahora depende de cards también
+    }, [collections, currentCollection, showMissing]); // eslint-disable-line
     
     console.log(displayedCards);
     return (

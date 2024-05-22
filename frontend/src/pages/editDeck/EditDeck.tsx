@@ -52,13 +52,13 @@ const NewDeck = () => {
             }
         };
         fetchDecks();
-    }, [])
+    }, []) // eslint-disable-line
 
     useEffect(() => {
         const deck = userDecks && userDecks.find((deck) => deck._id === deckId);
         console.log(deck);
         setSelectedDeck(deck);
-    }, [userDecks])
+    }, [userDecks]) // eslint-disable-line
 
     useEffect(() => {
         const fetchCollection = async () => {
@@ -87,7 +87,7 @@ const NewDeck = () => {
             }
         };
         fetchCollection();
-    }, []);
+    }, []); // eslint-disable-line
 
     useEffect(() => {
         if(selectedDeck){
@@ -150,7 +150,7 @@ const NewDeck = () => {
 
     useEffect(() => {
         setUserAvailableCards(getUserCollectionObject(availableCards, userCollection));
-    }, [availableCards]);
+    }, [availableCards]); // eslint-disable-line
 
     useEffect(() => {
         setLoading(false)
