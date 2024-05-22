@@ -11,7 +11,7 @@ const deckBuilder = Schema ({
         deck: {
             name: {
                 type: String,
-                required: true,
+                default: "No name",
             },
             lead:{
                 cardId:{

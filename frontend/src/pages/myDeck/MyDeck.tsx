@@ -137,6 +137,34 @@ const MyDeck = () => {
 
     }
 
+    const handleDelete = async() => {
+        try{
+            if(!user){
+
+            }else{
+                const response = await fetch('http://localhost:4022/api/deleteDeck', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        userId: user._id,
+                        deckId: deckId
+                     }),
+                });
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    navigate("/deck-builder/")
+                } else {
+                    setLoading(false)
+                    throw new Error('Error al obtener los datos');
+                }
+            }
+        }catch (error) {
+
+        }
+    }
+
     const theme = createTheme({
         palette: {
           primary: {
@@ -193,6 +221,16 @@ const MyDeck = () => {
                                             onClick={handleDownload}
                                         >
                                             Export deck
+                                        </button>
+                                        <button
+                                            className='
+                                            w-full py-2 mt-5 flex justify-center items-center
+                                            text-white rounded bg-red-500 transition-colors
+                                            hover:bg-red-600
+                                            active:bg-red-700'
+                                            onClick={handleDelete}
+                                        >
+                                            Delete deck
                                         </button>
                                     </div>
                                 </div>

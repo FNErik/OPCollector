@@ -222,8 +222,12 @@ const NewDeck = () => {
                 quantity: card.quantity,
                 _id: card._id
             }));
-
-            const response = await fetch('http://localhost:4022/api/addNewDeck', {
+            const updatedDeckData = {
+                deckName: deckName,
+                lead: lead,
+                cardIdsArray: cardIdsArray
+            }
+            const response = await fetch('http://localhost:4022/api/updateDeck', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -231,9 +235,7 @@ const NewDeck = () => {
                 body: JSON.stringify({
                     deckId: deckId,
                     userId: userId,
-                    deckName: deckName,
-                    lead: lead,
-                    cardIdsArray: cardIdsArray
+                    updatedDeckData: updatedDeckData,
                 }),
             });
             if (response.ok) {
